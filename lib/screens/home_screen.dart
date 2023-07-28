@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Center(
             child: SwitchListTile(
       title: Text(AppStrings.darkMode),
-      secondary:
-          Icon(themeState.getDarkTheme ? AppIcon.darkMode : AppIcon.lightMode),
+      secondary: Icon(
+          themeState.getDarkTheme ? AppIcons.darkMode : AppIcons.lightMode),
       value: themeState.getDarkTheme,
       onChanged: (bool value) {
         setState(() {

@@ -34,8 +34,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.2.0
   provider: ^6.0.5
-  bottom_navy_bar: ^6.0.0
   flutter_iconly: ^1.0.2
+  persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
   flutter_test:
