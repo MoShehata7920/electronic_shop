@@ -2,7 +2,9 @@ import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import '../resources/assets_manager.dart';
 import '../resources/strings_manager.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -13,6 +15,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final TextEditingController _addressTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
@@ -64,9 +68,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 _buttonWidget(
                     buttonTitle: AppStrings.address,
-                    buttonSubTitle: "My Address2",
+                    buttonSubTitle: _addressTextController.text,
                     buttonIcon: AppIcons.address,
-                    buttonFunction: () {}),
+                    buttonFunction: () async {
+                      _showAddressDialog();
+                    }),
                 _buttonWidget(
                     buttonTitle: AppStrings.orders,
                     buttonIcon: AppIcons.orders,
@@ -98,7 +104,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buttonWidget(
                     buttonTitle: AppStrings.logout,
                     buttonIcon: AppIcons.logOut,
-                    buttonFunction: () {}),
+                    buttonFunction: () {
+                      _showLogOutDialog();
+                    }),
               ],
             ),
           ),
@@ -124,8 +132,90 @@ class _SettingsScreenState extends State<SettingsScreen> {
       leading: Icon(buttonIcon),
       trailing: const Icon(AppIcons.arrowRight),
       onTap: () {
-        buttonFunction;
+        buttonFunction();
       },
     );
+  }
+
+  Future<void> _showAddressDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                SizedBox(
+                    width: AppSize.s30,
+                    height: AppSize.s30,
+                    child: Lottie.asset(JsonAssets.address)),
+                const SizedBox(
+                  width: AppSize.s2,
+                ),
+                Text(AppStrings.updateAddress),
+              ],
+            ),
+            content: TextField(
+              controller: _addressTextController,
+              onChanged: (value) {},
+              maxLines: 2,
+              decoration: InputDecoration(hintText: AppStrings.yourAddress),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    AppStrings.update,
+                    style: const TextStyle(
+                        fontSize: AppSize.s16, color: Colors.cyan),
+                  ))
+            ],
+          );
+        });
+  }
+
+  Future<void> _showLogOutDialog() async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                SizedBox(
+                    width: AppSize.s30,
+                    height: AppSize.s30,
+                    child: Lottie.asset(JsonAssets.logout)),
+                const SizedBox(
+                  width: AppSize.s2,
+                ),
+                Text(AppStrings.logout),
+              ],
+            ),
+            content: Text(
+              AppStrings.wantToLogOut,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    AppStrings.cancel,
+                    style: const TextStyle(
+                        color: Colors.cyan, fontSize: AppSize.s16),
+                  )),
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    AppStrings.ok,
+                    style: const TextStyle(
+                        color: Colors.red, fontSize: AppSize.s16),
+                  ))
+            ],
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    _addressTextController.dispose();
+    super.dispose();
   }
 }

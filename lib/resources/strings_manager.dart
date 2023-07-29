@@ -13,6 +13,12 @@ class AppStrings {
   static String wishList = "WishList";
   static String viewed = "Viewed";
   static String forgotPassword = "Forgot Password";
-  static String logout = "LogOut";
+  static String logout = "Log Out";
   static String darkMode = "Dark Mode";
+  static String updateAddress = "Update Address";
+  static String update = "Update";
+  static String yourAddress = "Your Address";
+  static String cancel = "Cancel";
+  static String ok = "OK";
+  static String wantToLogOut = "Do you wanna to Log Out?";
 }
