@@ -1,8 +1,8 @@
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../resources/icons_manager.dart';
-import '../resources/strings_manager.dart';
+import '../../resources/icons_manager.dart';
+import '../../resources/strings_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

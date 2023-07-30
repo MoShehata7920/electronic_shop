@@ -4,8 +4,8 @@ import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../resources/assets_manager.dart';
-import '../resources/strings_manager.dart';
+import '../../resources/assets_manager.dart';
+import '../../resources/strings_manager.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -44,7 +44,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Text(
                         AppStrings.myName,
                         style: const TextStyle(
-                            fontSize: AppSize.s25, fontWeight: FontWeight.bold),
+                          fontSize: AppSize.s25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),

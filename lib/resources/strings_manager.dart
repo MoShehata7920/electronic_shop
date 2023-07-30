@@ -21,4 +21,12 @@ class AppStrings {
   static String cancel = "Cancel";
   static String ok = "OK";
   static String wantToLogOut = "Do you wanna to Log Out?";
+
+  // Categories screen
+  static String audioVideo = "Audio/Video";
+  static String consumerElectronics = "Consumer Electronics";
+  static String gaming = "Gaming";
+  static String officeElectronics = "Office Electronics";
+  static String homeAppliances = "Home Appliances";
+  static String others = "Others";
 }

@@ -1,10 +1,10 @@
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/cart_screen.dart';
-import 'package:electronic_shop/screens/categories_screen.dart';
-import 'package:electronic_shop/screens/home_screen.dart';
-import 'package:electronic_shop/screens/settings_screen.dart';
+import 'package:electronic_shop/screens/cart/cart_screen.dart';
+import 'package:electronic_shop/screens/categories/categories_screen.dart';
+import 'package:electronic_shop/screens/home/home_screen.dart';
+import 'package:electronic_shop/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';

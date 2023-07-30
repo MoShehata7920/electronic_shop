@@ -86,4 +86,5 @@ class AppValues {}
 
 class AppConstants {
   static const bottomNavBarDuration = 100;
+  static const numOfCategories = 6;
 }
