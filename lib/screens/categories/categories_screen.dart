@@ -1,6 +1,6 @@
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/categories/category_card.dart';
+import 'package:electronic_shop/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 import '../../resources/assets_manager.dart';
 import '../../services/utils.dart';

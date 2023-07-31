@@ -15,7 +15,13 @@ class AppIcons {
   static const wishes = IconlyBroken.heart;
   static const viewed = IconlyBroken.show;
   static const unLock = IconlyBroken.unlock;
+  static const language = Icons.language_outlined;
   static const lightMode = Icons.light_mode_outlined;
   static const darkMode = Icons.dark_mode_outlined;
   static const logOut = IconlyBroken.logout;
+
+  // Home Screen
+  static const love = IconlyLight.heart;
+  static const bag = IconlyLight.bag2;
+  static const discount = IconlyLight.discount;
 }

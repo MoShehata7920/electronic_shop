@@ -91,6 +91,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     buttonTitle: AppStrings.forgotPassword,
                     buttonIcon: AppIcons.unLock,
                     buttonFunction: () {}),
+                _buttonWidget(
+                    buttonTitle: AppStrings.language,
+                    buttonIcon: AppIcons.language,
+                    buttonFunction: () {}),
                 SwitchListTile(
                   title: Text(AppStrings.darkMode),
                   secondary: Icon(themeState.getDarkTheme

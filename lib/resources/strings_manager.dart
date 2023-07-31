@@ -12,6 +12,7 @@ class AppStrings {
   static String orders = "Orders";
   static String wishList = "WishList";
   static String viewed = "Viewed";
+  static String language = "Language";
   static String forgotPassword = "Forgot Password";
   static String logout = "Log Out";
   static String darkMode = "Dark Mode";
@@ -29,4 +30,11 @@ class AppStrings {
   static String officeElectronics = "Office Electronics";
   static String homeAppliances = "Home Appliances";
   static String others = "Others";
+
+  // Home Screen
+  static String addToCart = "Add To Cart";
+  static String viewAll = "View All";
+  static String onSale = "On Sale";
+  static String ourProducts = "Our Products";
+  static String browseAll = "Browse All";
 }

@@ -1,6 +1,7 @@
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../services/utils.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard(
@@ -14,7 +15,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = Utils(context).screenSize;
     double cardWidth = size.width;
 
     return InkWell(
@@ -41,12 +42,13 @@ class CategoryCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal:AppSize.s2),
+              padding: const EdgeInsets.symmetric(horizontal: AppSize.s2),
               child: Text(
                 categoryName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: AppSize.s18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: AppSize.s18, fontWeight: FontWeight.bold),
               ),
             )
           ],
