@@ -22,4 +22,5 @@ class JsonAssets {
   static const String printer = "$jsonPath/printer.json";
   static const String washingMachine = "$jsonPath/washing_machine.json";
   static const String others = "$jsonPath/others.json";
+  static const String empty = "$jsonPath/empty.json";
 }

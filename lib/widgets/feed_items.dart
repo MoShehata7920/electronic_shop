@@ -50,7 +50,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Text(
                           "Title",
                           style: TextStyle(
@@ -65,7 +65,11 @@ class _FeedWidgetState extends State<FeedWidget> {
                     ],
                   ),
                 ),
-                const PriceWidget(),
+                const PriceWidget(
+                  salePrice: 0,
+                  price: 12000.0,
+                  isProductsOnSale: false,
+                ),
                 const Spacer(),
                 SizedBox(
                   width: double.infinity,

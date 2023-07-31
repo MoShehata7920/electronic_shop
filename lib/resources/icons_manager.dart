@@ -24,4 +24,7 @@ class AppIcons {
   static const love = IconlyLight.heart;
   static const bag = IconlyLight.bag2;
   static const discount = IconlyLight.discount;
+  static const leftRight = IconlyBroken.arrowLeft2;
+  static const search = IconlyBroken.search;
+  static const close = Icons.close;
 }

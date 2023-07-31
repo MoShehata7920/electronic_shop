@@ -81,6 +81,7 @@ flutter:
     - assets\json\printer.json
     - assets\json\washing_machine.json
     - assets\json\others.json
+    - assets\json\empty.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

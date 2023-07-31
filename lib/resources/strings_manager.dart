@@ -1,4 +1,8 @@
 class AppStrings {
+  // Routes Manager
+  static String noRouteTitle = "no_route_title";
+  static String noRouteFound = "no_route_found";
+
   // BottomNavBar
   static String home = "Home";
   static String categories = "Categories";
@@ -37,4 +41,10 @@ class AppStrings {
   static String onSale = "On Sale";
   static String ourProducts = "Our Products";
   static String browseAll = "Browse All";
+
+  // On sale Products Screen
+  static String onSaleProducts = "On Sale Products";
+  static String allProducts = "All Products";
+  static String emptyScreen = "No Products Here Yet!,\n Stay Tuned";
+  static String searchText = "What's in Your mind";
 }

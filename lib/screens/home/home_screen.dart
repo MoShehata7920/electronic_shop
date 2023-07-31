@@ -1,6 +1,8 @@
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
+import 'package:electronic_shop/screens/home/feeds_screen/feeds_screen.dart';
+import 'package:electronic_shop/screens/home/on_sale_products_screen/on_sale_products_screen.dart';
 import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:electronic_shop/widgets/on_sale_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
@@ -28,7 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
             height: AppSize.s5,
           ),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const OnSaleProductsScreen(),
+                ));
+              },
               child: Text(
                 AppStrings.viewAll,
                 style:
@@ -81,13 +87,19 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   AppStrings.ourProducts,
-                  style: const TextStyle(fontSize: AppSize.s18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: AppSize.s18, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const FeedsScreen(),
+                      ));
+                    },
                     child: Text(
                       AppStrings.browseAll,
-                      style: const TextStyle(fontSize: AppSize.s18, color: Colors.cyan),
+                      style: const TextStyle(
+                          fontSize: AppSize.s18, color: Colors.cyan),
                     )),
               ],
             ),
@@ -96,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             crossAxisCount: 2,
+            padding: EdgeInsets.zero,
             childAspectRatio: size.width / (size.height * 0.61),
             children: List.generate(4, (index) {
               return const FeedWidget();

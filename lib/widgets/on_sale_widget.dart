@@ -60,7 +60,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                 ),
                               ),
                               const SizedBox(
-                                height: AppSize.s10,
+                                height: AppSize.s20,
                               ),
                               const HeartButton(),
                             ],
@@ -69,11 +69,15 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                       )
                     ],
                   ),
-                  const PriceWidget(),
+                  const PriceWidget(
+                    salePrice: 12000,
+                    price: 11000.0,
+                    isProductsOnSale: true,
+                  ),
                   const SizedBox(
                     height: AppSize.s5,
                   ),
-                  Expanded(
+                  Flexible(
                     child: Text(
                       "Samsung smart TV",
                       style: TextStyle(
