@@ -37,7 +37,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(AppIcons.leftRight)),
+              icon: const Icon(AppIcons.leftArrow)),
           iconTheme: IconThemeData(color: textColor, size: AppSize.s22),
         ),
         body: SingleChildScrollView(

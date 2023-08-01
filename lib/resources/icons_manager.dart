@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -24,7 +25,13 @@ class AppIcons {
   static const love = IconlyLight.heart;
   static const bag = IconlyLight.bag2;
   static const discount = IconlyLight.discount;
-  static const leftRight = IconlyBroken.arrowLeft2;
+  static const leftArrow = IconlyBroken.arrowLeft2;
   static const search = IconlyBroken.search;
   static const close = Icons.close;
+
+  // Cart screen
+  static const delete = IconlyBroken.delete;
+  static const add = CupertinoIcons.add;
+  static const minus = CupertinoIcons.minus;
+  static const cartBadgeMinus = CupertinoIcons.cart_badge_minus;
 }

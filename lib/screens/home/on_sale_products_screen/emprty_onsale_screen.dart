@@ -2,11 +2,11 @@ import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../resources/strings_manager.dart';
-import '../services/utils.dart';
+import '../../../resources/strings_manager.dart';
+import '../../../services/utils.dart';
 
-class EmptyScreenWidget extends StatelessWidget {
-  const EmptyScreenWidget({super.key});
+class EmptyOnSaleScreenWidget extends StatelessWidget {
+  const EmptyOnSaleScreenWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class EmptyScreenWidget extends StatelessWidget {
               ),
             ),
             Text(
-              AppStrings.emptyScreen,
+              AppStrings.emptyOnSaleScreen,
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: AppSize.s30, fontWeight: FontWeight.w700),
