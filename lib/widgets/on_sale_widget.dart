@@ -5,6 +5,7 @@ import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import '../screens/inner_screens/product_screen/product_screen.dart';
 
 class OnSaleWidget extends StatefulWidget {
   const OnSaleWidget({super.key});
@@ -27,7 +28,11 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
           color: Theme.of(context).cardColor.withOpacity(0.9),
           child: InkWell(
             borderRadius: BorderRadius.circular(AppSize.s12),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ProductScreen(),
+              ));
+            },
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.p8),
               child: Column(

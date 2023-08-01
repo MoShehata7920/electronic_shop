@@ -54,4 +54,8 @@ class AppStrings {
   static String whoops = "Whoops !";
   static String emptyCart = "Your Cart is empty \n Add Something And Make Me Happy :)";
   static String shopNow = "Shop Now";
+
+  // Product Screen
+  static String perPiece = "/Piece";
+  static String freeShipping = "Free Shipping";
 }

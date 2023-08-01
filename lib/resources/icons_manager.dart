@@ -34,4 +34,7 @@ class AppIcons {
   static const add = CupertinoIcons.add;
   static const minus = CupertinoIcons.minus;
   static const cartBadgeMinus = CupertinoIcons.cart_badge_minus;
+
+  // Product Screen
+  static const share = Icons.share;
 }
