@@ -4,7 +4,7 @@ import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../services/utils.dart';
+import '../../services/utils.dart';
 
 class CartCardWidget extends StatefulWidget {
   const CartCardWidget({super.key});

@@ -4,6 +4,7 @@ import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:flutter/material.dart';
 import '../../../resources/values_manager.dart';
 import '../../../services/utils.dart';
+import '../../../widgets/back_arrow_button.dart';
 
 class FeedsScreen extends StatefulWidget {
   const FeedsScreen({super.key});
@@ -33,12 +34,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 fontSize: AppSize.s22,
                 fontWeight: FontWeight.bold),
           ),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(AppIcons.leftArrow)),
-          iconTheme: IconThemeData(color: textColor, size: AppSize.s22),
+          leading: const BackArrowButton(),
         ),
         body: SingleChildScrollView(
           child: Column(

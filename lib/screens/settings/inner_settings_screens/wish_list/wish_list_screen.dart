@@ -1,3 +1,4 @@
+import 'package:electronic_shop/widgets/back_arrow_button.dart';
 import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:flutter/material.dart';
 import '../../../../resources/assets_manager.dart';
@@ -32,11 +33,7 @@ class _WishListScreenState extends State<WishListScreen> {
               fontSize: AppSize.s22,
               fontWeight: FontWeight.bold),
         ),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(AppIcons.leftArrow)),
+        leading: const BackArrowButton(),
         actions: [
           IconButton(
               onPressed: () {
@@ -47,9 +44,11 @@ class _WishListScreenState extends State<WishListScreen> {
                     warningIcon: JsonAssets.delete,
                     context: context);
               },
-              icon: const Icon(AppIcons.delete)),
+              icon: Icon(
+                AppIcons.delete,
+                color: textColor,
+              )),
         ],
-        iconTheme: IconThemeData(color: textColor, size: AppSize.s22),
       ),
       body: GridView.count(
         shrinkWrap: true,

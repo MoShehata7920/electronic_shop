@@ -34,6 +34,9 @@ class AppStrings {
   static String officeElectronics = "Office Electronics";
   static String homeAppliances = "Home Appliances";
   static String others = "Others";
+  static String oops = "OOPS!";
+  static String emptyCategoryList =
+      "No Products On This Category Yet!,\n Stay Tuned";
 
   // Home Screen
   static String addToCart = "Add To Cart";
@@ -45,7 +48,8 @@ class AppStrings {
   // On sale Products Screen
   static String onSaleProducts = "On Sale Products";
   static String allProducts = "All Products";
-  static String emptyOnSaleScreen = "No Products On Sale Yet!,\n Stay Tuned";
+  static String unfortunately = "Unfortunately";
+  static String emptyOnSaleList = "No Products On Sale Yet!,\n Stay Tuned";
   static String searchText = "What's in Your mind";
 
   // Cart Screen
@@ -64,4 +68,21 @@ class AppStrings {
   // Wish List
   static String emptyYourWishList = "You Are Going To Empty Your Wish List";
   static String areYouSure = "Are You Sure...?";
+  static String noWishes = "OOPS! No Wishes";
+  static String emptyWishList =
+      "You Did't Add Any Item To Wishes Yet\n Go To SEE Our Products:)";
+
+  // Your Orders Screen
+  static String yourOrders = "Your Orders";
+  static String paid = "Paid:";
+  static String noOrders = "OH! No Orders :(";
+  static String emptyOrdersList =
+      "You Did't Orders Any Product Yet\n Go To Order Now :)";
+
+  // Recently Viewed Screen
+  static String recentlyViewed = "Recently Viewed";
+  static String emptyYourViewedList = "You Are Going To Empty Your Viewed List";
+  static String noViewed = "Empty Screen";
+  static String emptyViewedList =
+      "You Need To View Our Products\n Sure You Will like Them :)";
 }

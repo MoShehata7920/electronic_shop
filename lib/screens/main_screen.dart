@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../provider/dark_theme_provider.dart';
+import 'package:badges/badges.dart' as badges;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -89,7 +90,18 @@ class _MainScreenState extends State<MainScreen> {
         inactiveColorPrimary: Colors.blueGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(AppIcons.cart),
+        // icon: const Icon(AppIcons.cart),
+        icon: const badges.Badge(
+          badgeContent: Text('3'),
+          badgeAnimation: badges.BadgeAnimation.slide(
+            animationDuration: Duration(seconds: 3),
+            colorChangeAnimationDuration: Duration(seconds: 1),
+            loopAnimation: true,
+            curve: Curves.fastOutSlowIn,
+            colorChangeAnimationCurve: Curves.easeInCubic,
+          ),
+          child: Icon(AppIcons.cart),
+        ),
         title: AppStrings.cart,
         activeColorPrimary: Colors.cyan,
         inactiveColorPrimary: Colors.blueGrey,

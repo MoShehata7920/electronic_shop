@@ -1,7 +1,7 @@
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../services/utils.dart';
+import '../../services/utils.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard(

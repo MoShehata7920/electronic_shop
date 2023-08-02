@@ -5,7 +5,7 @@ import '../../resources/strings_manager.dart';
 import '../../resources/values_manager.dart';
 import '../../services/global_methods.dart';
 import '../../services/utils.dart';
-import '../../widgets/cart_card_widget.dart';
+import 'cart_card_widget.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});

@@ -1,7 +1,9 @@
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
+import 'package:electronic_shop/screens/settings/inner_settings_screens/recently_viewed/recently_viewed_screen.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/wish_list/wish_list_screen.dart';
+import 'package:electronic_shop/screens/settings/inner_settings_screens/your_orders/orders_screen.dart';
 import 'package:electronic_shop/services/global_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -80,7 +82,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buttonWidget(
                     buttonTitle: AppStrings.orders,
                     buttonIcon: AppIcons.orders,
-                    buttonFunction: () {}),
+                    buttonFunction: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const OrdersScreen(),
+                      ));
+                    }),
                 _buttonWidget(
                     buttonTitle: AppStrings.wishList,
                     buttonIcon: AppIcons.wishes,
@@ -92,7 +98,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buttonWidget(
                     buttonTitle: AppStrings.viewed,
                     buttonIcon: AppIcons.viewed,
-                    buttonFunction: () {}),
+                    buttonFunction: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const RecentlyViewedScreen(),
+                      ));
+                    }),
                 _buttonWidget(
                     buttonTitle: AppStrings.forgotPassword,
                     buttonIcon: AppIcons.unLock,
