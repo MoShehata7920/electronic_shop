@@ -1,6 +1,6 @@
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/inner_screens/product_screen/product_screen.dart';
+import 'package:electronic_shop/screens/product_screen/product_screen.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';

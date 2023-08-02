@@ -3,8 +3,8 @@ import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../resources/values_manager.dart';
-import '../../../services/utils.dart';
+import '../../resources/values_manager.dart';
+import '../../services/utils.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -73,9 +73,9 @@ class _ProductScreenState extends State<ProductScreen> {
               offset: const Offset(AppSize.s0, AppSize.s1),
               child: Container(
                 height: AppSize.s45,
-                decoration: const BoxDecoration(
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.withOpacity(0.9),
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(AppSize.s30),
                     topRight: Radius.circular(AppSize.s30),
                   ),
@@ -105,8 +105,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   height: AppSize.s35,
                 ),
                 const Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppPadding.p20, vertical: AppPadding.p5),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AppPadding.p20, vertical: AppPadding.p5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -116,7 +116,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: AppSize.s24),
+                              fontWeight: FontWeight.bold,
+                              fontSize: AppSize.s24),
                         ),
                       ),
                       HeartButton()
@@ -149,7 +150,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: AppStrings.perPiece,
+                              text: "/${AppStrings.piece}",
                               style: TextStyle(
                                 color: textColor,
                                 fontSize: AppSize
@@ -184,7 +185,18 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: Row(
                     children: [
                       _quantityController(
-                          buttonFunction: () {},
+                          buttonFunction: () {
+                            if (_quantityTextController.text == "1") {
+                              return;
+                            } else {
+                              setState(() {
+                                _quantityTextController.text =
+                                    (int.parse(_quantityTextController.text) -
+                                            1)
+                                        .toString();
+                              });
+                            }
+                          },
                           buttonColor: Colors.red,
                           buttonIcon: AppIcons.minus),
                       Flexible(
@@ -212,7 +224,13 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ),
                       _quantityController(
-                          buttonFunction: () {},
+                          buttonFunction: () {
+                            setState(() {
+                              _quantityTextController.text =
+                                  (int.parse(_quantityTextController.text) + 1)
+                                      .toString();
+                            });
+                          },
                           buttonColor: Colors.green,
                           buttonIcon: AppIcons.add)
                     ],
@@ -295,7 +313,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                         ),
                         TextSpan(
-                          text: AppStrings.perPiece,
+                          text:
+                              "/${_quantityTextController.text}${AppStrings.piece}",
                           style: TextStyle(
                             color: textColor,
                             fontSize:

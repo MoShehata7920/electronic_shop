@@ -2,7 +2,8 @@ import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/screens/home/feeds_screen/feeds_screen.dart';
 import 'package:electronic_shop/screens/home/home_screen.dart';
 import 'package:electronic_shop/screens/home/on_sale_products_screen/on_sale_products_screen.dart';
-import 'package:electronic_shop/screens/inner_screens/product_screen/product_screen.dart';
+import 'package:electronic_shop/screens/product_screen/product_screen.dart';
+import 'package:electronic_shop/screens/settings/inner_settings_screens/wish_list/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -10,6 +11,7 @@ class Routes {
   static const String onSaleProductsScreenRoute = "/onSaleProductsScreen";
   static const String feedsScreenRoute = "/feedsScreenRoute";
   static const String productScreenRoute = "/productScreenRoute";
+  static const String wishListScreenRoute = "/wishListScreenRoute";
 }
 
 class RouteGenerator {
@@ -27,6 +29,9 @@ class RouteGenerator {
 
       case Routes.productScreenRoute:
         return MaterialPageRoute(builder: (context) => const ProductScreen());
+
+      case Routes.wishListScreenRoute:
+        return MaterialPageRoute(builder: (context) => const WishListScreen());
 
       default:
         return unDefinedRoute();

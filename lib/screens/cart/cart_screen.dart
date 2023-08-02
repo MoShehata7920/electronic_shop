@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../resources/assets_manager.dart';
 import '../../resources/icons_manager.dart';
 import '../../resources/strings_manager.dart';
 import '../../resources/values_manager.dart';
+import '../../services/global_methods.dart';
 import '../../services/utils.dart';
 import '../../widgets/cart_card_widget.dart';
 
@@ -31,7 +33,14 @@ class _CartScreenState extends State<CartScreen> {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  GlobalMethods.warningDialog(
+                      title: AppStrings.emptyYourCart,
+                      subtitle: AppStrings.areYouSure,
+                      function: () {},
+                      warningIcon: JsonAssets.delete,
+                      context: context);
+                },
                 icon: Icon(
                   AppIcons.delete,
                   color: textColor,

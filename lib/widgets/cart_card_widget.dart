@@ -77,7 +77,19 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                           Row(
                             children: [
                               _quantityController(
-                                  buttonFunction: () {},
+                                  buttonFunction: () {
+                                    if (_quantityTextController.text == "1") {
+                                      return;
+                                    } else {
+                                      setState(() {
+                                        _quantityTextController.text =
+                                            (int.parse(_quantityTextController
+                                                        .text) -
+                                                    1)
+                                                .toString();
+                                      });
+                                    }
+                                  },
                                   buttonColor: Colors.red,
                                   buttonIcon: AppIcons.minus),
                               Flexible(
@@ -106,7 +118,15 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                 ),
                               ),
                               _quantityController(
-                                  buttonFunction: () {},
+                                  buttonFunction: () {
+                                    setState(() {
+                                      _quantityTextController.text = (int.parse(
+                                                  _quantityTextController
+                                                      .text) +
+                                              1)
+                                          .toString();
+                                    });
+                                  },
                                   buttonColor: Colors.green,
                                   buttonIcon: AppIcons.add)
                             ],

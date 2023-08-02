@@ -13,7 +13,7 @@ class HeartButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Icon(
-        AppIcons.love,
+        AppIcons.heart,
         size: AppSize.s18,
         color: textColor,
       ),

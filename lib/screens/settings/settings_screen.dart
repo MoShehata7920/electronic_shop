@@ -1,6 +1,8 @@
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
+import 'package:electronic_shop/screens/settings/inner_settings_screens/wish_list/wish_list_screen.dart';
+import 'package:electronic_shop/services/global_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +84,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buttonWidget(
                     buttonTitle: AppStrings.wishList,
                     buttonIcon: AppIcons.wishes,
-                    buttonFunction: () {}),
+                    buttonFunction: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const WishListScreen(),
+                      ));
+                    }),
                 _buttonWidget(
                     buttonTitle: AppStrings.viewed,
                     buttonIcon: AppIcons.viewed,
@@ -111,7 +117,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     buttonTitle: AppStrings.logout,
                     buttonIcon: AppIcons.logOut,
                     buttonFunction: () {
-                      _showLogOutDialog();
+                      GlobalMethods.warningDialog(
+                          title: AppStrings.logout,
+                          subtitle: AppStrings.wantToLogOut,
+                          function: () {},
+                          warningIcon: JsonAssets.logout,
+                          context: context);
                     }),
               ],
             ),
@@ -173,46 +184,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     AppStrings.update,
                     style: const TextStyle(
                         fontSize: AppSize.s16, color: Colors.cyan),
-                  ))
-            ],
-          );
-        });
-  }
-
-  Future<void> _showLogOutDialog() async {
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Row(
-              children: [
-                SizedBox(
-                    width: AppSize.s30,
-                    height: AppSize.s30,
-                    child: Lottie.asset(JsonAssets.logout)),
-                const SizedBox(
-                  width: AppSize.s2,
-                ),
-                Text(AppStrings.logout),
-              ],
-            ),
-            content: Text(
-              AppStrings.wantToLogOut,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    AppStrings.cancel,
-                    style: const TextStyle(
-                        color: Colors.cyan, fontSize: AppSize.s16),
-                  )),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    AppStrings.ok,
-                    style: const TextStyle(
-                        color: Colors.red, fontSize: AppSize.s16),
                   ))
             ],
           );

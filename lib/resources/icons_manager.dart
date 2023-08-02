@@ -22,7 +22,7 @@ class AppIcons {
   static const logOut = IconlyBroken.logout;
 
   // Home Screen
-  static const love = IconlyLight.heart;
+  static const heart = IconlyLight.heart;
   static const bag = IconlyLight.bag2;
   static const discount = IconlyLight.discount;
   static const leftArrow = IconlyBroken.arrowLeft2;
@@ -37,4 +37,7 @@ class AppIcons {
 
   // Product Screen
   static const share = Icons.share;
+
+  // Wish List
+  static const love = IconlyBold.heart;
 }

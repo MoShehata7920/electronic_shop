@@ -24,7 +24,7 @@ class AppStrings {
   static String update = "Update";
   static String yourAddress = "Your Address";
   static String cancel = "Cancel";
-  static String ok = "OK";
+  static String yes = "Yes";
   static String wantToLogOut = "Do you wanna to Log Out?";
 
   // Categories screen
@@ -52,10 +52,16 @@ class AppStrings {
   static String orderNow = "Order Now";
   static String total = "Total: ";
   static String whoops = "Whoops !";
-  static String emptyCart = "Your Cart is empty \n Add Something And Make Me Happy :)";
+  static String emptyCart =
+      "Your Cart is empty \n Add Something And Make Me Happy :)";
   static String shopNow = "Shop Now";
+  static String emptyYourCart = "You Are Going To Empty Your Cart";
 
   // Product Screen
-  static String perPiece = "/Piece";
+  static String piece = "Piece";
   static String freeShipping = "Free Shipping";
+
+  // Wish List
+  static String emptyYourWishList = "You Are Going To Empty Your Wish List";
+  static String areYouSure = "Are You Sure...?";
 }

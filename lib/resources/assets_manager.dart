@@ -24,4 +24,5 @@ class JsonAssets {
   static const String others = "$jsonPath/others.json";
   static const String empty = "$jsonPath/empty.json";
   static const String emptyCart = "$jsonPath/empty_cart.json";
+  static const String delete = "$jsonPath/delete.json";
 }

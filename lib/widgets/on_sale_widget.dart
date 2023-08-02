@@ -5,7 +5,7 @@ import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import '../screens/inner_screens/product_screen/product_screen.dart';
+import '../screens/product_screen/product_screen.dart';
 
 class OnSaleWidget extends StatefulWidget {
   const OnSaleWidget({super.key});
