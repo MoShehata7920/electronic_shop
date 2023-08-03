@@ -1,3 +1,4 @@
+import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
@@ -17,6 +18,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<String> carouselImages = [
+    ImagesAssets.c1,
+    ImagesAssets.c2,
+    ImagesAssets.c3,
+    ImagesAssets.c4,
+    ImagesAssets.c5,
+    ImagesAssets.c6,
+    ImagesAssets.c7,
+    ImagesAssets.c8,
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).screenSize;
@@ -25,7 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: size.height * 0.33, child: const SwiperWidget()),
+          SizedBox(
+              height: size.height * 0.33,
+              child: SwiperWidget(
+                carouselImages: carouselImages,
+                isSwiperPaginationActive: true,
+              )),
           const SizedBox(
             height: AppSize.s5,
           ),

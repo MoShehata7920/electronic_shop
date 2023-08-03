@@ -40,4 +40,8 @@ class AppIcons {
 
   // Wish List
   static const love = IconlyBold.heart;
+
+  // Login
+  static const visible = Icons.visibility;
+  static const notVisible = Icons.visibility_off;
 }

@@ -45,9 +45,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             fontSize: AppSize.s27,
                             fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        AppStrings.myName,
-                        style: const TextStyle(
+                      const Text(
+                        "My Name",
+                        style: TextStyle(
                           fontSize: AppSize.s25,
                           fontWeight: FontWeight.bold,
                         ),
@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ));
                     }),
                 _buttonWidget(
-                    buttonTitle: AppStrings.forgotPassword,
+                    buttonTitle: AppStrings.resetPassword,
                     buttonIcon: AppIcons.unLock,
                     buttonFunction: () {}),
                 _buttonWidget(

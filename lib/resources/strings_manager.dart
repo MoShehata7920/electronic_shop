@@ -11,13 +11,12 @@ class AppStrings {
 
   // Settings Screen
   static String hi = "Hi,  ";
-  static String myName = "My Name";
   static String address = "Address";
   static String orders = "Orders";
   static String wishList = "WishList";
   static String viewed = "Viewed";
   static String language = "Language";
-  static String forgotPassword = "Forgot Password";
+  static String resetPassword = "Forgot Password";
   static String logout = "Log Out";
   static String darkMode = "Dark Mode";
   static String updateAddress = "Update Address";
@@ -85,4 +84,33 @@ class AppStrings {
   static String noViewed = "Empty Screen";
   static String emptyViewedList =
       "You Need To View Our Products\n Sure You Will like Them :)";
+
+  // SignIn
+  static String signInGoogle = "Sign In/Up With Google";
+  static String welcomeBack = "Welcome Back";
+  static String signInToContinue = "Sign In To Continue";
+  static String notValidEmail = "Please Enter A Valid Email Address";
+  static String email = "Email";
+  static String notValidPassword = "Please Enter A Valid Password";
+  static String password = "Password";
+  static String forgotPassword = "Forget Password?";
+  static String login = "Login";
+  static String or = "OR";
+  static String continueAsGuest = "Continue As A Guest";
+  static String donHaveAccount = "Don't Have An Account?";
+  static String signUp = "Sign up";
+
+  // Register
+  static String passwordFormat =
+      "Please your password should have at least one UpperCase, one lowerCase, one numeric Number and one special Character";
+  static String welcome = "Welcome";
+  static String signUpToContinue = "Sign Up To Continue";
+  static String notValidName = "Please Enter A Valid Name";
+  static String fullName = "Full Name";
+  static String notValidAddress = "Please Enter A Valid Address";
+  static String shippingAddress = "Shipping Address";
+  static String alreadyAUser = "Already A User?";
+
+  // Forgot Password
+  static String resetNow = "Reset Now";
 }

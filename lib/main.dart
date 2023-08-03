@@ -1,6 +1,6 @@
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/resources/theme_data.dart';
-import 'package:electronic_shop/screens/main_screen.dart';
+import 'package:electronic_shop/screens/auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.getRoute,
           initialRoute: Routes.homeRoute,
-          home: const MainScreen(),
+          home: const LoginScreen(),
         );
       }),
     );
