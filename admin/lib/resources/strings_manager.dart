@@ -11,4 +11,6 @@ class AppStrings {
   static String search = "Search";
   static String cancel = "Cancel";
   static String yes = "Yes";
+  static String edit = "Edit";
+  static String delete = "Delete";
 }

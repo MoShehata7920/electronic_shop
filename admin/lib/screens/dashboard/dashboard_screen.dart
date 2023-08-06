@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/menu_controller.dart';
 import '../../resources/values_manager.dart';
+import '../../widgets/grid_widget.dart';
 import '../../widgets/header.dart';
+import '../../widgets/product_widget.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -20,17 +22,9 @@ class DashboardScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: AppConstants.defaultPadding),
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [],
-                  ),
-                ),
-              ],
-            )
+            GridWidget(gridScreen: () {
+              return const ProductWidget();
+            }),
           ],
         ),
       ),
