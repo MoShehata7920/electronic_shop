@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 class AppMenuController extends ChangeNotifier {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _gridScaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _ordersScaffoldKey =
+      GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _addProductScaffoldKey =
       GlobalKey<ScaffoldState>();
 
   // Getters
   GlobalKey<ScaffoldState> get getScaffoldKey => _scaffoldKey;
   GlobalKey<ScaffoldState> get getGridScaffoldKey => _gridScaffoldKey;
+  GlobalKey<ScaffoldState> get getOrdersScaffoldKey => _ordersScaffoldKey;
   GlobalKey<ScaffoldState> get getAddProductScaffoldKey =>
       _addProductScaffoldKey;
 
@@ -22,6 +25,12 @@ class AppMenuController extends ChangeNotifier {
   void controlProductsMenu() {
     if (!_gridScaffoldKey.currentState!.isDrawerOpen) {
       _gridScaffoldKey.currentState!.openDrawer();
+    }
+  }
+
+  void controlOrdersMenu() {
+    if (!_ordersScaffoldKey.currentState!.isDrawerOpen) {
+      _ordersScaffoldKey.currentState!.openDrawer();
     }
   }
 

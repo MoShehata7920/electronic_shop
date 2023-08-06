@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -10,4 +11,6 @@ class AppIcons {
   static const lightMode = Icons.light_mode_outlined;
   static const menu = Icons.menu;
   static const search = IconlyBold.search;
+
+  static const add = CupertinoIcons.add_circled_solid;
 }

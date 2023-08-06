@@ -3,10 +3,12 @@ import '../resources/values_manager.dart';
 import '../responsive.dart';
 import '../services/utils.dart';
 
-class GridWidget extends StatelessWidget {
-  const GridWidget({super.key, required this.gridScreen});
+class GridProductsWidget extends StatelessWidget {
+  const GridProductsWidget(
+      {super.key, required this.gridScreen, required this.isMain});
 
   final Widget Function() gridScreen;
+  final bool isMain;
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +17,9 @@ class GridWidget extends StatelessWidget {
     return GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 15,
+        itemCount: isMain ? 4 : 15,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: Responsive.isDesktop(context)
-              ? 4
-              : Responsive.isTablet(context)
-                  ? 3
-                  : 2,
+          crossAxisCount: Responsive.isDesktop(context) ? 4 : 2,
           childAspectRatio: Responsive.isDesktop(context)
               ? size.width < 1400
                   ? 0.96

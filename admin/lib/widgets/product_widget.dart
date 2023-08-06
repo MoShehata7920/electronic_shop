@@ -15,6 +15,10 @@ class ProductWidget extends StatefulWidget {
 class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
+    return _buildScreenWidget(context);
+  }
+
+  Widget _buildScreenWidget(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final textColor = Utils(context).textColor;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'resources/routes_manager.dart';
 import 'resources/theme_data.dart';
 import 'controllers/menu_controller.dart';
 import 'providers/dark_theme_provider.dart';
@@ -49,6 +50,8 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'Electronics',
             theme: Styles.themeData(themeProvider.getDarkTheme, context),
+            onGenerateRoute: RouteGenerator.getRoute,
+            initialRoute: Routes.dashBoardRoute,
             home: const MainScreen(),
           );
         },

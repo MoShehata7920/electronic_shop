@@ -2,11 +2,13 @@ import 'package:admin_panel/resources/assets_manager.dart';
 import 'package:admin_panel/resources/icons_manager.dart';
 import 'package:admin_panel/resources/strings_manager.dart';
 import 'package:admin_panel/resources/values_manager.dart';
+import 'package:admin_panel/screens/main_screen.dart';
+import 'package:admin_panel/screens/view_all_products/view_all_products_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../providers/dark_theme_provider.dart';
-import '../screens/main_screen.dart';
+import '../screens/view_all_orders/view_all_orders_screen.dart';
 import '../services/utils.dart';
 
 class SideMenu extends StatefulWidget {
@@ -36,22 +38,28 @@ class _SideMenuState extends State<SideMenu> {
             title: AppStrings.main,
             icon: AppIcons.home,
             press: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MainScreen(),
-                ),
-              );
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const MainScreen(),
+              ));
             },
           ),
           DrawerListTile(
             title: AppStrings.viewAllProducts,
             icon: AppIcons.store,
-            press: () {},
+            press: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ViewAllProductsScreen(),
+              ));
+            },
           ),
           DrawerListTile(
             title: AppStrings.viewAllOrders,
             icon: AppIcons.bag,
-            press: () {},
+            press: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ViewAllOrdersScreen(),
+              ));
+            },
           ),
           SwitchListTile(
               title: Text(AppStrings.theme),

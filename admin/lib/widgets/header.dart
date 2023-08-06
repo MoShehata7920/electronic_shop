@@ -8,9 +8,12 @@ class Header extends StatelessWidget {
   const Header({
     Key? key,
     required this.fct,
+    required this.screenTitle,
   }) : super(key: key);
 
   final Function fct;
+  final String screenTitle;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,7 +29,7 @@ class Header extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppPadding.p8),
             child: Text(
-              AppStrings.dashBoard,
+              screenTitle,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
