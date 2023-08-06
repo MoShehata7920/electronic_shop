@@ -13,4 +13,8 @@ class AppIcons {
   static const search = IconlyBold.search;
 
   static const add = CupertinoIcons.add_circled_solid;
+
+  static const upload = IconlyBold.upload;
+  static const delete = IconlyBold.delete;
+  static const image = IconlyBold.image;
 }

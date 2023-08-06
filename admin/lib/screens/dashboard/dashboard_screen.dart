@@ -10,6 +10,7 @@ import '../../widgets/grid_orders_widget.dart';
 import '../../widgets/grid_products_widget.dart';
 import '../../widgets/header.dart';
 import '../../widgets/product_widget.dart';
+import '../add_product/add_product_screen.dart';
 import '../view_all_products/view_all_products_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -51,7 +52,11 @@ class DashboardScreen extends StatelessWidget {
                         color: Colors.purple),
                   ),
                   ButtonsWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AddProductScreen(),
+                        ));
+                      },
                       text: AppStrings.addNew,
                       icon: AppIcons.add,
                       backgroundColor: Colors.cyan),
