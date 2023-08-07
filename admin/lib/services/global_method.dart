@@ -8,7 +8,7 @@ class GlobalMethods {
   static Future<void> warningDialog({
     required String title,
     required String subtitle,
-    required Function function,
+    // required Function function,
     required String warningIcon,
     required BuildContext context,
   }) async {
@@ -38,19 +38,19 @@ class GlobalMethods {
               subtitle,
             ),
             actions: [
-              TextButton(
-                  onPressed: () {
-                    function();
-                  },
-                  child: Text(
-                    AppStrings.cancel,
-                    style: const TextStyle(
-                        color: Colors.cyan, fontSize: AppSize.s16),
-                  )),
+              // TextButton(
+              //     onPressed: () {
+              //       function();
+              //     },
+              //     child: Text(
+              //       AppStrings.cancel,
+              //       style: const TextStyle(
+              //           color: Colors.cyan, fontSize: AppSize.s16),
+              //     )),
               TextButton(
                   onPressed: () {},
                   child: Text(
-                    AppStrings.yes,
+                    AppStrings.ok,
                     style: const TextStyle(
                         color: Colors.red, fontSize: AppSize.s16),
                   ))

@@ -40,4 +40,5 @@ class AppStrings {
   static String clearForm = "Clear Form";
   static String dropImage = "Drop Your Image Here Or ";
   static String clickToBrowse = "Click Here To Browse";
+  static String ok = "OK";
 }

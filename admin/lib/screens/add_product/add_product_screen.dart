@@ -1,11 +1,17 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/menu_controller.dart';
+import '../../resources/assets_manager.dart';
 import '../../resources/icons_manager.dart';
 import '../../resources/strings_manager.dart';
 import '../../resources/values_manager.dart';
 import '../../responsive.dart';
+import '../../services/global_method.dart';
 import '../../services/utils.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/header.dart';
@@ -19,6 +25,15 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
+  File? _pickedImage;
+  Uint8List webImage = Uint8List(8);
+
+  String? _selectedCategory;
+
+  final formKey = GlobalKey<FormState>();
+  final productTitleTextController = TextEditingController();
+  final productPriceTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +55,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   children: [
                     Header(
                       fct: () {
-                        context.read<AppMenuController>().controlOrdersMenu();
+                        context
+                            .read<AppMenuController>()
+                            .controlAddProductsMenu();
                       },
                       screenTitle: AppStrings.addNewProduct,
                     ),
@@ -58,10 +75,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   Widget _buildScreenWidget(BuildContext context) {
     final textColor = Utils(context).textColor;
-
-    final formKey = GlobalKey<FormState>();
-    final productTitleTextController = TextEditingController();
-    final productPriceTextController = TextEditingController();
 
     return Column(
       children: [
@@ -170,7 +183,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           value: AppStrings.others,
                           child: Text(AppStrings.others)),
                     ],
-                    onChanged: (newValue) {},
+                    value: _selectedCategory,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedCategory = newValue;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -186,7 +204,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
               Padding(
                 padding: const EdgeInsets.all(AppConstants.defaultPadding),
                 child: ButtonsWidget(
-                    onPressed: () {},
+                    onPressed: () {
+                      _clearForm();
+                    },
                     text: AppStrings.clearForm,
                     icon: AppIcons.delete,
                     backgroundColor: Colors.red),
@@ -207,53 +227,143 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Widget _getImage(BuildContext context) {
-    final textColor = Utils(context).textColor;
+    Size size = Utils(context).getScreenSize;
 
-    return Padding(
-      padding: const EdgeInsets.all(AppConstants.defaultPadding),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s12),
-          color: Theme.of(context).cardColor,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(AppConstants.defaultPadding),
-              child: Icon(
-                AppIcons.image,
-                size: AppSize.s70,
-              ),
+    return InkWell(
+      onTap: () {
+        _pickImage();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(AppConstants.defaultPadding),
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s12),
+              color: Theme.of(context).cardColor,
             ),
-            Padding(
-              padding: const EdgeInsets.all(AppConstants.defaultPadding),
-              child: RichText(
-                text: TextSpan(
-                  text: AppStrings.dropImage,
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: AppSize.s24,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: AppStrings.clickToBrowse,
-                      style: const TextStyle(
-                        color: Colors.cyan,
-                        fontSize: AppSize.s24,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      recognizer: TapGestureRecognizer()..onTap = () {},
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+            child: _pickedImage == null
+                ? _noPickedImageYet(context)
+                : kIsWeb
+                    ? Container(
+                        constraints: BoxConstraints(
+                          maxWidth: size.width * 0.3,
+                          maxHeight: size.height * 0.48,
+                        ),
+                        child: Image.memory(
+                          webImage,
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    : Container(
+                        constraints: BoxConstraints(
+                          maxWidth: size.width * 0.3,
+                          maxHeight: size.height * 0.48,
+                        ),
+                        child: Image.file(
+                          _pickedImage!,
+                          fit: BoxFit.contain,
+                        ),
+                      )),
       ),
     );
+  }
+
+  Widget _noPickedImageYet(BuildContext context) {
+    final textColor = Utils(context).textColor;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+            padding: const EdgeInsets.all(AppConstants.defaultPadding),
+            child: LottieBuilder.asset(JsonAssets.image)),
+        Padding(
+          padding: const EdgeInsets.all(AppConstants.defaultPadding),
+          child: RichText(
+            text: TextSpan(
+              text: AppStrings.dropImage,
+              style: TextStyle(
+                color: textColor,
+                fontSize: AppSize.s24,
+                overflow: TextOverflow.ellipsis,
+              ),
+              children: [
+                TextSpan(
+                    text: AppStrings.clickToBrowse,
+                    style: const TextStyle(
+                      color: Colors.cyan,
+                      fontSize: AppSize.s24,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        _pickImage();
+                      }),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _pickImage() async {
+    if (!kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var selected = File(image.path);
+        setState(() {
+          _pickedImage = selected;
+        });
+      } else {
+        GlobalMethods.warningDialog(
+            title: "No Image Has Uploaded",
+            subtitle: "Please Try Again To Upload Image",
+            warningIcon: JsonAssets.somethingWrong,
+            context: context);
+      }
+    } else if (kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var selectedImage = await image.readAsBytes();
+        setState(() {
+          webImage = selectedImage;
+          _pickedImage = File('a');
+        });
+      } else {
+        GlobalMethods.warningDialog(
+            title: "No Image Has Uploaded",
+            subtitle: "Please Try Again To Upload Image",
+            warningIcon: JsonAssets.somethingWrong,
+            context: context);
+      }
+    } else {
+      GlobalMethods.warningDialog(
+          title: "Something Went Wrong",
+          subtitle: "Try Again Later",
+          warningIcon: JsonAssets.somethingWrong,
+          context: context);
+    }
+  }
+
+  void _clearForm() {
+    productTitleTextController.clear();
+    productPriceTextController.clear();
+
+    setState(() {
+      _pickedImage = null;
+      webImage = Uint8List(8);
+
+      _selectedCategory = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    productTitleTextController.dispose();
+    productPriceTextController.dispose();
+    super.dispose();
   }
 }

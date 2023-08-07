@@ -37,6 +37,8 @@ dependencies:
   flutter_iconly: ^1.0.2
   lottie: ^2.5.0
   fancy_shimmer_image: ^2.0.3
+  image_picker: ^1.0.2
+  flutter_dropzone: ^3.0.6
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,8 @@ flutter:
   assets:
     - assets\images\logo.jpg
     - assets\json\admin.json
+    - assets\json\image.json
+    - assets\json\something_wrong.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
