@@ -8,6 +8,9 @@ import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:electronic_shop/widgets/on_sale_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../models/products_model.dart';
+import '../../provider/products_provider.dart';
 import '../../widgets/carousel_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).screenSize;
+
+    final productProvider = Provider.of<ProductProvider>(context);
+    List<ProductModel> allProducts = productProvider.getProducts;
 
     return Scaffold(
         body: SingleChildScrollView(
@@ -127,8 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisCount: 2,
             padding: EdgeInsets.zero,
             childAspectRatio: size.width / (size.height * 0.61),
-            children: List.generate(4, (index) {
-              return const FeedWidget();
+            children: List.generate(
+                allProducts.length < 4 ? allProducts.length : 4, (index) {
+              return ChangeNotifierProvider.value(
+                  value: allProducts[index], child: const FeedWidget());
             }),
           )
         ],

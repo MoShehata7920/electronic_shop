@@ -1,7 +1,10 @@
+import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../models/products_model.dart';
 import '../../../resources/values_manager.dart';
 import '../../../services/utils.dart';
 import '../../../widgets/back_arrow_button.dart';
@@ -21,6 +24,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
   Widget build(BuildContext context) {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
+
+    final productProvider = Provider.of<ProductProvider>(context);
+    List<ProductModel> allProducts = productProvider.getProducts;
 
     return Scaffold(
         appBar: AppBar(
@@ -78,8 +84,12 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 childAspectRatio: size.width / (size.height * 0.61),
-                children: List.generate(15, (index) {
-                  return const FeedWidget();
+                children: List.generate(allProducts.length, (index) {
+                  return ChangeNotifierProvider.value(
+                    value: allProducts[index],
+                    child: const FeedWidget(
+                    ),
+                  );
                 }),
               ),
             ],

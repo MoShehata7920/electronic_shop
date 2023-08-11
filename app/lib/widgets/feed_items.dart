@@ -5,10 +5,14 @@ import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/products_model.dart';
 import '../services/utils.dart';
 
 class FeedWidget extends StatefulWidget {
-  const FeedWidget({super.key});
+  const FeedWidget({
+    super.key,
+  });
 
   @override
   State<FeedWidget> createState() => _FeedWidgetState();
@@ -24,6 +28,9 @@ class _FeedWidgetState extends State<FeedWidget> {
   Widget build(BuildContext context) {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
+
+    final productModel = Provider.of<ProductModel>(context);
+    
 
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p10),
@@ -43,8 +50,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                   height: AppSize.s5,
                 ),
                 FancyShimmerImage(
-                  imageUrl:
-                      'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
+                  imageUrl: productModel.productImage,
                   width: size.width * 0.2,
                   height: size.height * 0.121,
                   boxFit: BoxFit.fill,
@@ -57,7 +63,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                     children: [
                       Flexible(
                         child: Text(
-                          "Title",
+                          productModel.productName,
                           style: TextStyle(
                               color: textColor,
                               fontSize: AppSize.s18,
@@ -70,10 +76,10 @@ class _FeedWidgetState extends State<FeedWidget> {
                     ],
                   ),
                 ),
-                const PriceWidget(
-                  salePrice: 0,
-                  price: 12000.0,
-                  isProductsOnSale: false,
+                PriceWidget(
+                  salePrice: productModel.productSalePrice,
+                  price: productModel.productPrice,
+                  isProductsOnSale: true,
                 ),
                 const Spacer(),
                 SizedBox(
