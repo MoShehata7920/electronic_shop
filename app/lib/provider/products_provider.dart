@@ -2,26 +2,39 @@ import 'package:flutter/material.dart';
 import '../models/products_model.dart';
 import '../resources/strings_manager.dart';
 
-class ProductProvider  with ChangeNotifier{
+class ProductProvider with ChangeNotifier {
   List<ProductModel> get getProducts {
     return _productsList;
   }
 
+  List<ProductModel> get getOnSaleProducts {
+    return _productsList.where((element) => element.isProductOnSale).toList();
+  }
+
+  ProductModel findProductById(String productId) {
+    return _productsList
+        .firstWhere((element) => element.productId == productId);
+  }
+
   static final List<ProductModel> _productsList = [
     ProductModel(
-        "1234",
-        "Samsung smart TV",
-        "https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0",
-        AppStrings.audioVideo,
-        12000.0,
-        11000.0),
+      "1234",
+      "Samsung smart TV",
+      "https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0",
+      AppStrings.audioVideo,
+      12000.0,
+      11000.0,
+      true,
+    ),
     ProductModel(
-        "1233",
-        "Asus Laptop",
-        "https://th.bing.com/th/id/R.477b03591bd4298ae85d094b183eb071?rik=ZepPiKJ%2bATaFug&pid=ImgRaw&r=0",
-        AppStrings.audioVideo,
-        20000.0,
-        19500.0),
+      "1233",
+      "Asus Laptop",
+      "https://th.bing.com/th/id/R.477b03591bd4298ae85d094b183eb071?rik=ZepPiKJ%2bATaFug&pid=ImgRaw&r=0",
+      AppStrings.audioVideo,
+      20000.0,
+      19500.0,
+      true,
+    ),
     ProductModel(
       "2345",
       "Sony Headphones",
@@ -29,6 +42,7 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.audioVideo,
       5550.0,
       4500.0,
+      false,
     ),
     ProductModel(
       "2346",
@@ -37,6 +51,7 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.audioVideo,
       5600.0,
       5280.0,
+      true,
     ),
     ProductModel(
       "2347",
@@ -45,23 +60,24 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.gaming,
       4450.0,
       4420.0,
+      true,
     ),
     ProductModel(
-      "2348",
-      "Dell Monitor",
-      "https://th.bing.com/th/id/R.682f3ea5389cd38474dd95ce6383ea46?rik=hlRklDh%2fpTUqFQ&pid=ImgRaw&r=0", // Transparent image URL
-      AppStrings.officeElectronics,
-      6600.0,
-      5450.0,
-    ),
+        "2348",
+        "Dell Monitor",
+        "https://th.bing.com/th/id/R.682f3ea5389cd38474dd95ce6383ea46?rik=hlRklDh%2fpTUqFQ&pid=ImgRaw&r=0", // Transparent image URL
+        AppStrings.officeElectronics,
+        6600.0,
+        5450.0,
+        false),
     ProductModel(
-      "2349",
-      "Amazon Echo Dot",
-      "https://www.pngarts.com/files/8/Alexa-Amazon-Echo-Transparent-Image.png", // Transparent image URL
-      AppStrings.consumerElectronics,
-      950.0,
-      875.0,
-    ),
+        "2349",
+        "Amazon Echo Dot",
+        "https://www.pngarts.com/files/8/Alexa-Amazon-Echo-Transparent-Image.png", // Transparent image URL
+        AppStrings.consumerElectronics,
+        950.0,
+        875.0,
+        false),
     ProductModel(
       "2350",
       "Samsung Microwave",
@@ -69,15 +85,16 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.homeAppliances,
       9150.0,
       9000.0,
+      true,
     ),
     ProductModel(
-      "2351",
-      "Sony PlayStation 5",
-      "https://th.bing.com/th/id/R.f68e156b0b7e6cf88287244a3d145f5a?rik=mQJZxb8Oy6lpWQ&pid=ImgRaw&r=0", // Transparent image URL
-      AppStrings.gaming,
-      10600.0,
-      10500.0,
-    ),
+        "2351",
+        "Sony PlayStation 5",
+        "https://th.bing.com/th/id/R.f68e156b0b7e6cf88287244a3d145f5a?rik=mQJZxb8Oy6lpWQ&pid=ImgRaw&r=0", // Transparent image URL
+        AppStrings.gaming,
+        10600.0,
+        10500.0,
+        false),
     ProductModel(
       "2352",
       "HP Printer",
@@ -85,6 +102,7 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.officeElectronics,
       7150.0,
       7100.0,
+      true,
     ),
     ProductModel(
       "2353",
@@ -93,6 +111,7 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.homeAppliances,
       5900.0,
       5800.0,
+      true,
     ),
     ProductModel(
       "2354",
@@ -101,15 +120,16 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.consumerElectronics,
       6400.0,
       6340.0,
+      true,
     ),
     ProductModel(
-      "2355",
-      "Bose Speakers",
-      "https://th.bing.com/th/id/R.a2ed2a151c9ba6b4bc6052a22c717a92?rik=VHZMDy73KWZCmg&riu=http%3a%2f%2fwww.pngmart.com%2ffiles%2f7%2fBlack-Bluetooth-Speaker-Transparent-PNG.png&ehk=g3q5wl6%2f%2bFA8NLPyf3q45%2frzzHuIjaRpFw7tOyPL2Hs%3d&risl=&pid=ImgRaw&r=0", // Transparent image URL
-      AppStrings.audioVideo,
-      2250.0,
-      2230.0,
-    ),
+        "2355",
+        "Bose Speakers",
+        "https://th.bing.com/th/id/R.a2ed2a151c9ba6b4bc6052a22c717a92?rik=VHZMDy73KWZCmg&riu=http%3a%2f%2fwww.pngmart.com%2ffiles%2f7%2fBlack-Bluetooth-Speaker-Transparent-PNG.png&ehk=g3q5wl6%2f%2bFA8NLPyf3q45%2frzzHuIjaRpFw7tOyPL2Hs%3d&risl=&pid=ImgRaw&r=0", // Transparent image URL
+        AppStrings.audioVideo,
+        2250.0,
+        2230.0,
+        false),
     ProductModel(
       "2356",
       "Apple iPad",
@@ -117,14 +137,15 @@ class ProductProvider  with ChangeNotifier{
       AppStrings.consumerElectronics,
       4700.0,
       4600.0,
+      true,
     ),
     ProductModel(
-      "2357",
-      "Dyson Vacuum Cleaner",
-      "https://th.bing.com/th/id/R.013b5e342a27a3742bb307ef08585488?rik=jIDLqv%2bLMAa1tg&pid=ImgRaw&r=0", // Transparent image URL
-      AppStrings.homeAppliances,
-      4300.0,
-      4230.0,
-    ),
+        "2357",
+        "Dyson Vacuum Cleaner",
+        "https://th.bing.com/th/id/R.013b5e342a27a3742bb307ef08585488?rik=jIDLqv%2bLMAa1tg&pid=ImgRaw&r=0", // Transparent image URL
+        AppStrings.homeAppliances,
+        4300.0,
+        4230.0,
+        false),
   ];
 }

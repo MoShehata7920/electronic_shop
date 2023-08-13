@@ -1,3 +1,4 @@
+import 'package:electronic_shop/models/products_model.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
@@ -5,6 +6,7 @@ import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../screens/product_screen/product_screen.dart';
 
 class OnSaleWidget extends StatefulWidget {
@@ -20,6 +22,8 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
 
+    final productModel = Provider.of<ProductModel>(context);
+
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p8),
       child: SizedBox(
@@ -30,7 +34,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
             borderRadius: BorderRadius.circular(AppSize.s12),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ProductScreen(),
+                builder: (context) => ProductScreen(productModel.productId),
               ));
             },
             child: Padding(
@@ -43,8 +47,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       FancyShimmerImage(
-                        imageUrl:
-                            'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
+                        imageUrl: productModel.productImage,
                         width: size.width * 0.28,
                         height: size.height * 0.15,
                         boxFit: BoxFit.fill,
@@ -74,17 +77,17 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                       )
                     ],
                   ),
-                  const PriceWidget(
-                    salePrice: 12000,
-                    price: 11000.0,
-                    isProductsOnSale: true,
+                  PriceWidget(
+                    salePrice: productModel.productSalePrice,
+                    price: productModel.productPrice,
+                    isProductsOnSale: productModel.isProductOnSale,
                   ),
                   const SizedBox(
                     height: AppSize.s5,
                   ),
                   Flexible(
                     child: Text(
-                      "Samsung smart TV",
+                      productModel.productName,
                       style: TextStyle(
                           color: textColor,
                           fontSize: AppSize.s15,

@@ -1,20 +1,28 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../../provider/products_provider.dart';
 import '../../resources/values_manager.dart';
 import '../../services/utils.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+  final Object? productId;
+  const ProductScreen(this.productId, {Key? key}) : super(key: key);
 
   @override
-  State<ProductScreen> createState() => _ProductScreenState();
+  ProductScreenState createState() => ProductScreenState(productId as String);
 }
 
-class _ProductScreenState extends State<ProductScreen> {
+class ProductScreenState extends State<ProductScreen> {
   final _quantityTextController = TextEditingController();
+
+  String productId;
+  ProductScreenState(this.productId);
 
   @override
   void initState() {
@@ -30,6 +38,13 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _getContentWidget() {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
+
+    final productProvider = Provider.of<ProductProvider>(context);
+    final getCurrentProduct = productProvider.findProductById(productId);
+
+    double usedPrice = getCurrentProduct.isProductOnSale
+        ? getCurrentProduct.productSalePrice
+        : getCurrentProduct.productPrice;
 
     return CustomScrollView(slivers: [
       SliverAppBar(
@@ -62,7 +77,7 @@ class _ProductScreenState extends State<ProductScreen> {
               StretchMode.zoomBackground,
             ],
             background: Image.network(
-              'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
+              getCurrentProduct.productImage,
               fit: BoxFit.fill,
               width: size.width * 0.2,
               height: size.height * 0.12,
@@ -104,23 +119,23 @@ class _ProductScreenState extends State<ProductScreen> {
                 const SizedBox(
                   height: AppSize.s35,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                       horizontal: AppPadding.p20, vertical: AppPadding.p5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         child: Text(
-                          "Samsung Smart TV",
+                          getCurrentProduct.productName,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: AppSize.s24),
                         ),
                       ),
-                      HeartButton()
+                      const HeartButton()
                     ],
                   ),
                 ),
@@ -140,9 +155,9 @@ class _ProductScreenState extends State<ProductScreen> {
                         text: TextSpan(
                           style: DefaultTextStyle.of(context).style,
                           children: <TextSpan>[
-                            const TextSpan(
-                              text: '\$11000.0',
-                              style: TextStyle(
+                            TextSpan(
+                              text: usedPrice.toString(),
+                              style: const TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
                                 fontSize: AppSize.s24,
@@ -274,6 +289,15 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _bottomROw() {
     final Color textColor = Utils(context).textColor;
 
+    final productProvider = Provider.of<ProductProvider>(context);
+    final getCurrentProduct = productProvider.findProductById(productId);
+
+    double usedPrice = getCurrentProduct.isProductOnSale
+        ? getCurrentProduct.productSalePrice
+        : getCurrentProduct.productPrice;
+
+    double totalPrice = usedPrice * int.parse(_quantityTextController.text);
+
     return SizedBox(
       height: AppSize.s120,
       child: Container(
@@ -303,9 +327,9 @@ class _ProductScreenState extends State<ProductScreen> {
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
-                        const TextSpan(
-                          text: '\$11000.0',
-                          style: TextStyle(
+                        TextSpan(
+                          text: totalPrice.toString(),
+                          style: const TextStyle(
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
                             fontSize: AppSize.s24,

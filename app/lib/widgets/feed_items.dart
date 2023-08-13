@@ -30,7 +30,6 @@ class _FeedWidgetState extends State<FeedWidget> {
     Size size = Utils(context).screenSize;
 
     final productModel = Provider.of<ProductModel>(context);
-    
 
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p10),
@@ -40,7 +39,7 @@ class _FeedWidgetState extends State<FeedWidget> {
           child: InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ProductScreen(),
+                builder: (context) => ProductScreen(productModel.productId),
               ));
             },
             borderRadius: BorderRadius.circular(AppSize.s12),
@@ -79,7 +78,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                 PriceWidget(
                   salePrice: productModel.productSalePrice,
                   price: productModel.productPrice,
-                  isProductsOnSale: true,
+                  isProductsOnSale: productModel.isProductOnSale,
                 ),
                 const Spacer(),
                 SizedBox(

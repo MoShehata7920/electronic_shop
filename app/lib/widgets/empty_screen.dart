@@ -10,13 +10,15 @@ class EmptyScreenWidget extends StatelessWidget {
       required this.emptyScreenTitle,
       required this.emptyScreenSubTitle,
       required this.buttonText,
-      required this.buttonFunction});
+      required this.buttonFunction,
+      required this.isThereButton});
 
   final String emptyScreenAsset,
       emptyScreenTitle,
       emptyScreenSubTitle,
       buttonText;
   final Function buttonFunction;
+  final bool isThereButton;
 
   @override
   Widget build(BuildContext context) {
@@ -43,39 +45,41 @@ class EmptyScreenWidget extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
               const SizedBox(
-                height: AppSize.s15,
+                height: AppSize.s20,
               ),
               Text(
                 emptyScreenSubTitle,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     color: Colors.cyan,
-                    fontSize: AppSize.s20,
+                    fontSize: AppSize.s22,
                     fontWeight: FontWeight.w200),
               ),
               const SizedBox(
                 height: AppSize.s50,
               ),
-              Material(
-                color: Colors.cyan.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(AppSize.s12),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(AppSize.s12),
-                  onTap: () {
-                    buttonFunction();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppPadding.p10),
-                    child: Text(
-                      buttonText,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: AppSize.s20,
+              isThereButton
+                  ? Material(
+                      color: Colors.cyan.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(AppSize.s12),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(AppSize.s12),
+                        onTap: () {
+                          buttonFunction();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppPadding.p10),
+                          child: Text(
+                            buttonText,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: AppSize.s20,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
+                    )
+                  : const SizedBox()
             ],
           ),
         ),

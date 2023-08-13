@@ -35,7 +35,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const FeedsScreen());
 
       case Routes.productScreenRoute:
-        return MaterialPageRoute(builder: (context) => const ProductScreen());
+        return MaterialPageRoute(
+            builder: (context) => ProductScreen(settings.arguments));
 
       case Routes.wishListScreenRoute:
         return MaterialPageRoute(builder: (context) => const WishListScreen());
@@ -47,7 +48,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SignUpScreen());
 
       case Routes.forgotPasswordScreenRoute:
-        return MaterialPageRoute(builder: (context) => const ForgotPasswordScreen());
+        return MaterialPageRoute(
+            builder: (context) => const ForgotPasswordScreen());
 
       default:
         return unDefinedRoute();
