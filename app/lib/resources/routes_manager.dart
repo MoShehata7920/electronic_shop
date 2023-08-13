@@ -6,9 +6,9 @@ import 'package:electronic_shop/screens/home/on_sale_products_screen/on_sale_pro
 import 'package:electronic_shop/screens/product_screen/product_screen.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/wish_list/wish_list_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../screens/auth/login/login.dart';
 import '../screens/auth/sign_up/sign_up.dart';
+import '../screens/categories/category_screen.dart';
 
 class Routes {
   static const String homeRoute = "/";
@@ -19,6 +19,7 @@ class Routes {
   static const String loginScreenRoute = "/loginScreenRoute";
   static const String signUpScreenRoute = "/signUpScreenRoute";
   static const String forgotPasswordScreenRoute = "/forgotPasswordScreenRoute";
+  static const String categoryScreenRoute = "/categoryScreenRoute";
 }
 
 class RouteGenerator {
@@ -50,6 +51,10 @@ class RouteGenerator {
       case Routes.forgotPasswordScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const ForgotPasswordScreen());
+
+      case Routes.categoryScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => CategoryScreen(settings.arguments));
 
       default:
         return unDefinedRoute();
