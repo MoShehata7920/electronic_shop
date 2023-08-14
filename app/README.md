@@ -21,7 +21,7 @@ Welcome to the official repository of Your Mobile App Name! This app is a B2C mo
 ![Home Screen](screenshots\home_screen.jpg) ![On Sale Products Screen](screenshots\on_sale_products_screen.jpg)
 
 ### All Products and Cart Screens 
-![All Products Screen](screenshots\all_products_screen.jpg) ![Cart Screen](screenshots\cart_screen.jpg) 
+![All Products Screen]([screenshots\all_products_screen.jpg](https://github.com/MoShehata7920/electronic_shop/blob/main/app/screenshots/all_products_screen.jpg)) ![Cart Screen](screenshots\cart_screen.jpg) 
 
 ### All Categories Screens and Specific Category
 ![All Categories Screen](screenshots\category_screen.jpg) ![Specific Category Screen](screenshots\category_screen.jpg)
