@@ -1,4 +1,5 @@
 import 'package:electronic_shop/models/products_model.dart';
+import 'package:electronic_shop/provider/recently_viewed_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
@@ -8,6 +9,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/cart_provider.dart';
+import '../provider/wishlist_provider.dart';
 import '../screens/product_screen/product_screen.dart';
 
 class OnSaleWidget extends StatefulWidget {
@@ -26,9 +28,15 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     final productModel = Provider.of<ProductModel>(context);
 
     final cartProvider = Provider.of<CartProvider>(context);
+    final recentlyViewedProductsProvider =
+        Provider.of<RecentlyViewedProductsProvider>(context);
 
     bool? isInCart =
         cartProvider.getCartItems.containsKey(productModel.productId);
+
+    final wishListProvider = Provider.of<WishListProvider>(context);
+    bool? isInWishedList =
+        wishListProvider.getWishedItems.containsKey(productModel.productId);
 
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p8),
@@ -39,6 +47,8 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
           child: InkWell(
             borderRadius: BorderRadius.circular(AppSize.s12),
             onTap: () {
+              recentlyViewedProductsProvider
+                  .addProductToRecentlyViewedList(productModel.productId);
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => ProductScreen(productModel.productId),
               ));
@@ -74,7 +84,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                             quantity: 1);
                                       },
                                 child: Icon(
-                                  isInCart ? AppIcons.boldBag :AppIcons.bag,
+                                  isInCart ? AppIcons.boldBag : AppIcons.bag,
                                   size: AppSize.s18,
                                   color: isInCart ? Colors.green : textColor,
                                 ),
@@ -82,7 +92,10 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                               const SizedBox(
                                 height: AppSize.s20,
                               ),
-                              const HeartButton(),
+                              HeartButton(
+                                productId: productModel.productId,
+                                isInWishList: isInWishedList,
+                              ),
                             ],
                           ),
                         ],

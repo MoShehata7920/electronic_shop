@@ -90,7 +90,8 @@ flutter:
     - assets\json\others.json
     - assets\json\empty.json
     - assets\json\empty_cart.json
-    - assets\json\empty_user_screen.json
+    - assets\json\empty_viewed_screen.json
+    - assets\json\empty_wishlist.json
     - assets\json\delete.json
     - assets\json\google.json
 

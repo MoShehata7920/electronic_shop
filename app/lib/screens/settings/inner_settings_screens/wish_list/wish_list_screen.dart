@@ -1,12 +1,16 @@
+import 'package:electronic_shop/screens/home/home_screen.dart';
 import 'package:electronic_shop/widgets/back_arrow_button.dart';
-import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../../provider/wishlist_provider.dart';
 import '../../../../resources/assets_manager.dart';
 import '../../../../resources/icons_manager.dart';
 import '../../../../resources/strings_manager.dart';
 import '../../../../resources/values_manager.dart';
 import '../../../../services/global_methods.dart';
 import '../../../../services/utils.dart';
+import '../../../../widgets/empty_screen.dart';
+import 'wish_list_widget.dart';
 
 class WishListScreen extends StatefulWidget {
   const WishListScreen({super.key});
@@ -20,6 +24,10 @@ class _WishListScreenState extends State<WishListScreen> {
   Widget build(BuildContext context) {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
+
+    final wishListProvider = Provider.of<WishListProvider>(context);
+    final wishedProductsList =
+        wishListProvider.getWishedItems.values.toList().reversed.toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +48,9 @@ class _WishListScreenState extends State<WishListScreen> {
                 GlobalMethods.warningDialog(
                     title: AppStrings.emptyYourWishList,
                     subtitle: AppStrings.areYouSure,
-                    function: () {},
+                    function: () {
+                      wishListProvider.clearWishList();
+                    },
                     warningIcon: JsonAssets.delete,
                     context: context);
               },
@@ -50,15 +60,30 @@ class _WishListScreenState extends State<WishListScreen> {
               )),
         ],
       ),
-      body: GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        padding: EdgeInsets.zero,
-        childAspectRatio: size.width / (size.height * 0.56),
-        children: List.generate(15, (index) {
-          return const FeedWidget();
-        }),
-      ),
+      body: wishedProductsList.isEmpty
+          ? EmptyScreenWidget(
+              emptyScreenAsset: JsonAssets.emptyWishList,
+              emptyScreenTitle: AppStrings.noWishes,
+              emptyScreenSubTitle: AppStrings.emptyWishList,
+              buttonText: AppStrings.shopNow,
+              buttonFunction: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
+                ));
+              },
+              isThereButton: true,
+            )
+          : GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              padding: EdgeInsets.zero,
+              childAspectRatio: size.width / (size.height * 0.52),
+              children: List.generate(wishedProductsList.length, (index) {
+                return ChangeNotifierProvider.value(
+                    value: wishedProductsList[index],
+                    child: const WishedProductCard());
+              }),
+            ),
     );
   }
 }

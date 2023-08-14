@@ -1,9 +1,14 @@
+import 'package:electronic_shop/models/recently_viewed_model.dart';
+import 'package:electronic_shop/provider/cart_provider.dart';
+import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../services/utils.dart';
+import '../../../product_screen/product_screen.dart';
 
 class RecentlyViewedCard extends StatefulWidget {
   const RecentlyViewedCard({super.key});
@@ -26,8 +31,28 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
     Size size = Utils(context).screenSize;
     double cardHeight = size.height * 0.13;
 
+    final productProvider = Provider.of<ProductProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    final recentlyViewedProductsModel =
+        Provider.of<RecentlyViewedProductsModel>(context);
+
+    final getCurrentProduct =
+        productProvider.findProductById(recentlyViewedProductsModel.productId);
+
+    double usedPrice = getCurrentProduct.isProductOnSale
+        ? getCurrentProduct.productSalePrice
+        : getCurrentProduct.productPrice;
+
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(getCurrentProduct.productId);
+
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProductScreen(getCurrentProduct.productId),
+        ));
+      },
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p8),
         child: Flexible(
@@ -42,8 +67,7 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
                   SizedBox(
                     height: cardHeight,
                     child: FancyShimmerImage(
-                      imageUrl:
-                          'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
+                      imageUrl: getCurrentProduct.productImage,
                       width: size.width * 0.25,
                       height: cardHeight,
                       boxFit: BoxFit.fill,
@@ -60,22 +84,21 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Flexible(
+                          Flexible(
+                            flex: 2,
                             child: Text(
-                              "Samsung smart TV",
-                              style: TextStyle(
+                              getCurrentProduct.productName,
+                              style: const TextStyle(
                                   fontSize: AppSize.s16,
                                   fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
                           ),
-                          const SizedBox(
-                            height: AppSize.s15,
-                          ),
+                          const Spacer(),
                           Flexible(
                             child: Text(
-                              "${AppStrings.paid}\$11000.0",
+                              AppStrings.price + usedPrice.toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.w300,
                                   fontSize: AppSize.s14),
@@ -93,20 +116,28 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: AppPadding.p5),
-                        child: Material(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(AppSize.s12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(AppPadding.p5),
-                            child: InkWell(
-                              onTap: () {},
-                              child: const Icon(
-                                AppIcons.add,
-                                color: Colors.white,
+                        child: isInCart
+                            ? null
+                            : Material(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.circular(AppSize.s12),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(AppPadding.p5),
+                                  child: InkWell(
+                                    onTap: () {
+                                      cartProvider.addProductsToCart(
+                                          productId:
+                                              getCurrentProduct.productId,
+                                          quantity: 1);
+                                    },
+                                    child: const Icon(
+                                      AppIcons.add,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
                       ))
                 ],
               ),

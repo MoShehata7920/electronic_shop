@@ -23,6 +23,7 @@ class AppIcons {
 
   // Home Screen
   static const heart = IconlyLight.heart;
+  static const boldHeart = IconlyBold.heart;
   static const bag = IconlyLight.bag2;
   static const boldBag = IconlyBold.bag2;
   static const discount = IconlyLight.discount;

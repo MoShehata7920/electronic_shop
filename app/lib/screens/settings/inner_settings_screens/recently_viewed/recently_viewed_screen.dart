@@ -1,5 +1,9 @@
+import 'package:electronic_shop/provider/recently_viewed_provider.dart';
+import 'package:electronic_shop/screens/home/home_screen.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/recently_viewed/recently_viewed_card.dart';
+import 'package:electronic_shop/widgets/empty_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../resources/assets_manager.dart';
 import '../../../../resources/icons_manager.dart';
 import '../../../../resources/strings_manager.dart';
@@ -19,6 +23,14 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
   @override
   Widget build(BuildContext context) {
     final Color textColor = Utils(context).textColor;
+
+    final recentlyViewedProductsProvider =
+        Provider.of<RecentlyViewedProductsProvider>(context);
+    final recentlyViewedProductsList = recentlyViewedProductsProvider
+        .getRecentlyViewedItems.values
+        .toList()
+        .reversed
+        .toList();
 
     return Scaffold(
         appBar: AppBar(
@@ -40,7 +52,10 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
                   GlobalMethods.warningDialog(
                       title: AppStrings.emptyYourViewedList,
                       subtitle: AppStrings.areYouSure,
-                      function: () {},
+                      function: () {
+                        recentlyViewedProductsProvider
+                            .clearRecentlyViewedProductsList();
+                      },
                       warningIcon: JsonAssets.delete,
                       context: context);
                 },
@@ -53,11 +68,26 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
         body: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return const RecentlyViewedCard();
-                  }),
+              child: recentlyViewedProductsList.isEmpty
+                  ? EmptyScreenWidget(
+                      emptyScreenAsset: JsonAssets.emptyViewedScreen,
+                      emptyScreenTitle: AppStrings.noViewed,
+                      emptyScreenSubTitle: AppStrings.emptyViewedList,
+                      buttonText: AppStrings.shopNow,
+                      buttonFunction: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ));
+                      },
+                      isThereButton: true,
+                    )
+                  : ListView.builder(
+                      itemCount: recentlyViewedProductsList.length,
+                      itemBuilder: (context, index) {
+                        return ChangeNotifierProvider.value(
+                            value: recentlyViewedProductsList[index],
+                            child: const RecentlyViewedCard());
+                      }),
             ),
           ],
         ));

@@ -30,7 +30,8 @@ class JsonAssets {
   static const String others = "$jsonPath/others.json";
   static const String empty = "$jsonPath/empty.json";
   static const String emptyCart = "$jsonPath/empty_cart.json";
-  static const String emptyUserCart = "$jsonPath/empty_user_screen.json";
+  static const String emptyWishList = "$jsonPath/empty_wishlist.json";
+  static const String emptyViewedScreen = "$jsonPath/empty_viewed_screen.json";
   static const String delete = "$jsonPath/delete.json";
   static const String google = "$jsonPath/google.json";
 }

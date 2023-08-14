@@ -80,6 +80,7 @@ class AppStrings {
       "You Did't Orders Any Product Yet\n Go To Order Now :)";
 
   // Recently Viewed Screen
+  static String price = "Price: ";
   static String recentlyViewed = "Recently Viewed";
   static String emptyYourViewedList = "You Are Going To Empty Your Viewed List";
   static String noViewed = "Empty Screen";

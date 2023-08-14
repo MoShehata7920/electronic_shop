@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../provider/cart_provider.dart';
 import '../../provider/products_provider.dart';
+import '../../provider/wishlist_provider.dart';
 import '../../resources/values_manager.dart';
 import '../../services/utils.dart';
 
@@ -28,7 +29,6 @@ class ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    // _quantityTextController.text = "1";
     super.initState();
   }
 
@@ -47,6 +47,10 @@ class ProductScreenState extends State<ProductScreen> {
     double usedPrice = getCurrentProduct.isProductOnSale
         ? getCurrentProduct.productSalePrice
         : getCurrentProduct.productPrice;
+
+    final wishListProvider = Provider.of<WishListProvider>(context);
+    bool? isInWishedList = wishListProvider.getWishedItems
+        .containsKey(getCurrentProduct.productId);
 
     return CustomScrollView(slivers: [
       SliverAppBar(
@@ -137,7 +141,10 @@ class ProductScreenState extends State<ProductScreen> {
                               fontSize: AppSize.s24),
                         ),
                       ),
-                      const HeartButton()
+                      HeartButton(
+                        productId: getCurrentProduct.productId,
+                        isInWishList: isInWishedList,
+                      )
                     ],
                   ),
                 ),
@@ -240,6 +247,7 @@ class ProductScreenState extends State<ProductScreen> {
                           decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.green))),
+                          textAlign: TextAlign.center,
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                               RegExp('[0-9]'),

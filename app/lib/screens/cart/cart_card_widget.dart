@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../provider/cart_provider.dart';
+import '../../provider/wishlist_provider.dart';
 import '../../services/utils.dart';
 import '../product_screen/product_screen.dart';
 
 class CartCardWidget extends StatefulWidget {
-  const CartCardWidget({super.key, required this.quantity, required this.quantityController});
+  const CartCardWidget(
+      {super.key, required this.quantity, required this.quantityController});
   final int quantity;
   final TextEditingController quantityController;
 
@@ -21,7 +23,6 @@ class CartCardWidget extends StatefulWidget {
 }
 
 class _CartCardWidgetState extends State<CartCardWidget> {
-
   @override
   void initState() {
     super.initState();
@@ -44,6 +45,10 @@ class _CartCardWidgetState extends State<CartCardWidget> {
         : getCurrentProduct.productPrice;
 
     double totalPrice = usedPrice * int.parse(widget.quantityController.text);
+
+    final wishListProvider = Provider.of<WishListProvider>(context);
+    bool? isInWishedList =
+        wishListProvider.getWishedItems.containsKey(cartModel.productId);
 
     return GestureDetector(
       onTap: () {
@@ -125,6 +130,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                       focusedBorder: UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.green))),
+                                  textAlign: TextAlign.center,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                       RegExp('[0-9]'),
@@ -147,11 +153,11 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                       cartModel.productId,
                                     );
                                     setState(() {
-                                      widget.quantityController.text = (int.parse(
-                                                  widget.quantityController
+                                      widget.quantityController.text =
+                                          (int.parse(widget.quantityController
                                                       .text) +
-                                              1)
-                                          .toString();
+                                                  1)
+                                              .toString();
                                     });
                                   },
                                   buttonColor: Colors.green,
@@ -180,7 +186,10 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                           const SizedBox(
                             height: AppSize.s15,
                           ),
-                          const HeartButton(),
+                          HeartButton(
+                            productId: cartModel.productId,
+                            isInWishList: isInWishedList,
+                          ),
                           const SizedBox(
                             height: AppSize.s15,
                           ),
