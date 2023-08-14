@@ -18,6 +18,9 @@ Welcome to the official repository of Your Mobile App Name! This app is a B2C mo
 # Mobile App Screenshots
 
 Here are some screenshots of the mobile app's different screens.
+| Login Screen | Registration Screen | Forgot Password Screen |
+|:------------:|:-------------------:|:----------------------:|
+| ![Login Screen](screenshots/login_screen.jpg) | ![Registration Screen](screenshots/signup_screen.jpg) | ![Forgot Password Screen](screenshots/forgot_password_screen.jpg) |
 
 | Home Screen | On Sale Products Screen |
 |:-----------:|:-----------------------:|
