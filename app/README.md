@@ -15,26 +15,37 @@ Welcome to the official repository of Your Mobile App Name! This app is a B2C mo
 - Review products and leave feedback.
 - View previously browsed products in the Viewed Products section.
 
-## Screenshots
+# Mobile App Screenshots
 
-### Home and On Sale Products Screens
-![Home Screen](screenshots/home_screen.jpg) ![On Sale Products Screen](screenshots/on_sale_products_screen.jpg)
+Here are some screenshots of the mobile app's different screens.
 
-### All Products and Cart Screens 
-![All Products Screen](screenshots/all_products_screen.jpg) ![Cart Screen](screenshots/cart_screen.jpg) 
+| Home Screen | On Sale Products Screen |
+|:-----------:|:-----------------------:|
+| ![Home Screen](screenshots/home_screen.jpg) | ![On Sale Products Screen](screenshots/on_sale_products_screen.jpg) |
 
-### All Categories Screens and Specific Category
-![All Categories Screen](screenshots/category_screen.jpg) ![Specific Category Screen](screenshots/category_screen.jpg)
+| All Products Screen | Cart Screen |
+|:-------------------:|:-----------:|
+| ![All Products Screen](screenshots/all_products_screen.jpg) | ![Cart Screen](screenshots/cart_screen.jpg) |
 
-### Settings and Wishlist Screens
-![Settings Screen](screenshots/settings_screen.jpg) ![Wishlist Screen](screenshots/wishlist_screen.jpg)
+| All Categories Screen | Specific Category Screen |
+|:--------------------:|:-----------------------:|
+| ![All Categories Screen](screenshots/category_screen.jpg) | ![Specific Category Screen](screenshots/category_screen.jpg) |
 
-### Product and Viewed Products Screens
-![Product Screen](screenshots/product_screen.jpg) ![Viewed Products Screen](screenshots/recently_viewed_screen.jpg)
+| Settings Screen | Wishlist Screen |
+|:---------------:|:--------------:|
+| ![Settings Screen](screenshots/settings_screen.jpg) | ![Wishlist Screen](screenshots/wishlist_screen.jpg) |
 
-### Empty Screens
-![Clear Cart Warning Dialog](screenshots/warning_dialog.jpg) ![Empty Cart Screen](screenshots/empty_cart_screen.jpg)
-![Empty Wishlist Screen](screenshots/empty_wishlist_screen.jpg) ![Empty Viewed Products Screen](screenshots/empty_viewed_screen.jpg)
+| Product Screen | Viewed Products Screen |
+|:--------------:|:----------------------:|
+| ![Product Screen](screenshots/product_screen.jpg) | ![Viewed Products Screen](screenshots/recently_viewed_screen.jpg) |
+
+| Clear Cart Warning Dialog | Empty Cart Screen |
+|:------------------------:|:-----------------:|
+| ![Clear Cart Warning Dialog](screenshots/warning_dialog.jpg) | ![Empty Cart Screen](screenshots/empty_cart_screen.jpg) |
+
+| Empty Wishlist Screen | Empty Viewed Products Screen |
+|:--------------------:|:--------------------------:|
+| ![Empty Wishlist Screen](screenshots/empty_wishlist_screen.jpg) | ![Empty Viewed Products Screen](screenshots/empty_viewed_screen.jpg) |
 
 ## Getting Started
 
