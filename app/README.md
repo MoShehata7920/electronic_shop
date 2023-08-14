@@ -18,23 +18,23 @@ Welcome to the official repository of Your Mobile App Name! This app is a B2C mo
 ## Screenshots
 
 ### Home and On Sale Products Screens
-![Home Screen](screenshots\home_screen.jpg) ![On Sale Products Screen](screenshots\on_sale_products_screen.jpg)
+![Home Screen](screenshots/home_screen.jpg) ![On Sale Products Screen](screenshots/on_sale_products_screen.jpg)
 
 ### All Products and Cart Screens 
-![All Products Screen]([app/screenshots/all_products_screen.jpg)) ![Cart Screen](screenshots\cart_screen.jpg) 
+![All Products Screen](screenshots/all_products_screen.jpg) ![Cart Screen](screenshots/cart_screen.jpg) 
 
 ### All Categories Screens and Specific Category
-![All Categories Screen](screenshots\category_screen.jpg) ![Specific Category Screen](screenshots\category_screen.jpg)
+![All Categories Screen](screenshots/category_screen.jpg) ![Specific Category Screen](screenshots/category_screen.jpg)
 
 ### Settings and Wishlist Screens
-![Settings Screen](screenshots\settings_screen.jpg) ![Wishlist Screen](screenshots\wishlist_screen.jpg)
+![Settings Screen](screenshots/settings_screen.jpg) ![Wishlist Screen](screenshots/wishlist_screen.jpg)
 
 ### Product and Viewed Products Screens
-![Product Screen](screenshots\product_screen.jpg) ![Viewed Products Screen](screenshots\recently_viewed_screen.jpg)
+![Product Screen](screenshots/product_screen.jpg) ![Viewed Products Screen](screenshots/recently_viewed_screen.jpg)
 
 ### Empty Screens
-![Clear Cart Warning Dialog](screenshots\warning_dialog.jpg) ![Empty Cart Screen](screenshots\empty_cart_screen.jpg)
-![Empty Wishlist Screen](screenshots\empty_wishlist_screen.jpg) ![Empty Viewed Products Screen](screenshots\empty_viewed_screen.jpg)
+![Clear Cart Warning Dialog](screenshots/warning_dialog.jpg) ![Empty Cart Screen](screenshots/empty_cart_screen.jpg)
+![Empty Wishlist Screen](screenshots/empty_wishlist_screen.jpg) ![Empty Viewed Products Screen](screenshots/empty_viewed_screen.jpg)
 
 ## Getting Started
 
