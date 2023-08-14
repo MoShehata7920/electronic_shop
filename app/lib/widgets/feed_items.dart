@@ -90,10 +90,12 @@ class _FeedWidgetState extends State<FeedWidget> {
                 SizedBox(
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: isInCart? null : () {
-                      cartProvider.addProductsToCart(
-                          productId: productModel.productId, quantity: 1);
-                    },
+                    onPressed: isInCart
+                        ? null
+                        : () {
+                            cartProvider.addProductsToCart(
+                                productId: productModel.productId, quantity: 1);
+                          },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                             Theme.of(context).cardColor),

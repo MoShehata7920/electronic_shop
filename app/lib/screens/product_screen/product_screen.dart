@@ -13,6 +13,7 @@ import '../../services/utils.dart';
 
 class ProductScreen extends StatefulWidget {
   final Object? productId;
+
   const ProductScreen(this.productId, {Key? key}) : super(key: key);
 
   @override
@@ -20,14 +21,14 @@ class ProductScreen extends StatefulWidget {
 }
 
 class ProductScreenState extends State<ProductScreen> {
-  final _quantityTextController = TextEditingController();
+  final _productScreenQuantityController = TextEditingController(text: "1");
 
   String productId;
   ProductScreenState(this.productId);
 
   @override
   void initState() {
-    _quantityTextController.text = "1";
+    // _quantityTextController.text = "1";
     super.initState();
   }
 
@@ -146,6 +147,21 @@ class ProductScreenState extends State<ProductScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: AppPadding.p20, vertical: AppPadding.p5),
+                  child: Flexible(
+                    child: Text(
+                      getCurrentProduct.productDescription,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 7,
+                      style: const TextStyle(fontSize: AppSize.s18),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppPadding.p20, vertical: AppPadding.p5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -202,12 +218,13 @@ class ProductScreenState extends State<ProductScreen> {
                     children: [
                       _quantityController(
                           buttonFunction: () {
-                            if (_quantityTextController.text == "1") {
+                            if (_productScreenQuantityController.text == "1") {
                               return;
                             } else {
                               setState(() {
-                                _quantityTextController.text =
-                                    (int.parse(_quantityTextController.text) -
+                                _productScreenQuantityController.text =
+                                    (int.parse(_productScreenQuantityController
+                                                .text) -
                                             1)
                                         .toString();
                               });
@@ -217,7 +234,7 @@ class ProductScreenState extends State<ProductScreen> {
                           buttonIcon: AppIcons.minus),
                       Flexible(
                         child: TextField(
-                          controller: _quantityTextController,
+                          controller: _productScreenQuantityController,
                           keyboardType: TextInputType.number,
                           maxLines: 1,
                           decoration: const InputDecoration(
@@ -231,7 +248,7 @@ class ProductScreenState extends State<ProductScreen> {
                           onChanged: (value) {
                             setState(() {
                               if (value.isEmpty) {
-                                _quantityTextController.text = '1';
+                                _productScreenQuantityController.text = '1';
                               } else {
                                 return;
                               }
@@ -242,8 +259,10 @@ class ProductScreenState extends State<ProductScreen> {
                       _quantityController(
                           buttonFunction: () {
                             setState(() {
-                              _quantityTextController.text =
-                                  (int.parse(_quantityTextController.text) + 1)
+                              _productScreenQuantityController.text =
+                                  (int.parse(_productScreenQuantityController
+                                              .text) +
+                                          1)
                                       .toString();
                             });
                           },
@@ -253,7 +272,7 @@ class ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: AppSize.s120,
+                  height: AppSize.s100,
                 ),
                 _bottomROw()
               ],
@@ -297,7 +316,8 @@ class ProductScreenState extends State<ProductScreen> {
         ? getCurrentProduct.productSalePrice
         : getCurrentProduct.productPrice;
 
-    double totalPrice = usedPrice * int.parse(_quantityTextController.text);
+    double totalPrice =
+        usedPrice * int.parse(_productScreenQuantityController.text);
 
     final cartProvider = Provider.of<CartProvider>(context);
 
@@ -344,7 +364,7 @@ class ProductScreenState extends State<ProductScreen> {
                         ),
                         TextSpan(
                           text:
-                              "/${_quantityTextController.text}${AppStrings.piece}",
+                              "/${_productScreenQuantityController.text}${AppStrings.piece}",
                           style: TextStyle(
                             color: textColor,
                             fontSize:
@@ -363,7 +383,8 @@ class ProductScreenState extends State<ProductScreen> {
                   onTap: () {
                     cartProvider.addProductsToCart(
                         productId: getCurrentProduct.productId,
-                        quantity: int.parse(_quantityTextController.text));
+                        quantity:
+                            int.parse(_productScreenQuantityController.text));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(AppPadding.p8),
@@ -386,7 +407,7 @@ class ProductScreenState extends State<ProductScreen> {
 
   @override
   void dispose() {
-    _quantityTextController.dispose();
+    _productScreenQuantityController.dispose();
     super.dispose();
   }
 }

@@ -12,19 +12,18 @@ import '../../services/utils.dart';
 import '../product_screen/product_screen.dart';
 
 class CartCardWidget extends StatefulWidget {
-  const CartCardWidget({super.key, required this.quantity});
+  const CartCardWidget({super.key, required this.quantity, required this.quantityController});
   final int quantity;
+  final TextEditingController quantityController;
 
   @override
   State<CartCardWidget> createState() => _CartCardWidgetState();
 }
 
 class _CartCardWidgetState extends State<CartCardWidget> {
-  final _quantityTextController = TextEditingController();
 
   @override
   void initState() {
-    _quantityTextController.text = widget.quantity.toString();
     super.initState();
   }
 
@@ -44,7 +43,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
         ? getCurrentProduct.productSalePrice
         : getCurrentProduct.productPrice;
 
-    double totalPrice = usedPrice * int.parse(_quantityTextController.text);
+    double totalPrice = usedPrice * int.parse(widget.quantityController.text);
 
     return GestureDetector(
       onTap: () {
@@ -100,15 +99,15 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                             children: [
                               _quantityController(
                                   buttonFunction: () {
-                                    if (_quantityTextController.text == "1") {
+                                    if (widget.quantityController.text == "1") {
                                       return;
                                     } else {
+                                      cartProvider.reduceQuantityByOne(
+                                        cartModel.productId,
+                                      );
                                       setState(() {
-                                        cartProvider.reduceQuantityByOne(
-                                          cartModel.productId,
-                                        );
-                                        _quantityTextController.text =
-                                            (int.parse(_quantityTextController
+                                        widget.quantityController.text =
+                                            (int.parse(widget.quantityController
                                                         .text) -
                                                     1)
                                                 .toString();
@@ -119,7 +118,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                   buttonIcon: AppIcons.minus),
                               Flexible(
                                 child: TextField(
-                                  controller: _quantityTextController,
+                                  controller: widget.quantityController,
                                   keyboardType: TextInputType.number,
                                   maxLines: 1,
                                   decoration: const InputDecoration(
@@ -134,7 +133,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                   onChanged: (value) {
                                     setState(() {
                                       if (value.isEmpty) {
-                                        _quantityTextController.text = '1';
+                                        widget.quantityController.text = '1';
                                       } else {
                                         return;
                                       }
@@ -144,12 +143,12 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                               ),
                               _quantityController(
                                   buttonFunction: () {
+                                    cartProvider.increaseQuantityByOne(
+                                      cartModel.productId,
+                                    );
                                     setState(() {
-                                      cartProvider.increaseQuantityByOne(
-                                        cartModel.productId,
-                                      );
-                                      _quantityTextController.text = (int.parse(
-                                                  _quantityTextController
+                                      widget.quantityController.text = (int.parse(
+                                                  widget.quantityController
                                                       .text) +
                                               1)
                                           .toString();
@@ -231,7 +230,6 @@ class _CartCardWidgetState extends State<CartCardWidget> {
 
   @override
   void dispose() {
-    _quantityTextController.dispose();
     super.dispose();
   }
 }

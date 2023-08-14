@@ -3,6 +3,7 @@ import 'package:electronic_shop/widgets/empty_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/cart_provider.dart';
+import '../../provider/products_provider.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/icons_manager.dart';
 import '../../resources/strings_manager.dart';
@@ -77,10 +78,14 @@ class _CartScreenState extends State<CartScreen> {
                   child: ListView.builder(
                       itemCount: cartItemsList.length,
                       itemBuilder: (context, index) {
+                        final cartModel = cartItemsList[index];
+                        final quantityController = TextEditingController(
+                            text: cartModel.quantity.toString());
                         return ChangeNotifierProvider.value(
                             value: cartItemsList[index],
                             child: CartCardWidget(
                               quantity: cartItemsList[index].quantity,
+                              quantityController: quantityController,
                             ));
                       }),
                 ),
@@ -90,6 +95,24 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _checkOut() {
     Size size = Utils(context).screenSize;
+
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartItemsList = cartProvider.getCartItems.values.toList();
+
+    double totalCartPrice = 0.0;
+
+    for (var cartModel in cartItemsList) {
+      final productProvider = Provider.of<ProductProvider>(context);
+      final currentProduct =
+          productProvider.findProductById(cartModel.productId);
+
+      double usedPrice = currentProduct.isProductOnSale
+          ? currentProduct.productSalePrice
+          : currentProduct.productPrice;
+
+      double productTotalPrice = usedPrice * cartModel.quantity;
+      totalCartPrice += productTotalPrice;
+    }
 
     return SizedBox(
       width: double.infinity,
@@ -118,7 +141,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             Text(
-              "${AppStrings.total}\$35000",
+              "${AppStrings.total}\$$totalCartPrice",
               style: const TextStyle(
                   fontSize: AppSize.s20, fontWeight: FontWeight.bold),
             )
