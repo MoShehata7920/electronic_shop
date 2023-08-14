@@ -7,6 +7,7 @@ import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../provider/cart_provider.dart';
 import '../screens/product_screen/product_screen.dart';
 
 class OnSaleWidget extends StatefulWidget {
@@ -23,6 +24,11 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     Size size = Utils(context).screenSize;
 
     final productModel = Provider.of<ProductModel>(context);
+
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(productModel.productId);
 
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p8),
@@ -60,11 +66,17 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                           Column(
                             children: [
                               GestureDetector(
-                                onTap: () {},
+                                onTap: isInCart
+                                    ? null
+                                    : () {
+                                        cartProvider.addProductsToCart(
+                                            productId: productModel.productId,
+                                            quantity: 1);
+                                      },
                                 child: Icon(
-                                  AppIcons.bag,
+                                  isInCart ? AppIcons.boldBag :AppIcons.bag,
                                   size: AppSize.s18,
-                                  color: textColor,
+                                  color: isInCart ? Colors.green : textColor,
                                 ),
                               ),
                               const SizedBox(

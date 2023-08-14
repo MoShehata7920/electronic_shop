@@ -1,3 +1,4 @@
+import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/screens/product_screen/product_screen.dart';
@@ -30,6 +31,11 @@ class _FeedWidgetState extends State<FeedWidget> {
     Size size = Utils(context).screenSize;
 
     final productModel = Provider.of<ProductModel>(context);
+
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(productModel.productId);
 
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p10),
@@ -84,7 +90,10 @@ class _FeedWidgetState extends State<FeedWidget> {
                 SizedBox(
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: isInCart? null : () {
+                      cartProvider.addProductsToCart(
+                          productId: productModel.productId, quantity: 1);
+                    },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                             Theme.of(context).cardColor),
@@ -98,7 +107,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                         bottomRight:
                                             Radius.circular(AppSize.s12))))),
                     child: Text(
-                      AppStrings.addToCart,
+                      isInCart ? AppStrings.inCart : AppStrings.addToCart,
                       maxLines: 1,
                       style: TextStyle(color: textColor, fontSize: AppSize.s18),
                     ),

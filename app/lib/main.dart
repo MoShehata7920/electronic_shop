@@ -3,6 +3,7 @@ import 'package:electronic_shop/resources/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'provider/cart_provider.dart';
 import 'provider/products_provider.dart';
 import 'resources/routes_manager.dart';
 import 'screens/main_screen.dart';
@@ -45,10 +46,14 @@ class _MyAppState extends State<MyApp> {
             return themeChangeProvider;
           },
         ),
-
         ChangeNotifierProvider(
           create: (_) {
             return ProductProvider();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (_) {
+            return CartProvider();
           },
         ),
       ],

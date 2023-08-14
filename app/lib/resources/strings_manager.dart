@@ -39,6 +39,7 @@ class AppStrings {
 
   // Home Screen
   static String addToCart = "Add To Cart";
+  static String inCart = "In Cart";
   static String viewAll = "View All";
   static String onSale = "On Sale";
   static String ourProducts = "Our Products";

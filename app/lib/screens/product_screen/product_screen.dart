@@ -6,6 +6,7 @@ import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../provider/cart_provider.dart';
 import '../../provider/products_provider.dart';
 import '../../resources/values_manager.dart';
 import '../../services/utils.dart';
@@ -298,6 +299,11 @@ class ProductScreenState extends State<ProductScreen> {
 
     double totalPrice = usedPrice * int.parse(_quantityTextController.text);
 
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(getCurrentProduct.productId);
+
     return SizedBox(
       height: AppSize.s120,
       child: Container(
@@ -353,13 +359,20 @@ class ProductScreenState extends State<ProductScreen> {
               Material(
                 color: Colors.green,
                 borderRadius: BorderRadius.circular(AppSize.s12),
-                child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p8),
-                  child: Text(
-                    AppStrings.addToCart,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: AppSize.s18,
+                child: InkWell(
+                  onTap: () {
+                    cartProvider.addProductsToCart(
+                        productId: getCurrentProduct.productId,
+                        quantity: int.parse(_quantityTextController.text));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p8),
+                    child: Text(
+                      isInCart ? AppStrings.inCart : AppStrings.addToCart,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: AppSize.s18,
+                      ),
                     ),
                   ),
                 ),

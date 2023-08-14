@@ -39,7 +39,7 @@ class GlobalMethods {
             actions: [
               TextButton(
                   onPressed: () {
-                    function();
+                    Navigator.pop(context);
                   },
                   child: Text(
                     AppStrings.cancel,
@@ -47,7 +47,10 @@ class GlobalMethods {
                         color: Colors.cyan, fontSize: AppSize.s16),
                   )),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    function();
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     AppStrings.yes,
                     style: const TextStyle(

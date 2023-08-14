@@ -8,6 +8,7 @@ import 'package:electronic_shop/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import '../provider/cart_provider.dart';
 import '../provider/dark_theme_provider.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -76,6 +77,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<PersistentBottomNavBarItem> _navBarItems() {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartItemsList = cartProvider.getCartItems.values.toList();
+
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(AppIcons.home),
@@ -91,16 +95,16 @@ class _MainScreenState extends State<MainScreen> {
       ),
       PersistentBottomNavBarItem(
         // icon: const Icon(AppIcons.cart),
-        icon: const badges.Badge(
-          badgeContent: Text('3'),
-          badgeAnimation: badges.BadgeAnimation.slide(
+        icon: badges.Badge(
+          badgeContent: Text('${cartItemsList.length}'),
+          badgeAnimation: const badges.BadgeAnimation.slide(
             animationDuration: Duration(seconds: 3),
             colorChangeAnimationDuration: Duration(seconds: 1),
             loopAnimation: true,
             curve: Curves.fastOutSlowIn,
             colorChangeAnimationCurve: Curves.easeInCubic,
           ),
-          child: Icon(AppIcons.cart),
+          child: const Icon(AppIcons.cart),
         ),
         title: AppStrings.cart,
         activeColorPrimary: Colors.cyan,

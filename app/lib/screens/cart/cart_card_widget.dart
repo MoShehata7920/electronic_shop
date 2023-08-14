@@ -1,13 +1,19 @@
+import 'package:electronic_shop/models/cart_model.dart';
+import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../../provider/cart_provider.dart';
 import '../../services/utils.dart';
+import '../product_screen/product_screen.dart';
 
 class CartCardWidget extends StatefulWidget {
-  const CartCardWidget({super.key});
+  const CartCardWidget({super.key, required this.quantity});
+  final int quantity;
 
   @override
   State<CartCardWidget> createState() => _CartCardWidgetState();
@@ -18,7 +24,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
 
   @override
   void initState() {
-    _quantityTextController.text = "1";
+    _quantityTextController.text = widget.quantity.toString();
     super.initState();
   }
 
@@ -27,8 +33,25 @@ class _CartCardWidgetState extends State<CartCardWidget> {
     Size size = Utils(context).screenSize;
     double cardHeight = size.height * 0.13;
 
+    final productProvider = Provider.of<ProductProvider>(context);
+    final cartModel = Provider.of<CartModel>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    final getCurrentProduct =
+        productProvider.findProductById(cartModel.productId);
+
+    double usedPrice = getCurrentProduct.isProductOnSale
+        ? getCurrentProduct.productSalePrice
+        : getCurrentProduct.productPrice;
+
+    double totalPrice = usedPrice * int.parse(_quantityTextController.text);
+
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProductScreen(cartModel.productId),
+        ));
+      },
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p8),
         child: Flexible(
@@ -43,8 +66,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                   SizedBox(
                     height: cardHeight,
                     child: FancyShimmerImage(
-                      imageUrl:
-                          'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
+                      imageUrl: getCurrentProduct.productImage,
                       width: size.width * 0.25,
                       height: cardHeight,
                       boxFit: BoxFit.fill,
@@ -61,10 +83,10 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              "Samsung smart TV",
-                              style: TextStyle(
+                              getCurrentProduct.productName,
+                              style: const TextStyle(
                                   fontSize: AppSize.s16,
                                   fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
@@ -82,6 +104,9 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                       return;
                                     } else {
                                       setState(() {
+                                        cartProvider.reduceQuantityByOne(
+                                          cartModel.productId,
+                                        );
                                         _quantityTextController.text =
                                             (int.parse(_quantityTextController
                                                         .text) -
@@ -120,6 +145,9 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                               _quantityController(
                                   buttonFunction: () {
                                     setState(() {
+                                      cartProvider.increaseQuantityByOne(
+                                        cartModel.productId,
+                                      );
                                       _quantityTextController.text = (int.parse(
                                                   _quantityTextController
                                                       .text) +
@@ -141,7 +169,9 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                       child: Column(
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              cartProvider.removeOneItem(cartModel.productId);
+                            },
                             child: const Icon(
                               AppIcons.cartBadgeMinus,
                               color: Colors.red,
@@ -155,10 +185,10 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                           const SizedBox(
                             height: AppSize.s15,
                           ),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              "\$ 11000 ",
-                              style: TextStyle(fontSize: AppSize.s14),
+                              totalPrice.toString(),
+                              style: const TextStyle(fontSize: AppSize.s14),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
