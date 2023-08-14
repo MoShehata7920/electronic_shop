@@ -11,7 +11,8 @@ import '../screens/auth/sign_up/sign_up.dart';
 import '../screens/categories/category_screen.dart';
 
 class Routes {
-  static const String homeRoute = "/";
+  static const String splash = "/";
+  static const String homeRoute = "/homeRoute";
   static const String onSaleProductsScreenRoute = "/onSaleProductsScreen";
   static const String feedsScreenRoute = "/feedsScreenRoute";
   static const String productScreenRoute = "/productScreenRoute";

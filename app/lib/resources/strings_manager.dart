@@ -1,4 +1,8 @@
 class AppStrings {
+  // Splash Screen
+  static String developedBy = "Developed By";
+  static String mohamedShehata = "Mohamed Shehata";
+  
   // Routes Manager
   static String noRouteTitle = "no_route_title";
   static String noRouteFound = "no_route_found";

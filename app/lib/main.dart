@@ -2,13 +2,13 @@ import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/theme_data.dart';
+import 'package:electronic_shop/screens/splash_screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'provider/cart_provider.dart';
 import 'provider/products_provider.dart';
 import 'resources/routes_manager.dart';
-import 'screens/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,8 +75,8 @@ class _MyAppState extends State<MyApp> {
           theme: Styles.themeData(themeProvider.getDarkTheme, context),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: Routes.homeRoute,
-          home: const MainScreen(),
+          initialRoute: Routes.splash,
+          home: const SplashScreen(),
         );
       }),
     );
