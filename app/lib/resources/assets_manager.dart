@@ -35,4 +35,5 @@ class JsonAssets {
   static const String emptyViewedScreen = "$jsonPath/empty_viewed_screen.json";
   static const String delete = "$jsonPath/delete.json";
   static const String google = "$jsonPath/google.json";
+  static const String error = "$jsonPath/error.json";
 }

@@ -1,9 +1,13 @@
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/screens/auth/login/login.dart';
 import 'package:electronic_shop/services/functions.dart';
+import 'package:electronic_shop/services/global_methods.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import '../../../resources/assets_manager.dart';
 import '../../../resources/values_manager.dart';
 import '../../../widgets/auth_button.dart';
@@ -178,12 +182,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextFormField(
                             textInputAction: TextInputAction.done,
                             onEditingComplete: () {
-                              _submitSignUp();
+                              _submitSignUp(context);
                             },
                             controller: _addressTextController,
                             keyboardType: TextInputType.text,
                             validator: (value) {
-                              if (value!.length > 5) {
+                              if (value!.length >= 4) {
                                 return null;
                               } else {
                                 return AppStrings.notValidAddress;
@@ -206,12 +210,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: AppSize.s10,
                   ),
-                  AuthButton(
-                    buttonFunction: () {
-                      _submitSignUp();
-                    },
-                    buttonText: AppStrings.signUp,
-                  ),
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : AuthButton(
+                          buttonFunction: () {
+                            _submitSignUp(context);
+                          },
+                          buttonText: AppStrings.signUp,
+                        ),
                   const SizedBox(
                     height: AppSize.s10,
                   ),
@@ -247,10 +253,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _submitSignUp() {
+  bool _isLoading = false;
+
+  void _submitSignUp(BuildContext context) async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (isValid) {}
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (isValid) {
+      try {
+        _formKey.currentState!.save();
+        await authInstance.createUserWithEmailAndPassword(
+            email: _emailTextController.text.toLowerCase().trim(),
+            password: _passwordTextController.text.toLowerCase().trim());
+
+        final logger = Logger();
+        logger.i("Successfully signed up");
+      } on FirebaseAuthException catch (error) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          GlobalMethods.errorDialog(
+            title: "${error.message}",
+            warningIcon: JsonAssets.error,
+            context: context,
+          );
+        });
+      } catch (error) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          GlobalMethods.errorDialog(
+            title: "$error",
+            warningIcon: JsonAssets.error,
+            context: context,
+          );
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override

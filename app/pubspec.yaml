@@ -41,6 +41,9 @@ dependencies:
   fancy_shimmer_image: ^2.0.3
   badges: ^3.1.1
   flutter_animate: ^4.2.0+1
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  logger: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +99,7 @@ flutter:
     - assets\json\empty_wishlist.json
     - assets\json\delete.json
     - assets\json\google.json
+    - assets\json\error.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

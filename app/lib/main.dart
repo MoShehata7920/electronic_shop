@@ -1,10 +1,14 @@
+import 'package:electronic_shop/firebase_options.dart';
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
+import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/theme_data.dart';
 import 'package:electronic_shop/screens/splash_screen/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'provider/cart_provider.dart';
 import 'provider/products_provider.dart';
@@ -39,46 +43,74 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  final Future<FirebaseApp> _firebaseInitialization = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) {
-            return themeChangeProvider;
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (_) {
-            return ProductProvider();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (_) {
-            return CartProvider();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (_) {
-            return WishListProvider();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (_) {
-            return RecentlyViewedProductsProvider();
-          },
-        ),
-      ],
-      child:
-          Consumer<DarkThemeProvider>(builder: (context, themeProvider, child) {
-        return MaterialApp(
-          theme: Styles.themeData(themeProvider.getDarkTheme, context),
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: Routes.splash,
-          home: const SplashScreen(),
-        );
-      }),
-    );
+    return FutureBuilder(
+        future: _firebaseInitialization,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          }
+          else if (snapshot.hasError) {
+            final logger = Logger();
+            logger.e(snapshot.error);
+            return MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: Text(AppStrings.errorOccurred),
+                ),
+              ),
+            );
+          }
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) {
+                  return themeChangeProvider;
+                },
+              ),
+              ChangeNotifierProvider(
+                create: (_) {
+                  return ProductProvider();
+                },
+              ),
+              ChangeNotifierProvider(
+                create: (_) {
+                  return CartProvider();
+                },
+              ),
+              ChangeNotifierProvider(
+                create: (_) {
+                  return WishListProvider();
+                },
+              ),
+              ChangeNotifierProvider(
+                create: (_) {
+                  return RecentlyViewedProductsProvider();
+                },
+              ),
+            ],
+            child: Consumer<DarkThemeProvider>(
+                builder: (context, themeProvider, child) {
+              return MaterialApp(
+                theme: Styles.themeData(themeProvider.getDarkTheme, context),
+                debugShowCheckedModeBanner: false,
+                onGenerateRoute: RouteGenerator.getRoute,
+                initialRoute: Routes.splash,
+                home: const SplashScreen(),
+              );
+            }),
+          );
+        });
   }
 }

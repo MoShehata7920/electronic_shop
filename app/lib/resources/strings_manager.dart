@@ -2,7 +2,7 @@ class AppStrings {
   // Splash Screen
   static String developedBy = "Developed By";
   static String mohamedShehata = "Mohamed Shehata";
-  
+
   // Routes Manager
   static String noRouteTitle = "no_route_title";
   static String noRouteFound = "no_route_found";
@@ -116,6 +116,8 @@ class AppStrings {
   static String notValidAddress = "Please Enter A Valid Address";
   static String shippingAddress = "Shipping Address";
   static String alreadyAUser = "Already A User?";
+  static String errorOccurred = "An Error Occurred";
+  static String ok = "OK";
 
   // Forgot Password
   static String resetNow = "Reset Now";

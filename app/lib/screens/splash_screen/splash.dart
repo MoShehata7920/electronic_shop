@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
-import 'package:electronic_shop/screens/main_screen.dart';
+import 'package:electronic_shop/screens/auth/login/login.dart';
 import 'package:electronic_shop/services/animation.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 3),
       () => Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       ),
     );
   }
