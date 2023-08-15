@@ -56,158 +56,160 @@ class _CartCardWidgetState extends State<CartCardWidget> {
           builder: (context) => ProductScreen(cartModel.productId),
         ));
       },
-      child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p8),
-        child: Flexible(
-          child: SizedBox(
-            height: cardHeight,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(AppSize.s12)),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: cardHeight,
-                    child: FancyShimmerImage(
-                      imageUrl: getCurrentProduct.productImage,
-                      width: size.width * 0.25,
+      child: Flex(
+        direction: Axis.horizontal, 
+        children: [
+          Flexible(
+            child: SizedBox(
+              height: cardHeight,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(AppSize.s12)),
+                child: Row(
+                  children: [
+                    SizedBox(
                       height: cardHeight,
-                      boxFit: BoxFit.fill,
+                      child: FancyShimmerImage(
+                        imageUrl: getCurrentProduct.productImage,
+                        width: size.width * 0.25,
+                        height: cardHeight,
+                        boxFit: BoxFit.fill,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: AppSize.s10,
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: SizedBox(
-                      width: size.width * 0.45,
-                      height: cardHeight,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              getCurrentProduct.productName,
-                              style: const TextStyle(
-                                  fontSize: AppSize.s16,
-                                  fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                    const SizedBox(
+                      width: AppSize.s10,
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: SizedBox(
+                        width: size.width * 0.45,
+                        height: cardHeight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                getCurrentProduct.productName,
+                                style: const TextStyle(
+                                    fontSize: AppSize.s16,
+                                    fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: AppSize.s15,
-                          ),
-                          Row(
-                            children: [
-                              _quantityController(
-                                  buttonFunction: () {
-                                    if (widget.quantityController.text == "1") {
-                                      return;
-                                    } else {
-                                      cartProvider.reduceQuantityByOne(
+                            const SizedBox(
+                              height: AppSize.s15,
+                            ),
+                            Row(
+                              children: [
+                                _quantityController(
+                                    buttonFunction: () {
+                                      if (widget.quantityController.text == "1") {
+                                        return;
+                                      } else {
+                                        cartProvider.reduceQuantityByOne(
+                                          cartModel.productId,
+                                        );
+                                        setState(() {
+                                          widget.quantityController.text =
+                                              (int.parse(widget.quantityController
+                                                          .text) -
+                                                      1)
+                                                  .toString();
+                                        });
+                                      }
+                                    },
+                                    buttonColor: Colors.red,
+                                    buttonIcon: AppIcons.minus),
+                                Flexible(
+                                  child: TextField(
+                                    controller: widget.quantityController,
+                                    keyboardType: TextInputType.number,
+                                    maxLines: 1,
+                                    decoration: const InputDecoration(
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.green))),
+                                    textAlign: TextAlign.center,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9]'),
+                                      ),
+                                    ],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value.isEmpty) {
+                                          widget.quantityController.text = '1';
+                                        } else {
+                                          return;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ),
+                                _quantityController(
+                                    buttonFunction: () {
+                                      cartProvider.increaseQuantityByOne(
                                         cartModel.productId,
                                       );
                                       setState(() {
                                         widget.quantityController.text =
                                             (int.parse(widget.quantityController
-                                                        .text) -
+                                                        .text) +
                                                     1)
                                                 .toString();
                                       });
-                                    }
-                                  },
-                                  buttonColor: Colors.red,
-                                  buttonIcon: AppIcons.minus),
-                              Flexible(
-                                child: TextField(
-                                  controller: widget.quantityController,
-                                  keyboardType: TextInputType.number,
-                                  maxLines: 1,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.green))),
-                                  textAlign: TextAlign.center,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp('[0-9]'),
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value.isEmpty) {
-                                        widget.quantityController.text = '1';
-                                      } else {
-                                        return;
-                                      }
-                                    });
-                                  },
-                                ),
-                              ),
-                              _quantityController(
-                                  buttonFunction: () {
-                                    cartProvider.increaseQuantityByOne(
-                                      cartModel.productId,
-                                    );
-                                    setState(() {
-                                      widget.quantityController.text =
-                                          (int.parse(widget.quantityController
-                                                      .text) +
-                                                  1)
-                                              .toString();
-                                    });
-                                  },
-                                  buttonColor: Colors.green,
-                                  buttonIcon: AppIcons.add)
-                            ],
-                          )
-                        ],
+                                    },
+                                    buttonColor: Colors.green,
+                                    buttonIcon: AppIcons.add)
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              cartProvider.removeOneItem(cartModel.productId);
-                            },
-                            child: const Icon(
-                              AppIcons.cartBadgeMinus,
-                              color: Colors.red,
-                              size: AppSize.s20,
+                    const Spacer(),
+                    Flexible(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                cartProvider.removeOneItem(cartModel.productId);
+                              },
+                              child: const Icon(
+                                AppIcons.cartBadgeMinus,
+                                color: Colors.red,
+                                size: AppSize.s20,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: AppSize.s15,
-                          ),
-                          HeartButton(
-                            productId: cartModel.productId,
-                            isInWishList: isInWishedList,
-                          ),
-                          const SizedBox(
-                            height: AppSize.s15,
-                          ),
-                          Flexible(
-                            child: Text(
-                              totalPrice.toString(),
-                              style: const TextStyle(fontSize: AppSize.s14),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                            const SizedBox(
+                              height: AppSize.s15,
                             ),
-                          )
-                        ],
-                      ))
-                ],
+                            HeartButton(
+                              productId: cartModel.productId,
+                              isInWishList: isInWishedList,
+                            ),
+                            const SizedBox(
+                              height: AppSize.s15,
+                            ),
+                            Flexible(
+                              child: Text(
+                                totalPrice.toString(),
+                                style: const TextStyle(fontSize: AppSize.s14),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            )
+                          ],
+                        ))
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

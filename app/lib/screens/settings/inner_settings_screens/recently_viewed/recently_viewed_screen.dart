@@ -65,31 +65,25 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
                 )),
           ],
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: recentlyViewedProductsList.isEmpty
-                  ? EmptyScreenWidget(
-                      emptyScreenAsset: JsonAssets.emptyViewedScreen,
-                      emptyScreenTitle: AppStrings.noViewed,
-                      emptyScreenSubTitle: AppStrings.emptyViewedList,
-                      buttonText: AppStrings.shopNow,
-                      buttonFunction: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
-                        ));
-                      },
-                      isThereButton: true,
-                    )
-                  : ListView.builder(
-                      itemCount: recentlyViewedProductsList.length,
-                      itemBuilder: (context, index) {
-                        return ChangeNotifierProvider.value(
-                            value: recentlyViewedProductsList[index],
-                            child: const RecentlyViewedCard());
-                      }),
-            ),
-          ],
-        ));
+        body: recentlyViewedProductsList.isEmpty
+            ? EmptyScreenWidget(
+                emptyScreenAsset: JsonAssets.emptyViewedScreen,
+                emptyScreenTitle: AppStrings.noViewed,
+                emptyScreenSubTitle: AppStrings.emptyViewedList,
+                buttonText: AppStrings.shopNow,
+                buttonFunction: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ));
+                },
+                isThereButton: true,
+              )
+            : ListView.builder(
+                itemCount: recentlyViewedProductsList.length,
+                itemBuilder: (context, index) {
+                  return ChangeNotifierProvider.value(
+                      value: recentlyViewedProductsList[index],
+                      child: const RecentlyViewedCard());
+                }));
   }
 }

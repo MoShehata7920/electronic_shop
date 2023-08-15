@@ -151,10 +151,10 @@ class ProductScreenState extends State<ProductScreen> {
                 const SizedBox(
                   height: AppSize.s20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppPadding.p20, vertical: AppPadding.p5),
-                  child: Flexible(
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: AppPadding.p20, vertical: AppPadding.p5),
                     child: Text(
                       getCurrentProduct.productDescription,
                       overflow: TextOverflow.ellipsis,

@@ -55,92 +55,88 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
       },
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p8),
-        child: Flexible(
-          child: SizedBox(
-            height: cardHeight,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(AppSize.s12)),
-              child: Row(
-                children: [
-                  SizedBox(
+        child: SizedBox(
+          height: cardHeight,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).cardColor.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(AppSize.s12)),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: cardHeight,
+                  child: FancyShimmerImage(
+                    imageUrl: getCurrentProduct.productImage,
+                    width: size.width * 0.25,
                     height: cardHeight,
-                    child: FancyShimmerImage(
-                      imageUrl: getCurrentProduct.productImage,
-                      width: size.width * 0.25,
-                      height: cardHeight,
-                      boxFit: BoxFit.fill,
-                    ),
+                    boxFit: BoxFit.fill,
                   ),
-                  const SizedBox(
-                    width: AppSize.s10,
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: SizedBox(
-                      width: size.width * 0.45,
-                      height: cardHeight,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            flex: 2,
-                            child: Text(
-                              getCurrentProduct.productName,
-                              style: const TextStyle(
-                                  fontSize: AppSize.s16,
-                                  fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
+                ),
+                const SizedBox(
+                  width: AppSize.s10,
+                ),
+                Flexible(
+                  flex: 2,
+                  child: SizedBox(
+                    width: size.width * 0.45,
+                    height: cardHeight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: Text(
+                            getCurrentProduct.productName,
+                            style: const TextStyle(
+                                fontSize: AppSize.s16,
+                                fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
-                          const Spacer(),
-                          Flexible(
-                            child: Text(
-                              AppStrings.price + usedPrice.toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: AppSize.s14),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        const Spacer(),
+                        Flexible(
+                          child: Text(
+                            AppStrings.price + usedPrice.toString(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: AppSize.s14),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  const Spacer(),
-                  Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: AppPadding.p5),
-                        child: isInCart
-                            ? null
-                            : Material(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.circular(AppSize.s12),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(AppPadding.p5),
-                                  child: InkWell(
-                                    onTap: () {
-                                      cartProvider.addProductsToCart(
-                                          productId:
-                                              getCurrentProduct.productId,
-                                          quantity: 1);
-                                    },
-                                    child: const Icon(
-                                      AppIcons.add,
-                                      color: Colors.white,
-                                    ),
+                ),
+                const Spacer(),
+                Flexible(
+                    flex: 1,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: AppPadding.p5),
+                      child: isInCart
+                          ? null
+                          : Material(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(AppSize.s12),
+                              child: Padding(
+                                padding: const EdgeInsets.all(AppPadding.p5),
+                                child: InkWell(
+                                  onTap: () {
+                                    cartProvider.addProductsToCart(
+                                        productId: getCurrentProduct.productId,
+                                        quantity: 1);
+                                  },
+                                  child: const Icon(
+                                    AppIcons.add,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                      ))
-                ],
-              ),
+                            ),
+                    ))
+              ],
             ),
           ),
         ),
