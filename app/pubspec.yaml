@@ -43,6 +43,7 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
   logger: ^2.0.1
+  google_sign_in: ^6.1.4
 
 dev_dependencies:
   flutter_test:

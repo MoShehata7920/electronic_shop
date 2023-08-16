@@ -54,20 +54,28 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const MaterialApp(
+              debugShowCheckedModeBanner: false,
               home: Scaffold(
+                backgroundColor: Color(0xFF00001a),
                 body: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.cyan,
+                  ),
                 ),
               ),
             );
-          }
-          else if (snapshot.hasError) {
+          } else if (snapshot.hasError) {
             final logger = Logger();
             logger.e(snapshot.error);
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               home: Scaffold(
+                backgroundColor: const Color(0xFF00001a),
                 body: Center(
-                  child: Text(AppStrings.errorOccurred),
+                  child: Text(
+                    AppStrings.errorOccurred,
+                    style: const TextStyle(color: Colors.cyan),
+                  ),
                 ),
               ),
             );

@@ -28,34 +28,36 @@ class SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
         backgroundColor: const Color(0xFF00001a),
-        body: Center(
-          child: Column(
-            children: [
-              Image.asset(ImagesAssets.splashLogo).animateOnPageLoad(
-                  msDelay: 150, dx: 0.0, dy: -200.0, showDelay: 900),
-              Column(
-                children: [
-                  SizedBox(
-                    height: size.height * 0.35,
-                  ),
-                  Text(
-                    AppStrings.developedBy,
-                    style: const TextStyle(color: Colors.cyan),
-                  ).animateOnPageLoad(
-                      msDelay: 300, dx: 0.0, dy: 70.0, showDelay: 300),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    AppStrings.mohamedShehata,
-                    style: const TextStyle(
-                      color: Colors.white,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Image.asset(ImagesAssets.splashLogo).animateOnPageLoad(
+                    msDelay: 150, dx: 0.0, dy: -200.0, showDelay: 900),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.35,
                     ),
-                  ).animateOnPageLoad(
-                      msDelay: 300, dx: 0.0, dy: 70.0, showDelay: 300),
-                ],
-              ),
-            ],
+                    Text(
+                      AppStrings.developedBy,
+                      style: const TextStyle(color: Colors.cyan),
+                    ).animateOnPageLoad(
+                        msDelay: 300, dx: 0.0, dy: 70.0, showDelay: 300),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      AppStrings.mohamedShehata,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ).animateOnPageLoad(
+                        msDelay: 300, dx: 0.0, dy: 70.0, showDelay: 300),
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }

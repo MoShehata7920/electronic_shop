@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "379239936131-2rej4ksu3j1dfikpg5j15a17cnmueprg.apps.googleusercontent.com",
+          "client_id": "379239936131-je9qukq1kj5ckkg9jsurosd0jdsc7v10.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +29,13 @@
             {
               "client_id": "379239936131-2rej4ksu3j1dfikpg5j15a17cnmueprg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "379239936131-3n2o8q1jmjfib2vajl7ogphdvcm3a9f5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.electronicShop"
+              }
             }
           ]
         }
