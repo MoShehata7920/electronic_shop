@@ -1,10 +1,10 @@
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/settings/inner_settings_screens/recently_viewed/recently_viewed_screen.dart';
-import 'package:electronic_shop/screens/settings/inner_settings_screens/wish_list/wish_list_screen.dart';
-import 'package:electronic_shop/screens/settings/inner_settings_screens/your_orders/orders_screen.dart';
 import 'package:electronic_shop/services/global_methods.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +20,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _addressTextController = TextEditingController();
+
+  final User? user = authInstance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -83,25 +85,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     buttonTitle: AppStrings.orders,
                     buttonIcon: AppIcons.orders,
                     buttonFunction: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const OrdersScreen(),
-                      ));
+                      Navigator.pushNamed(context, Routes.ordersScreenRoute);
                     }),
                 _buttonWidget(
                     buttonTitle: AppStrings.wishList,
                     buttonIcon: AppIcons.wishes,
                     buttonFunction: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const WishListScreen(),
-                      ));
+                      Navigator.pushNamed(context, Routes.wishListScreenRoute);
                     }),
                 _buttonWidget(
                     buttonTitle: AppStrings.viewed,
                     buttonIcon: AppIcons.viewed,
                     buttonFunction: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const RecentlyViewedScreen(),
-                      ));
+                      Navigator.pushNamed(
+                          context, Routes.recentlyViewedProductsScreenRoute);
                     }),
                 _buttonWidget(
                     buttonTitle: AppStrings.resetPassword,
@@ -123,17 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                 ),
-                _buttonWidget(
-                    buttonTitle: AppStrings.logout,
-                    buttonIcon: AppIcons.logOut,
-                    buttonFunction: () {
-                      GlobalMethods.warningDialog(
-                          title: AppStrings.logout,
-                          subtitle: AppStrings.wantToLogOut,
-                          function: () {},
-                          warningIcon: JsonAssets.logout,
-                          context: context);
-                    }),
+                _signOutButtonWidget(),
               ],
             ),
           ),
@@ -159,6 +146,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
       leading: Icon(buttonIcon),
       trailing: const Icon(AppIcons.arrowRight),
       onTap: () {
+        final User? user = authInstance.currentUser;
+        if (user == null) {
+          GlobalMethods.warningDialog(
+            title: AppStrings.authError,
+            subtitle: AppStrings.pleaseSignIn,
+            function: () {
+              buttonFunction();
+            },
+            warningIcon: JsonAssets.error,
+            context: context,
+            navigateTo: () {
+              Navigator.pushReplacementNamed(context, Routes.loginScreenRoute);
+            },
+          );
+          return;
+        }
         buttonFunction();
       },
     );
@@ -198,6 +201,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           );
         });
+  }
+
+  Widget _signOutButtonWidget() {
+    final User? user = authInstance.currentUser;
+
+    return ListTile(
+      title: Text(
+        user == null ? AppStrings.login : AppStrings.logout,
+        style: const TextStyle(fontSize: AppSize.s20),
+      ),
+      leading: user == null
+          ? const Icon(AppIcons.logIn)
+          : const Icon(AppIcons.logOut),
+      trailing: const Icon(AppIcons.arrowRight),
+      onTap: () {
+        user == null
+            ? Navigator.pushReplacementNamed(context, Routes.loginScreenRoute)
+            : GlobalMethods.warningDialog(
+                title: AppStrings.authError,
+                subtitle: AppStrings.pleaseSignIn,
+                function: () {
+                  authInstance.signOut();
+                },
+                warningIcon: JsonAssets.error,
+                context: context,
+                navigateTo: () {
+                  Navigator.pushReplacementNamed(
+                      context, Routes.loginScreenRoute);
+                },
+              );
+      },
+    );
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
-import 'package:electronic_shop/screens/auth/forgot_password/forgot_password.dart';
 import 'package:electronic_shop/services/functions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,6 @@ import '../../../resources/values_manager.dart';
 import '../../../widgets/auth_button.dart';
 import '../../../widgets/carousel_widget.dart';
 import '../../../widgets/google_button.dart';
-import '../sign_up/sign_up.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -156,9 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.topRight,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ForgotPasswordScreen(),
-                        ));
+                        Navigator.pushNamed(
+                            context, Routes.forgotPasswordScreenRoute);
                       },
                       child: Text(
                         AppStrings.forgotPassword,
@@ -220,7 +218,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: AppSize.s10,
                   ),
                   AuthButton(
-                    buttonFunction: () {},
+                    buttonFunction: () {
+                      Navigator.pushReplacementNamed(
+                          context, Routes.mainScreenRoute);
+                    },
                     buttonText: AppStrings.continueAsGuest,
                     buttonColor: Colors.black,
                   ),
@@ -241,9 +242,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w600),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen(),
-                                ));
+                                Navigator.pushNamed(
+                                    context, Routes.signUpScreenRoute);
                               }),
                       ]))
                 ],
@@ -258,8 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submitLogin() {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (isValid) {
-    }
+    if (isValid) {}
   }
 
   @override

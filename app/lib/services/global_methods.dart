@@ -10,6 +10,7 @@ class GlobalMethods {
     required Function function,
     required String warningIcon,
     required BuildContext context,
+    dynamic navigateTo,
   }) async {
     return await showDialog(
         context: context,
@@ -50,6 +51,13 @@ class GlobalMethods {
                   onPressed: () {
                     function();
                     Navigator.pop(context);
+
+                    // Check the type of navigateTo and navigate accordingly
+                    if (navigateTo is String) {
+                      Navigator.pushReplacementNamed(context, navigateTo);
+                    } else if (navigateTo is Function) {
+                      navigateTo();
+                    }
                   },
                   child: Text(
                     AppStrings.yes,

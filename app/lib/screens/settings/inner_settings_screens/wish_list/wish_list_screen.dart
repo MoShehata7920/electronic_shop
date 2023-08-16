@@ -1,5 +1,4 @@
-import 'package:electronic_shop/screens/home/home_screen.dart';
-import 'package:electronic_shop/widgets/back_arrow_button.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../provider/wishlist_provider.dart';
@@ -13,13 +12,13 @@ import '../../../../widgets/empty_screen.dart';
 import 'wish_list_widget.dart';
 
 class WishListScreen extends StatefulWidget {
-  const WishListScreen({super.key});
+  const WishListScreen({Key? key}) : super(key: key);
 
   @override
-  State<WishListScreen> createState() => _WishListScreenState();
+  WishListScreenState createState() => WishListScreenState();
 }
 
-class _WishListScreenState extends State<WishListScreen> {
+class WishListScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
     final Color textColor = Utils(context).textColor;
@@ -37,27 +36,29 @@ class _WishListScreenState extends State<WishListScreen> {
         title: Text(
           AppStrings.wishList,
           style: TextStyle(
-              color: textColor,
-              fontSize: AppSize.s22,
-              fontWeight: FontWeight.bold),
+            color: textColor,
+            fontSize: AppSize.s22,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        leading: const BackArrowButton(),
         actions: [
           IconButton(
-              onPressed: () {
-                GlobalMethods.warningDialog(
-                    title: AppStrings.emptyYourWishList,
-                    subtitle: AppStrings.areYouSure,
-                    function: () {
-                      wishListProvider.clearWishList();
-                    },
-                    warningIcon: JsonAssets.delete,
-                    context: context);
-              },
-              icon: Icon(
-                AppIcons.delete,
-                color: textColor,
-              )),
+            onPressed: () {
+              GlobalMethods.warningDialog(
+                title: AppStrings.emptyYourWishList,
+                subtitle: AppStrings.areYouSure,
+                function: () {
+                  wishListProvider.clearWishList();
+                },
+                warningIcon: JsonAssets.delete,
+                context: context,
+              );
+            },
+            icon: Icon(
+              AppIcons.delete,
+              color: textColor,
+            ),
+          ),
         ],
       ),
       body: wishedProductsList.isEmpty
@@ -67,9 +68,7 @@ class _WishListScreenState extends State<WishListScreen> {
               emptyScreenSubTitle: AppStrings.emptyWishList,
               buttonText: AppStrings.shopNow,
               buttonFunction: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
-                ));
+                Navigator.pushNamed(context, Routes.homeRoute);
               },
               isThereButton: true,
             )
@@ -80,8 +79,9 @@ class _WishListScreenState extends State<WishListScreen> {
               childAspectRatio: size.width / (size.height * 0.52),
               children: List.generate(wishedProductsList.length, (index) {
                 return ChangeNotifierProvider.value(
-                    value: wishedProductsList[index],
-                    child: const WishedProductCard());
+                  value: wishedProductsList[index],
+                  child: const WishedProductCard(),
+                );
               }),
             ),
     );

@@ -2,13 +2,13 @@ import 'package:electronic_shop/models/recently_viewed_model.dart';
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../services/utils.dart';
-import '../../../product_screen/product_screen.dart';
 
 class RecentlyViewedCard extends StatefulWidget {
   const RecentlyViewedCard({super.key});
@@ -49,9 +49,9 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ProductScreen(getCurrentProduct.productId),
-        ));
+        Navigator.pushNamed(context, Routes.productScreenRoute,
+            arguments: getCurrentProduct.productId);
+        
       },
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p8),

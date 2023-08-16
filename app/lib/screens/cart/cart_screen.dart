@@ -1,4 +1,4 @@
-import 'package:electronic_shop/screens/home/home_screen.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/widgets/empty_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,9 +35,10 @@ class _CartScreenState extends State<CartScreen> {
             emptyScreenSubTitle: AppStrings.emptyCart,
             buttonText: AppStrings.shopNow,
             buttonFunction: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ));
+              Navigator.pushNamed(
+                context,
+                Routes.homeRoute,
+              );
             },
             isThereButton: true)
         : Scaffold(

@@ -1,8 +1,13 @@
 // ignore_for_file: no_logic_in_create_state
 
+import 'package:electronic_shop/resources/assets_manager.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
+import 'package:electronic_shop/services/global_methods.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -34,10 +39,12 @@ class ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _getContentWidget();
+    return Scaffold(
+      body: _getContentWidget(context),
+    );
   }
 
-  Widget _getContentWidget() {
+  Widget _getContentWidget(BuildContext context) {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
 
@@ -174,31 +181,22 @@ class ProductScreenState extends State<ProductScreen> {
                     children: [
                       Flexible(
                           child: RichText(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: usedPrice.toString(),
-                              style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                                fontSize: AppSize.s24,
-                                // Adjust the font size as needed
-                              ),
-                            ),
-                            TextSpan(
-                              text: "/${AppStrings.piece}",
-                              style: TextStyle(
-                                color: textColor,
-                                fontSize: AppSize
-                                    .s20, // Adjust the font size as needed
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                  text: usedPrice.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.green,
+                                      fontSize: AppSize.s22),
+                                  children: [
+                                    TextSpan(
+                                      text: " / ${AppStrings.piece}",
+                                      style: TextStyle(
+                                          color: textColor,
+                                          fontSize: AppSize.s18,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ]))),
                       Material(
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(AppSize.s12),
@@ -359,17 +357,14 @@ class ProductScreenState extends State<ProductScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: totalPrice.toString(),
-                          style: const TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppSize.s24,
-                            // Adjust the font size as needed
-                          ),
-                        ),
+                      text: totalPrice.toString(),
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppSize.s24,
+                        // Adjust the font size as needed
+                      ),
+                      children: [
                         TextSpan(
                           text:
                               "/${_productScreenQuantityController.text}${AppStrings.piece}",
@@ -389,6 +384,21 @@ class ProductScreenState extends State<ProductScreen> {
                 borderRadius: BorderRadius.circular(AppSize.s12),
                 child: InkWell(
                   onTap: () {
+                    final User? user = authInstance.currentUser;
+                    if (user == null) {
+                      GlobalMethods.warningDialog(
+                        title: AppStrings.authError,
+                        subtitle: AppStrings.pleaseSignIn,
+                        function: () {},
+                        warningIcon: JsonAssets.error,
+                        context: context,
+                        navigateTo: () {
+                          Navigator.pushReplacementNamed(
+                              context, Routes.loginScreenRoute);
+                        },
+                      );
+                      return;
+                    }
                     cartProvider.addProductsToCart(
                         productId: getCurrentProduct.productId,
                         quantity:

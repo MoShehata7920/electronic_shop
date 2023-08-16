@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:electronic_shop/resources/assets_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
-import 'package:electronic_shop/screens/auth/login/login.dart';
 import 'package:electronic_shop/services/animation.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +18,8 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Wait for 3 seconds, then navigate to the home screen
-    Timer(
-      const Duration(seconds: 3),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      ),
-    );
+    Timer(const Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, Routes.mainScreenRoute));
   }
 
   @override

@@ -1,5 +1,5 @@
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/categories/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../services/utils.dart';
@@ -56,9 +56,8 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CategoryScreen(categoryName),
-        ));
+        Navigator.pushNamed(context, Routes.categoryScreenRoute,
+            arguments: categoryName);
       },
     );
   }

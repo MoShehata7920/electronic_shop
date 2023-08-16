@@ -1,12 +1,11 @@
 import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/home/feeds_screen/feeds_screen.dart';
-import 'package:electronic_shop/screens/home/on_sale_products_screen/on_sale_products_screen.dart';
+import 'package:electronic_shop/services/utils.dart';
 import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:electronic_shop/widgets/on_sale_widget.dart';
-import 'package:electronic_shop/services/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/products_model.dart';
@@ -57,9 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ? const SizedBox()
               : TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const OnSaleProductsScreen(),
-                    ));
+                    Navigator.pushNamed(
+                      context,
+                      Routes.onSaleProductsScreenRoute,
+                    );
                   },
                   child: Text(
                     AppStrings.viewAll,
@@ -124,9 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const FeedsScreen(),
-                      ));
+                      Navigator.pushNamed(
+                        context,
+                        Routes.feedsScreenRoute,
+                      );
                     },
                     child: Text(
                       AppStrings.browseAll,

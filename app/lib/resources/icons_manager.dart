@@ -5,9 +5,13 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 class AppIcons {
   // BottomNavBar
   static const home = IconlyBroken.home;
+  static const boldHome = IconlyBold.home;
   static const categories = IconlyBroken.category;
+  static const boldCategories = IconlyBold.category;
   static const cart = IconlyBroken.buy;
+  static const boldCart = IconlyBold.buy;
   static const settings = IconlyBroken.setting;
+  static const boldSettings = IconlyBold.setting;
 
   // Settings Screen
   static const arrowRight = IconlyBroken.arrowRight2;
@@ -20,6 +24,7 @@ class AppIcons {
   static const lightMode = Icons.light_mode_outlined;
   static const darkMode = Icons.dark_mode_outlined;
   static const logOut = IconlyBroken.logout;
+  static const logIn = IconlyBroken.login;
 
   // Home Screen
   static const heart = IconlyLight.heart;

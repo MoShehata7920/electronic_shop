@@ -1,6 +1,7 @@
 import 'package:electronic_shop/models/cart_model.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -10,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../provider/cart_provider.dart';
 import '../../provider/wishlist_provider.dart';
 import '../../services/utils.dart';
-import '../product_screen/product_screen.dart';
 
 class CartCardWidget extends StatefulWidget {
   const CartCardWidget(
@@ -52,12 +52,11 @@ class _CartCardWidgetState extends State<CartCardWidget> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ProductScreen(cartModel.productId),
-        ));
+        Navigator.pushNamed(context, Routes.productScreenRoute,
+            arguments: cartModel.productId);
       },
       child: Flex(
-        direction: Axis.horizontal, 
+        direction: Axis.horizontal,
         children: [
           Flexible(
             child: SizedBox(
@@ -105,7 +104,8 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                               children: [
                                 _quantityController(
                                     buttonFunction: () {
-                                      if (widget.quantityController.text == "1") {
+                                      if (widget.quantityController.text ==
+                                          "1") {
                                         return;
                                       } else {
                                         cartProvider.reduceQuantityByOne(
@@ -113,7 +113,8 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                         );
                                         setState(() {
                                           widget.quantityController.text =
-                                              (int.parse(widget.quantityController
+                                              (int.parse(widget
+                                                          .quantityController
                                                           .text) -
                                                       1)
                                                   .toString();
@@ -129,8 +130,8 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                     maxLines: 1,
                                     decoration: const InputDecoration(
                                         focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.green))),
+                                            borderSide: BorderSide(
+                                                color: Colors.green))),
                                     textAlign: TextAlign.center,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(

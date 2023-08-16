@@ -1,15 +1,12 @@
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
-import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/screens/cart/cart_screen.dart';
 import 'package:electronic_shop/screens/categories/categories_screen.dart';
 import 'package:electronic_shop/screens/home/home_screen.dart';
 import 'package:electronic_shop/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../provider/cart_provider.dart';
-import '../provider/dark_theme_provider.dart';
 import 'package:badges/badges.dart' as badges;
 
 class MainScreen extends StatefulWidget {
@@ -45,56 +42,39 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeState = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
-      body: PersistentTabView(
-        context,
-        screens: _screens,
+      body: _screens[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
         items: _navBarItems(),
-        confineInSafeArea: true,
-        backgroundColor: themeState.getDarkTheme
-            ? Theme.of(context).cardColor
-            : Colors.white,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        margin: const EdgeInsets.all(AppMargin.m0),
-        popAllScreensOnTapOfSelectedTab: true,
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: AppConstants.bottomNavBarDuration),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: AppConstants.bottomNavBarDuration),
-        ),
-        navBarStyle: NavBarStyle.style3, // Use style 3
+        selectedItemColor: Colors.cyan,
+        unselectedItemColor: Colors.blueGrey,
       ),
     );
   }
 
-  List<PersistentBottomNavBarItem> _navBarItems() {
+  List<BottomNavigationBarItem> _navBarItems() {
     final cartProvider = Provider.of<CartProvider>(context);
     final cartItemsList = cartProvider.getCartItems.values.toList();
 
     return [
-      PersistentBottomNavBarItem(
+      BottomNavigationBarItem(
         icon: const Icon(AppIcons.home),
-        title: AppStrings.home,
-        activeColorPrimary: Colors.cyan,
-        inactiveColorPrimary: Colors.blueGrey,
+        activeIcon: const Icon(AppIcons.boldHome),
+        label: AppStrings.home,
       ),
-      PersistentBottomNavBarItem(
+      BottomNavigationBarItem(
         icon: const Icon(AppIcons.categories),
-        title: AppStrings.categories,
-        activeColorPrimary: Colors.cyan,
-        inactiveColorPrimary: Colors.blueGrey,
+        activeIcon: const Icon(AppIcons.boldCategories),
+        label: AppStrings.categories,
       ),
-      PersistentBottomNavBarItem(
-        // icon: const Icon(AppIcons.cart),
+      BottomNavigationBarItem(
         icon: badges.Badge(
           badgeContent: Text('${cartItemsList.length}'),
           badgeAnimation: const badges.BadgeAnimation.slide(
@@ -106,15 +86,13 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: const Icon(AppIcons.cart),
         ),
-        title: AppStrings.cart,
-        activeColorPrimary: Colors.cyan,
-        inactiveColorPrimary: Colors.blueGrey,
+        activeIcon: const Icon(AppIcons.boldCart),
+        label: AppStrings.cart,
       ),
-      PersistentBottomNavBarItem(
+      BottomNavigationBarItem(
         icon: const Icon(AppIcons.settings),
-        title: AppStrings.settings,
-        activeColorPrimary: Colors.cyan,
-        inactiveColorPrimary: Colors.blueGrey,
+        activeIcon: const Icon(AppIcons.boldSettings),
+        label: AppStrings.settings,
       ),
     ];
   }

@@ -1,8 +1,8 @@
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
-import 'package:electronic_shop/screens/product_screen/product_screen.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -55,9 +55,8 @@ class _FeedWidgetState extends State<FeedWidget> {
             onTap: () {
               recentlyViewedProductsProvider
                   .addProductToRecentlyViewedList(productModel.productId);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ProductScreen(productModel.productId),
-              ));
+              Navigator.pushNamed(context, Routes.productScreenRoute,
+                  arguments: productModel.productId);
             },
             borderRadius: BorderRadius.circular(AppSize.s12),
             child: Column(

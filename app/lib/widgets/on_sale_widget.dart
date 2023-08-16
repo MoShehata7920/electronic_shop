@@ -1,16 +1,21 @@
 import 'package:electronic_shop/models/products_model.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
+import 'package:electronic_shop/resources/assets_manager.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
+import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
+import 'package:electronic_shop/services/global_methods.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/cart_provider.dart';
 import '../provider/wishlist_provider.dart';
-import '../screens/product_screen/product_screen.dart';
 
 class OnSaleWidget extends StatefulWidget {
   const OnSaleWidget({super.key});
@@ -49,9 +54,8 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
             onTap: () {
               recentlyViewedProductsProvider
                   .addProductToRecentlyViewedList(productModel.productId);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ProductScreen(productModel.productId),
-              ));
+              Navigator.pushNamed(context, Routes.productScreenRoute,
+                  arguments: productModel.productId);
             },
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.p8),
@@ -79,6 +83,23 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                 onTap: isInCart
                                     ? null
                                     : () {
+                                        final User? user =
+                                            authInstance.currentUser;
+                                        if (user == null) {
+                                          GlobalMethods.warningDialog(
+                                            title: AppStrings.authError,
+                                            subtitle: AppStrings.pleaseSignIn,
+                                            function: () {},
+                                            warningIcon: JsonAssets.error,
+                                            context: context,
+                                            navigateTo: () {
+                                              Navigator.pushReplacementNamed(
+                                                  context,
+                                                  Routes.loginScreenRoute);
+                                            },
+                                          );
+                                          return;
+                                        }
                                         cartProvider.addProductsToCart(
                                             productId: productModel.productId,
                                             quantity: 1);

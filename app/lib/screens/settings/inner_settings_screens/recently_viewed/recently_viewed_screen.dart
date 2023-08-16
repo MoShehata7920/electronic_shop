@@ -1,5 +1,5 @@
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
-import 'package:electronic_shop/screens/home/home_screen.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/recently_viewed/recently_viewed_card.dart';
 import 'package:electronic_shop/widgets/empty_screen.dart';
 import 'package:flutter/material.dart';
@@ -72,9 +72,10 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
                 emptyScreenSubTitle: AppStrings.emptyViewedList,
                 buttonText: AppStrings.shopNow,
                 buttonFunction: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ));
+                  Navigator.pushNamed(
+                    context,
+                    Routes.homeRoute,
+                  );
                 },
                 isThereButton: true,
               )

@@ -3,13 +3,13 @@ import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../product_screen/product_screen.dart';
 
 class WishedProductCard extends StatefulWidget {
   const WishedProductCard({super.key});
@@ -48,9 +48,8 @@ class _WishedProductCardState extends State<WishedProductCard> {
           child: InkWell(
             borderRadius: BorderRadius.circular(AppSize.s12),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ProductScreen(wishListModel.productId),
-              ));
+              Navigator.pushNamed(context, Routes.productScreenRoute,
+                  arguments: wishListModel.productId);
             },
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.p8),
