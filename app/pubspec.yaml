@@ -45,6 +45,7 @@ dependencies:
   logger: ^2.0.1
   google_sign_in: ^6.1.4
   fluttertoast: ^8.2.2
+  cloud_firestore: ^4.8.5
 
 dev_dependencies:
   flutter_test:

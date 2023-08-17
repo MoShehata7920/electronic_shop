@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
@@ -21,110 +24,137 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _addressTextController = TextEditingController();
 
+  String? _userName;
+  String? _userEmail;
+
   final User? user = authInstance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    if (user == null) {
+      return;
+    }
+    try {
+      String uid = user!.uid;
+
+      final DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      _userName = userDoc.get("name");
+      _userEmail = userDoc.get("email");
+      _addressTextController.text = userDoc.get("address");
+    } catch (error) {
+      GlobalMethods.errorDialog(title: '$error', context: context);
+    } finally {}
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          toolbarHeight: AppSize.s85,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(AppPadding.p10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        AppStrings.hi,
-                        style: const TextStyle(
-                            color: Colors.cyan,
-                            fontSize: AppSize.s27,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Text(
-                        "My Name",
-                        style: TextStyle(
-                          fontSize: AppSize.s25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: AppSize.s3,
-                  ),
-                  const Text(
-                    "test@test.com",
-                    style: TextStyle(
-                        fontSize: AppSize.s18, fontWeight: FontWeight.w400),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
+      appBar: AppBar(
+        elevation: 1,
+        toolbarHeight: AppSize.s85,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        flexibleSpace: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppPadding.p15),
+            padding: const EdgeInsets.all(AppPadding.p10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buttonWidget(
-                    buttonTitle: AppStrings.address,
-                    buttonSubTitle: _addressTextController.text,
-                    buttonIcon: AppIcons.address,
-                    buttonFunction: () async {
-                      _showAddressDialog();
-                    }),
-                _buttonWidget(
-                    buttonTitle: AppStrings.orders,
-                    buttonIcon: AppIcons.orders,
-                    buttonFunction: () {
-                      Navigator.pushNamed(context, Routes.ordersScreenRoute);
-                    }),
-                _buttonWidget(
-                    buttonTitle: AppStrings.wishList,
-                    buttonIcon: AppIcons.wishes,
-                    buttonFunction: () {
-                      Navigator.pushNamed(context, Routes.wishListScreenRoute);
-                    }),
-                _buttonWidget(
-                    buttonTitle: AppStrings.viewed,
-                    buttonIcon: AppIcons.viewed,
-                    buttonFunction: () {
-                      Navigator.pushNamed(
-                          context, Routes.recentlyViewedProductsScreenRoute);
-                    }),
-                _buttonWidget(
-                    buttonTitle: AppStrings.resetPassword,
-                    buttonIcon: AppIcons.unLock,
-                    buttonFunction: () {}),
-                _buttonWidget(
-                    buttonTitle: AppStrings.language,
-                    buttonIcon: AppIcons.language,
-                    buttonFunction: () {}),
-                SwitchListTile(
-                  title: Text(AppStrings.darkMode),
-                  secondary: Icon(themeState.getDarkTheme
-                      ? AppIcons.darkMode
-                      : AppIcons.lightMode),
-                  value: themeState.getDarkTheme,
-                  onChanged: (bool value) {
-                    setState(() {
-                      themeState.setDarkTheme = value;
-                    });
-                  },
+                Row(
+                  children: [
+                    Text(
+                      AppStrings.hi,
+                      style: const TextStyle(
+                          color: Colors.cyan,
+                          fontSize: AppSize.s27,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      _userName ?? '',
+                      style: const TextStyle(
+                        fontSize: AppSize.s25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                _signOutButtonWidget(),
+                const SizedBox(
+                  height: AppSize.s3,
+                ),
+                Text(
+                  _userEmail ?? '',
+                  style: const TextStyle(
+                      fontSize: AppSize.s18, fontWeight: FontWeight.w400),
+                )
               ],
             ),
           ),
-        ));
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppPadding.p15),
+          child: Column(
+            children: [
+              _buttonWidget(
+                  buttonTitle: AppStrings.address,
+                  buttonSubTitle: _addressTextController.text,
+                  buttonIcon: AppIcons.address,
+                  buttonFunction: () async {
+                    _showAddressDialog();
+                  }),
+              _buttonWidget(
+                  buttonTitle: AppStrings.orders,
+                  buttonIcon: AppIcons.orders,
+                  buttonFunction: () {
+                    Navigator.pushNamed(context, Routes.ordersScreenRoute);
+                  }),
+              _buttonWidget(
+                  buttonTitle: AppStrings.wishList,
+                  buttonIcon: AppIcons.wishes,
+                  buttonFunction: () {
+                    Navigator.pushNamed(context, Routes.wishListScreenRoute);
+                  }),
+              _buttonWidget(
+                  buttonTitle: AppStrings.viewed,
+                  buttonIcon: AppIcons.viewed,
+                  buttonFunction: () {
+                    Navigator.pushNamed(
+                        context, Routes.recentlyViewedProductsScreenRoute);
+                  }),
+              _buttonWidget(
+                  buttonTitle: AppStrings.resetPassword,
+                  buttonIcon: AppIcons.unLock,
+                  buttonFunction: () {}),
+              _buttonWidget(
+                  buttonTitle: AppStrings.language,
+                  buttonIcon: AppIcons.language,
+                  buttonFunction: () {}),
+              SwitchListTile(
+                title: Text(AppStrings.darkMode),
+                secondary: Icon(themeState.getDarkTheme
+                    ? AppIcons.darkMode
+                    : AppIcons.lightMode),
+                value: themeState.getDarkTheme,
+                onChanged: (bool value) {
+                  setState(() {
+                    themeState.setDarkTheme = value;
+                  });
+                },
+              ),
+              _signOutButtonWidget(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buttonWidget(
@@ -192,7 +222,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             actions: [
               TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    String uid = user!.uid;
+                    try {
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .update({'address': _addressTextController.text});
+                      Navigator.pop(context);
+                      setState(() {
+                        _addressTextController.text;
+                      });
+                    } catch (error) {
+                      GlobalMethods.errorDialog(
+                          title: '$error', context: context);
+                    }
+                  },
                   child: Text(
                     AppStrings.update,
                     style: const TextStyle(

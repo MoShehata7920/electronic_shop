@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
@@ -280,6 +281,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 email: _emailTextController.text.toLowerCase().trim(),
                 password: _passwordTextController.text.toLowerCase().trim());
 
+        // to save the data
+        final User? user = authInstance.currentUser;
+        final uid = user!.uid;
+        await FirebaseFirestore.instance.collection("users").doc(uid).set({
+          'id': uid,
+          'name': _nameTextController.text,
+          'email': _emailTextController.text,
+          'address': _addressTextController.text,
+          'userWishList': [],
+          'userCart': [],
+          'createdAt': Timestamp.now(),
+        });
+        
         await userCredential.user!.sendEmailVerification();
 
         GlobalMethods.verifyAlertDialog(
