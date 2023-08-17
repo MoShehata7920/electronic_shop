@@ -44,6 +44,7 @@ dependencies:
   firebase_auth: ^4.7.2
   logger: ^2.0.1
   google_sign_in: ^6.1.4
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,7 @@ flutter:
     - assets\json\delete.json
     - assets\json\google.json
     - assets\json\error.json
+    - assets\json\email_verification.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

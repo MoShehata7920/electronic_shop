@@ -36,4 +36,5 @@ class JsonAssets {
   static const String delete = "$jsonPath/delete.json";
   static const String google = "$jsonPath/google.json";
   static const String error = "$jsonPath/error.json";
+  static const String emailVerification = "$jsonPath/email_verification.json";
 }

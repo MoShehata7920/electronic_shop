@@ -125,4 +125,11 @@ class AppStrings {
   static String ok = "OK";
   static String authError = "Authentication Error";
   static String pleaseSignIn = "Please Log In First To Do This";
+  static String resetEmailSent = "Resetting Password Email Sent Successfully";
+  static String emailVerification = "Email Verification";
+  static String emailVerificationSent = "A verification link has been sent to your email. Please verify your email before continuing.";
+  static String verificationRequired = "Email Verification Required";
+  static String pleaseVerifyAcc = "Please verify your email before logging in. Check your inbox for a verification link.";
+  static String resentVerificationEmail = "A new verification email has been sent to your inbox. Please check your email.";
+  static String resendVerificationEmail = "Resend Verification Email";
 }

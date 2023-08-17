@@ -68,7 +68,6 @@ class GoogleButton extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             GlobalMethods.errorDialog(
               title: "${error.message}",
-              warningIcon: JsonAssets.error,
               context: context,
             );
           });
@@ -76,7 +75,6 @@ class GoogleButton extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             GlobalMethods.errorDialog(
               title: "$error",
-              warningIcon: JsonAssets.error,
               context: context,
             );
           });

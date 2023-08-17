@@ -1,3 +1,4 @@
+import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../resources/strings_manager.dart';
@@ -71,7 +72,6 @@ class GlobalMethods {
 
   static Future<void> errorDialog({
     required String title,
-    required String warningIcon,
     required BuildContext context,
   }) async {
     return await showDialog(
@@ -83,7 +83,7 @@ class GlobalMethods {
                 SizedBox(
                     width: AppSize.s30,
                     height: AppSize.s30,
-                    child: Lottie.asset(warningIcon)),
+                    child: Lottie.asset(JsonAssets.error)),
                 const SizedBox(
                   width: AppSize.s2,
                 ),
@@ -109,6 +109,72 @@ class GlobalMethods {
                     style: const TextStyle(
                         color: Colors.red, fontSize: AppSize.s16),
                   )),
+            ],
+          );
+        });
+  }
+
+  static Future<void> verifyAlertDialog({
+    required String title,
+    required String subtitle,
+    required bool isTWoButtons,
+    String? theOtherButtonTitle,
+    Function? theOtherButtonFunction,
+    required BuildContext context,
+    dynamic navigateTo,
+  }) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                SizedBox(
+                    width: AppSize.s30,
+                    height: AppSize.s30,
+                    child: Lottie.asset(JsonAssets.emailVerification)),
+                const SizedBox(
+                  width: AppSize.s2,
+                ),
+                Flexible(
+                    child: Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                )),
+              ],
+            ),
+            content: Text(
+              subtitle,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    AppStrings.ok,
+                    style: const TextStyle(
+                        color: Colors.cyan, fontSize: AppSize.s16),
+                  )),
+              isTWoButtons?TextButton(
+                  onPressed: () {
+                    theOtherButtonFunction!();
+                    Navigator.pop(context);
+
+                    // Check the type of navigateTo and navigate accordingly
+                    if (navigateTo is String) {
+                      Navigator.pushReplacementNamed(context, navigateTo);
+                    } else if (navigateTo is Function) {
+                      navigateTo();
+                    }
+                  },
+                  child: Text(
+                    theOtherButtonTitle!,
+                    style: const TextStyle(
+                        color: Colors.red, fontSize: AppSize.s16),
+                  )): const SizedBox()
             ],
           );
         });

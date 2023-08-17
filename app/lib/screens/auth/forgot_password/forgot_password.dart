@@ -1,6 +1,11 @@
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/services/functions.dart';
+import 'package:electronic_shop/services/global_methods.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import '../../../resources/assets_manager.dart';
 import '../../../resources/values_manager.dart';
 import '../../../widgets/auth_button.dart';
@@ -58,55 +63,112 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     height: AppSize.s30,
                   ),
                   Form(
-                      key: _formKey,
-                      child: TextFormField(
-                        textInputAction: TextInputAction.done,
-                        onEditingComplete: () {
-                          _submitForgotPassword();
-                        },
-                        controller: _emailTextController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value!.isValidEmail()) {
-                            return null;
-                          } else {
-                            return AppStrings.notValidEmail;
-                          }
-                        },
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: AppStrings.email,
-                          hintStyle: const TextStyle(color: Colors.white),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          textInputAction: TextInputAction.done,
+                          onEditingComplete: () {
+                            if (_formKey.currentState!.validate()) {
+                              _submitForgotPassword();
+                            }
+                          },
+                          controller: _emailTextController,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isValidEmail()) {
+                              return null;
+                            } else {
+                              return AppStrings.notValidEmail;
+                            }
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: AppStrings.email,
+                            hintStyle: const TextStyle(color: Colors.white),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
                           ),
                         ),
-                      )),
-                  const SizedBox(
-                    height: AppSize.s10,
-                  ),
-                  AuthButton(
-                    buttonFunction: () {
-                      _submitForgotPassword();
-                    },
-                    buttonText: AppStrings.resetNow,
+                        const SizedBox(
+                          height: AppSize.s10,
+                        ),
+                        AuthButton(
+                          buttonFunction: () {
+                            if (_formKey.currentState!.validate()) {
+                              _submitForgotPassword();
+                            }
+                          },
+                          buttonText: AppStrings.resetNow,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          )
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.7),
+              child: const Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
+            ),
         ],
       ),
     );
   }
 
-  void _submitForgotPassword() {
+  bool _isLoading = false;
+
+  void _submitForgotPassword() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
+    setState(() {
+      _isLoading = true;
+    });
     if (isValid) {
+      try {
+        _formKey.currentState!.save();
+        await authInstance.sendPasswordResetEmail(
+          email: _emailTextController.text.toLowerCase().trim(),
+        );
+
+        Fluttertoast.showToast(
+            msg: AppStrings.resetEmailSent,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey.shade600,
+            textColor: Colors.white,
+            fontSize: AppSize.s16);
+
+        final logger = Logger();
+        logger.i("Email Sent Successfully");
+      } on FirebaseAuthException catch (error) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          GlobalMethods.errorDialog(
+            title: "${error.message}",
+            context: context,
+          );
+        });
+      } catch (error) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          GlobalMethods.errorDialog(
+            title: "$error",
+            context: context,
+          );
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

@@ -219,12 +219,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         user == null
             ? Navigator.pushReplacementNamed(context, Routes.loginScreenRoute)
             : GlobalMethods.warningDialog(
-                title: AppStrings.authError,
-                subtitle: AppStrings.pleaseSignIn,
+                title: AppStrings.logout,
+                subtitle: AppStrings.wantToLogOut,
                 function: () {
                   authInstance.signOut();
                 },
-                warningIcon: JsonAssets.error,
+                warningIcon: JsonAssets.logout,
                 context: context,
                 navigateTo: () {
                   Navigator.pushReplacementNamed(
