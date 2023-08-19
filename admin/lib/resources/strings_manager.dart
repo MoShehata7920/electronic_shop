@@ -22,10 +22,18 @@ class AppStrings {
   static String addNew = "Add New";
   static String addNewProduct = "Add New Product";
   static String notValidProductTitle = "Please Enter The Product Title";
+  static String notValidProductDescription =
+      "Please Enter The Product Description";
   static String productTitle = "Product Title";
+  static String productDescription = "Product Description";
   static String enterProductTitle = "Please Enter The Product Title";
+  static String enterProductDescription =
+      "Please Enter The Product Description";
   static String notValidPrice = "Please Enter The Product Price";
+  static String notValidSalePrice =
+      "Please Sale Price Should be less than the actual Price ";
   static String price = "Price";
+  static String salePrice = "Sale Price";
   static String enterPrice = "  Enter the price";
   static String category = "Category";
   static String audioVideo = "Audio/Video";
@@ -41,4 +49,5 @@ class AppStrings {
   static String dropImage = "Drop Your Image Here Or ";
   static String clickToBrowse = "Click Here To Browse";
   static String ok = "OK";
+  static String errorOccurred = "Error Occurred";
 }

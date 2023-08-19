@@ -39,6 +39,13 @@ dependencies:
   fancy_shimmer_image: ^2.0.3
   image_picker: ^1.0.2
   flutter_dropzone: ^3.0.6
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  logger: ^2.0.1
+  cloud_firestore: ^4.8.5
+  firebase_storage: ^11.2.6
+  uuid: ^3.0.7
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +75,7 @@ flutter:
     - assets\json\admin.json
     - assets\json\image.json
     - assets\json\something_wrong.json
+    - assets\json\error.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
