@@ -9,9 +9,10 @@ class GlobalMethods {
   static Future<void> warningDialog({
     required String title,
     required String subtitle,
-    // required Function function,
+    required Function function,
     required String warningIcon,
     required BuildContext context,
+    dynamic navigateTo,
   }) async {
     return await showDialog(
         context: context,
@@ -39,19 +40,29 @@ class GlobalMethods {
               subtitle,
             ),
             actions: [
-              // TextButton(
-              //     onPressed: () {
-              //       function();
-              //     },
-              //     child: Text(
-              //       AppStrings.cancel,
-              //       style: const TextStyle(
-              //           color: Colors.cyan, fontSize: AppSize.s16),
-              //     )),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text(
-                    AppStrings.ok,
+                    AppStrings.cancel,
+                    style: const TextStyle(
+                        color: Colors.cyan, fontSize: AppSize.s16),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    function();
+                    Navigator.pop(context);
+
+                    // Check the type of navigateTo and navigate accordingly
+                    if (navigateTo is String) {
+                      Navigator.pushReplacementNamed(context, navigateTo);
+                    } else if (navigateTo is Function) {
+                      navigateTo();
+                    }
+                  },
+                  child: Text(
+                    AppStrings.yes,
                     style: const TextStyle(
                         color: Colors.red, fontSize: AppSize.s16),
                   ))

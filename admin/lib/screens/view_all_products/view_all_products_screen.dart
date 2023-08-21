@@ -6,7 +6,6 @@ import '../../resources/values_manager.dart';
 import '../../responsive.dart';
 import '../../widgets/grid_products_widget.dart';
 import '../../widgets/header.dart';
-import '../../widgets/product_widget.dart';
 import '../../widgets/side_menu.dart';
 
 class ViewAllProductsScreen extends StatelessWidget {
@@ -37,10 +36,7 @@ class ViewAllProductsScreen extends StatelessWidget {
                       },
                       screenTitle: AppStrings.viewAllProducts,
                     ),
-                    GridProductsWidget(
-                      gridScreen: () {
-                        return const ProductWidget();
-                      },
+                    const GridProductsWidget(
                       isMain: false,
                     ),
                   ],

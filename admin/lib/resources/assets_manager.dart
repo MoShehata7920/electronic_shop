@@ -10,4 +10,5 @@ class JsonAssets {
   static const String image = "$jsonPath/image.json";
   static const String somethingWrong = "$jsonPath/something_wrong.json";
   static const String error = "$jsonPath/error.json";
+  static const String warning = "$jsonPath/warning.json";
 }

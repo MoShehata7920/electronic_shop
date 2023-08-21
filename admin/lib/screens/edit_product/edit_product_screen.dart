@@ -1,20 +1,18 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, no_logic_in_create_state
 
 import 'dart:io';
+import 'package:admin_panel/resources/assets_manager.dart';
 import 'package:admin_panel/widgets/loading_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import '../../controllers/menu_controller.dart';
-import '../../resources/assets_manager.dart';
 import '../../resources/icons_manager.dart';
 import '../../resources/strings_manager.dart';
 import '../../resources/values_manager.dart';
@@ -25,14 +23,45 @@ import '../../widgets/buttons.dart';
 import '../../widgets/header.dart';
 import '../../widgets/side_menu.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({super.key});
+class EditProductScreen extends StatefulWidget {
+  const EditProductScreen(this.productId, {Key? key}) : super(key: key);
+  final Object? productId;
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  EditProductScreenState createState() =>
+      EditProductScreenState(productId as String);
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class EditProductScreenState extends State<EditProductScreen> {
+  String productId;
+  EditProductScreenState(this.productId);
+
+  @override
+  void initState() {
+    getProductsData();
+    super.initState();
+  }
+
+  Future<void> getProductsData() async {
+    try {
+      final DocumentSnapshot productsDoc = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productId)
+          .get();
+      setState(() {
+        productTitleTextController.text = productsDoc.get('title');
+        productDescriptionTextController.text = productsDoc.get('description');
+        _selectedCategory = productsDoc.get('productCategoryName');
+        imageUrl = productsDoc.get('imageUrl');
+        productPriceTextController.text = productsDoc.get('price');
+        productSalePriceTextController.text = productsDoc.get('salePrice');
+        isOnSale = productsDoc.get('isOnSale');
+      });
+    } catch (error) {
+      GlobalMethods.errorDialog(title: '$error', context: context);
+    } finally {}
+  }
+
   File? _pickedImage;
   Uint8List webImage = Uint8List(8);
 
@@ -44,11 +73,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final productPriceTextController = TextEditingController();
   final productSalePriceTextController = TextEditingController();
   bool isOnSale = false;
+  String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: context.read<AppMenuController>().getAddProductScaffoldKey,
+      key: context.read<AppMenuController>().getEditProductScaffoldKey,
       drawer: const SideMenu(),
       body: LoadingManager(
         isLoading: _isLoading,
@@ -70,9 +100,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         fct: () {
                           context
                               .read<AppMenuController>()
-                              .controlAddProductsMenu();
+                              .controlEditProductsMenu();
                         },
-                        screenTitle: AppStrings.addNewProduct,
+                        screenTitle: AppStrings.editProduct,
                       ),
                       const SizedBox(height: AppConstants.defaultPadding),
                       _buildScreenWidget(context)
@@ -300,10 +330,30 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 Padding(
                   padding: const EdgeInsets.all(AppConstants.defaultPadding),
                   child: ButtonsWidget(
-                      onPressed: () {
-                        _clearForm();
+                      onPressed: () async {
+                        GlobalMethods.warningDialog(
+                          title: 'Delete?',
+                          subtitle: 'Press okay to confirm',
+                          warningIcon: JsonAssets.warning,
+                          function: () async {
+                            await FirebaseFirestore.instance
+                                .collection('products')
+                                .doc(productId)
+                                .delete();
+                            await Fluttertoast.showToast(
+                              msg: "Product has been deleted",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                            );
+                            while (Navigator.canPop(context)) {
+                              Navigator.pop(context);
+                            }
+                          },
+                          context: context,
+                        );
                       },
-                      text: AppStrings.clearForm,
+                      text: AppStrings.delete,
                       icon: AppIcons.delete,
                       backgroundColor: Colors.red),
                 ),
@@ -312,11 +362,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   child: ButtonsWidget(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          _submitUploadProduct(context);
+                          _editProduct(context);
                         }
                       },
-                      text: AppStrings.upload,
-                      icon: AppIcons.upload,
+                      text: AppStrings.edit,
+                      icon: AppIcons.edit,
                       backgroundColor: Colors.cyan),
                 ),
               ],
@@ -329,10 +379,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   bool _isLoading = false;
 
-  void _submitUploadProduct(BuildContext context) async {
+  void _editProduct(BuildContext context) async {
     final isValid = formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    String? imageUrl;
+
     if (isValid) {
       formKey.currentState!.save();
       if (_pickedImage == null) {
@@ -340,7 +390,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
             title: 'Please pick up an image', context: context);
         return;
       }
-      final uuid = const Uuid().v4();
       try {
         setState(() {
           _isLoading = true;
@@ -348,7 +397,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         final ref = FirebaseStorage.instance
             .ref()
             .child('productsImages')
-            .child('$uuid.jpg');
+            .child('$productId.jpg');
 
         String contentType = 'image/jpg';
 
@@ -369,8 +418,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
         final logger = Logger();
         logger.i(imageUrl);
 
-        await FirebaseFirestore.instance.collection('products').doc(uuid).set({
-          'id': uuid,
+        await FirebaseFirestore.instance
+            .collection('products')
+            .doc('${productId}jpg')
+            .update({
           'title': productTitleTextController.text,
           'description': productDescriptionTextController.text,
           'price': productPriceTextController.text,
@@ -380,9 +431,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
           'isOnSale': isOnSale,
           'createdAt': Timestamp.now(),
         });
-        _clearForm();
         Fluttertoast.showToast(
-          msg: "Product uploaded successfully",
+          msg: "Product Edited successfully",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -424,7 +474,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               color: Theme.of(context).cardColor,
             ),
             child: _pickedImage == null
-                ? _noPickedImageYet(context)
+                ? _noPickedImageYet()
                 : kIsWeb
                     ? Container(
                         constraints: BoxConstraints(
@@ -450,44 +500,27 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  Widget _noPickedImageYet(BuildContext context) {
-    final textColor = Utils(context).textColor;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-            padding: const EdgeInsets.all(AppConstants.defaultPadding),
-            child: LottieBuilder.asset(JsonAssets.image)),
-        Padding(
+  Widget _noPickedImageYet() {
+    Size size = Utils(context).getScreenSize;
+    return InkWell(
+        onTap: () {
+          _pickImage();
+        },
+        child: Padding(
           padding: const EdgeInsets.all(AppConstants.defaultPadding),
-          child: RichText(
-            text: TextSpan(
-              text: AppStrings.dropImage,
-              style: TextStyle(
-                color: textColor,
-                fontSize: AppSize.s24,
-                overflow: TextOverflow.ellipsis,
-              ),
-              children: [
-                TextSpan(
-                    text: AppStrings.clickToBrowse,
-                    style: const TextStyle(
-                      color: Colors.cyan,
-                      fontSize: AppSize.s24,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        _pickImage();
-                      }),
-              ],
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s12),
+              color: Theme.of(context).cardColor,
+            ),
+            child: ImageNetwork(
+              image: imageUrl!,
+              height: size.height * 0.25,
+              width: size.width * 0.28,
+              fitWeb: BoxFitWeb.contain,
             ),
           ),
-        ),
-      ],
-    );
+        ));
   }
 
   Future<void> _pickImage() async {
@@ -519,20 +552,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     } else {
       GlobalMethods.errorDialog(title: "Try Again Later", context: context);
     }
-  }
-
-  void _clearForm() {
-    productTitleTextController.clear();
-    productDescriptionTextController.clear();
-    productPriceTextController.clear();
-    productSalePriceTextController.clear();
-
-    setState(() {
-      _pickedImage = null;
-      webImage = Uint8List(8);
-
-      _selectedCategory = null;
-    });
   }
 
   @override

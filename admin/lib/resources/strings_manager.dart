@@ -21,6 +21,7 @@ class AppStrings {
   static String viewAll = "View All";
   static String addNew = "Add New";
   static String addNewProduct = "Add New Product";
+  static String editProduct = "Edit this Product";
   static String notValidProductTitle = "Please Enter The Product Title";
   static String notValidProductDescription =
       "Please Enter The Product Description";

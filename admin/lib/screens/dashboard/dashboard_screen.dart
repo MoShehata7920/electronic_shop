@@ -9,7 +9,6 @@ import '../../widgets/buttons.dart';
 import '../../widgets/grid_orders_widget.dart';
 import '../../widgets/grid_products_widget.dart';
 import '../../widgets/header.dart';
-import '../../widgets/product_widget.dart';
 import '../add_product/add_product_screen.dart';
 import '../view_all_products/view_all_products_screen.dart';
 
@@ -63,10 +62,7 @@ class DashboardScreen extends StatelessWidget {
                 ],
               ),
             ),
-            GridProductsWidget(
-              gridScreen: () {
-                return const ProductWidget();
-              },
+            const GridProductsWidget(
               isMain: true,
             ),
             const SizedBox(height: AppConstants.defaultPadding),

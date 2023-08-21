@@ -1,6 +1,7 @@
 import 'package:admin_panel/resources/strings_manager.dart';
 import 'package:admin_panel/screens/add_product/add_product_screen.dart';
 import 'package:admin_panel/screens/dashboard/dashboard_screen.dart';
+import 'package:admin_panel/screens/edit_product/edit_product_screen.dart';
 import 'package:admin_panel/screens/view_all_orders/view_all_orders_screen.dart';
 import 'package:admin_panel/screens/view_all_products/view_all_products_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class Routes {
       "/viewAllProductsScreenRoute";
   static const String viewAllOrdersScreenRoute = "/viewAllOrdersScreenRoute";
   static const String addProductScreenRoute = "/addProductScreenRoute";
+  static const String editProductScreenRoute = "/editProductScreenRoute";
 }
 
 class RouteGenerator {
@@ -30,6 +32,10 @@ class RouteGenerator {
       case Routes.addProductScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const AddProductScreen());
+
+      case Routes.editProductScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => EditProductScreen(settings.arguments));
 
       default:
         return unDefinedRoute();
