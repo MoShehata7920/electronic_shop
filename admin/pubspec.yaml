@@ -47,6 +47,7 @@ dependencies:
   uuid: ^3.0.7
   fluttertoast: ^8.2.2
   image_network: ^2.5.4+1
+  flip_card: ^0.7.0
 
 dev_dependencies:
   flutter_test:

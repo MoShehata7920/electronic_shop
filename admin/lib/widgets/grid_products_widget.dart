@@ -57,7 +57,7 @@ class GridProductsWidget extends StatelessWidget {
   double calculateAspectRatio(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     if (Responsive.isDesktop(context)) {
-      return size.width < 1400 ? 0.96 : 0.8;
+      return size.width < 1400 ? 0.96 : 1;
     } else if (Responsive.isTablet(context)) {
       return size.width < 950 ? 1.4 : 1.3;
     } else {
