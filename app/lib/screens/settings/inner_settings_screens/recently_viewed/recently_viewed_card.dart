@@ -1,6 +1,7 @@
 import 'package:electronic_shop/models/recently_viewed_model.dart';
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
+import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
@@ -33,6 +34,7 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
 
     final productProvider = Provider.of<ProductProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishListProvider = Provider.of<WishListProvider>(context);
 
     final recentlyViewedProductsModel =
         Provider.of<RecentlyViewedProductsModel>(context);
@@ -128,6 +130,7 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
                                         quantity: 1,
                                         context: context);
                                     await cartProvider.fetchCartItems();
+                                    await wishListProvider.fetchWishList();
                                   },
                                   child: const Icon(
                                     AppIcons.add,

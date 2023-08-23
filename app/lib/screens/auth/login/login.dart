@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:electronic_shop/provider/cart_provider.dart';
+import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
@@ -236,7 +237,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           context, Routes.mainScreenRoute);
                       final cartProvider =
                           Provider.of<CartProvider>(context, listen: false);
+                      final wishListProvider =
+                          Provider.of<WishListProvider>(context, listen: false);
                       cartProvider.clearCart();
+                      wishListProvider.clearWishList();
                     },
                     buttonText: AppStrings.continueAsGuest,
                     buttonColor: Colors.black,
@@ -302,7 +306,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
           final cartProvider =
               Provider.of<CartProvider>(context, listen: false);
+          final wishListProvider =
+              Provider.of<WishListProvider>(context, listen: false);
           await cartProvider.fetchCartItems();
+          await wishListProvider.fetchWishList();
 
           final logger = Logger();
           logger.i("Successfully Logged In");

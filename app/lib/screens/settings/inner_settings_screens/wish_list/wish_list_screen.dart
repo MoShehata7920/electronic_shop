@@ -48,7 +48,7 @@ class WishListScreenState extends State<WishListScreen> {
                 title: AppStrings.emptyYourWishList,
                 subtitle: AppStrings.areYouSure,
                 function: () {
-                  wishListProvider.clearWishList();
+                  wishListProvider.clearWholeWishList();
                 },
                 warningIcon: JsonAssets.delete,
                 context: context,

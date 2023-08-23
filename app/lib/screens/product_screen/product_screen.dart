@@ -326,6 +326,7 @@ class ProductScreenState extends State<ProductScreen> {
         usedPrice * int.parse(_productScreenQuantityController.text);
 
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishListProvider = Provider.of<WishListProvider>(context);
 
     bool? isInCart =
         cartProvider.getCartItems.containsKey(getCurrentProduct.productId);
@@ -405,6 +406,7 @@ class ProductScreenState extends State<ProductScreen> {
                             int.parse(_productScreenQuantityController.text),
                         context: context);
                     await cartProvider.fetchCartItems();
+                    await wishListProvider.fetchWishList();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(AppPadding.p8),

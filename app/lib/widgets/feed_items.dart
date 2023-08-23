@@ -130,6 +130,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 quantity: 1,
                                 context: context);
                             await cartProvider.fetchCartItems();
+                            await wishListProvider.fetchWishList();
                           },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
+import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
@@ -271,7 +272,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   authInstance.signOut();
                   final cartProvider =
                       Provider.of<CartProvider>(context, listen: false);
+                  final wishListProvider =
+                      Provider.of<WishListProvider>(context, listen: false);
                   cartProvider.clearCart();
+                  wishListProvider.clearWishList();
                 },
                 warningIcon: JsonAssets.logout,
                 context: context,

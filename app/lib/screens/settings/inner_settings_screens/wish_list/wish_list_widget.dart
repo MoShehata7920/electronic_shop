@@ -76,6 +76,7 @@ class _WishedProductCardState extends State<WishedProductCard> {
                                     quantity: 1,
                                     context: context);
                                 await cartProvider.fetchCartItems();
+                                await wishListProvider.fetchWishList();
                               },
                         child: Icon(
                           isInCart ? AppIcons.boldBag : AppIcons.bag,
