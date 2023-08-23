@@ -82,7 +82,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                               GestureDetector(
                                 onTap: isInCart
                                     ? null
-                                    : () {
+                                    : () async {
                                         final User? user =
                                             authInstance.currentUser;
                                         if (user == null) {
@@ -100,9 +100,11 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                           );
                                           return;
                                         }
-                                        cartProvider.addProductsToCart(
+                                        await cartProvider.addToCart(
                                             productId: productModel.productId,
-                                            quantity: 1);
+                                            quantity: 1,
+                                            context: context);
+                                        await cartProvider.fetchCartItems();
                                       },
                                 child: Icon(
                                   isInCart ? AppIcons.boldBag : AppIcons.bag,

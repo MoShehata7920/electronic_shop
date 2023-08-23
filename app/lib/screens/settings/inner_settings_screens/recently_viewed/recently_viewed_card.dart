@@ -51,7 +51,6 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
       onTap: () {
         Navigator.pushNamed(context, Routes.productScreenRoute,
             arguments: getCurrentProduct.productId);
-        
       },
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p8),
@@ -123,10 +122,12 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
                               child: Padding(
                                 padding: const EdgeInsets.all(AppPadding.p5),
                                 child: InkWell(
-                                  onTap: () {
-                                    cartProvider.addProductsToCart(
+                                  onTap: () async {
+                                    await cartProvider.addToCart(
                                         productId: getCurrentProduct.productId,
-                                        quantity: 1);
+                                        quantity: 1,
+                                        context: context);
+                                    await cartProvider.fetchCartItems();
                                   },
                                   child: const Icon(
                                     AppIcons.add,

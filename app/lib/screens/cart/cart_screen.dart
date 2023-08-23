@@ -59,8 +59,8 @@ class _CartScreenState extends State<CartScreen> {
                       GlobalMethods.warningDialog(
                           title: AppStrings.emptyYourCart,
                           subtitle: AppStrings.areYouSure,
-                          function: () {
-                            cartProvider.clearCart();
+                          function: () async {
+                            await cartProvider.clearWholeCart();
                           },
                           warningIcon: JsonAssets.delete,
                           context: context);

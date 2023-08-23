@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
@@ -268,6 +269,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 subtitle: AppStrings.wantToLogOut,
                 function: () {
                   authInstance.signOut();
+                  final cartProvider =
+                      Provider.of<CartProvider>(context, listen: false);
+                  cartProvider.clearCart();
                 },
                 warningIcon: JsonAssets.logout,
                 context: context,

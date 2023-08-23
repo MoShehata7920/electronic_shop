@@ -109,8 +109,9 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                         return;
                                       } else {
                                         cartProvider.reduceQuantityByOne(
-                                          cartModel.productId,
-                                        );
+                                            cartId: cartModel.id,
+                                            productId: cartModel.productId,
+                                            quantity: cartModel.quantity);
                                         setState(() {
                                           widget.quantityController.text =
                                               (int.parse(widget
@@ -150,10 +151,11 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                   ),
                                 ),
                                 _quantityController(
-                                    buttonFunction: () {
-                                      cartProvider.increaseQuantityByOne(
-                                        cartModel.productId,
-                                      );
+                                    buttonFunction: () async {
+                                      await cartProvider.increaseQuantityByOne(
+                                          cartId: cartModel.id,
+                                          productId: cartModel.productId,
+                                          quantity: cartModel.quantity);
                                       setState(() {
                                         widget.quantityController.text =
                                             (int.parse(widget.quantityController
@@ -176,8 +178,11 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                         child: Column(
                           children: [
                             InkWell(
-                              onTap: () {
-                                cartProvider.removeOneItem(cartModel.productId);
+                              onTap: () async {
+                                await cartProvider.removeOneItem(
+                                    cartId: cartModel.id,
+                                    productId: cartModel.productId,
+                                    quantity: cartModel.quantity);
                               },
                               child: const Icon(
                                 AppIcons.cartBadgeMinus,

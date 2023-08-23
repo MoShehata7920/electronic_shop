@@ -70,10 +70,12 @@ class _WishedProductCardState extends State<WishedProductCard> {
                       GestureDetector(
                         onTap: isInCart
                             ? null
-                            : () {
-                                cartProvider.addProductsToCart(
+                            : () async {
+                                await cartProvider.addToCart(
                                     productId: getCurrentProduct.productId,
-                                    quantity: 1);
+                                    quantity: 1,
+                                    context: context);
+                                await cartProvider.fetchCartItems();
                               },
                         child: Icon(
                           isInCart ? AppIcons.boldBag : AppIcons.bag,

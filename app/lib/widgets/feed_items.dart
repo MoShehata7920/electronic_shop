@@ -1,11 +1,15 @@
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
+import 'package:electronic_shop/resources/assets_manager.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
+import 'package:electronic_shop/services/global_methods.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/widgets/price_widget.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/products_model.dart';
@@ -105,9 +109,27 @@ class _FeedWidgetState extends State<FeedWidget> {
                   child: TextButton(
                     onPressed: isInCart
                         ? null
-                        : () {
-                            cartProvider.addProductsToCart(
-                                productId: productModel.productId, quantity: 1);
+                        : () async {
+                            final User? user = authInstance.currentUser;
+                            if (user == null) {
+                              GlobalMethods.warningDialog(
+                                title: AppStrings.authError,
+                                subtitle: AppStrings.pleaseSignIn,
+                                function: () {},
+                                warningIcon: JsonAssets.error,
+                                context: context,
+                                navigateTo: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, Routes.loginScreenRoute);
+                                },
+                              );
+                              return;
+                            }
+                            await cartProvider.addToCart(
+                                productId: productModel.productId,
+                                quantity: 1,
+                                context: context);
+                            await cartProvider.fetchCartItems();
                           },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(

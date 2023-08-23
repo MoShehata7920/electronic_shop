@@ -383,7 +383,7 @@ class ProductScreenState extends State<ProductScreen> {
                 color: Colors.green,
                 borderRadius: BorderRadius.circular(AppSize.s12),
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
                     final User? user = authInstance.currentUser;
                     if (user == null) {
                       GlobalMethods.warningDialog(
@@ -399,10 +399,12 @@ class ProductScreenState extends State<ProductScreen> {
                       );
                       return;
                     }
-                    cartProvider.addProductsToCart(
+                    await cartProvider.addToCart(
                         productId: getCurrentProduct.productId,
                         quantity:
-                            int.parse(_productScreenQuantityController.text));
+                            int.parse(_productScreenQuantityController.text),
+                        context: context);
+                    await cartProvider.fetchCartItems();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(AppPadding.p8),

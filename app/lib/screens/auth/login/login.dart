@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import '../../../resources/assets_manager.dart';
 import '../../../resources/values_manager.dart';
 import '../../../widgets/auth_button.dart';
@@ -232,6 +234,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     buttonFunction: () {
                       Navigator.pushReplacementNamed(
                           context, Routes.mainScreenRoute);
+                      final cartProvider =
+                          Provider.of<CartProvider>(context, listen: false);
+                      cartProvider.clearCart();
                     },
                     buttonText: AppStrings.continueAsGuest,
                     buttonColor: Colors.black,
@@ -294,6 +299,10 @@ class _LoginScreenState extends State<LoginScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushNamed(context, Routes.mainScreenRoute);
           });
+
+          final cartProvider =
+              Provider.of<CartProvider>(context, listen: false);
+          await cartProvider.fetchCartItems();
 
           final logger = Logger();
           logger.i("Successfully Logged In");

@@ -66,6 +66,7 @@ class AppStrings {
       "Your Cart is empty \n Add Something And Make Me Happy :)";
   static String shopNow = "Shop Now";
   static String emptyYourCart = "You Are Going To Empty Your Cart";
+  static String itemAddedToCArt = "Item Has been added to Your Cart";
 
   // Product Screen
   static String piece = "Piece";
