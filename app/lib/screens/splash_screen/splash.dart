@@ -1,10 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
+import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/services/animation.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,10 +20,15 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 3), () async {
+      final productsProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productsProvider.fetchProducts();
+
+      Navigator.pushReplacementNamed(context, Routes.mainScreenRoute);
+    });
+
     super.initState();
-    // Wait for 3 seconds, then navigate to the home screen
-    Timer(const Duration(seconds: 3),
-        () => Navigator.pushReplacementNamed(context, Routes.mainScreenRoute));
   }
 
   @override

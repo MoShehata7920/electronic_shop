@@ -1,6 +1,8 @@
 import 'package:electronic_shop/provider/products_provider.dart';
+import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
+import 'package:electronic_shop/widgets/empty_screen.dart';
 import 'package:electronic_shop/widgets/feed_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +21,17 @@ class FeedsScreen extends StatefulWidget {
 class _FeedsScreenState extends State<FeedsScreen> {
   final TextEditingController _searchTextController = TextEditingController();
   final FocusNode _searchTextFocusNode = FocusNode();
+  List<ProductModel> searchedProductsList = [];
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(milliseconds: 5), () async {
+      final productsProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productsProvider.fetchProducts();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +64,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   focusNode: _searchTextFocusNode,
                   controller: _searchTextController,
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      searchedProductsList = productProvider.search(value);
+                    });
                   },
                   decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -78,19 +93,33 @@ class _FeedsScreenState extends State<FeedsScreen> {
                       iconColor: textColor),
                 ),
               ),
-              GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                childAspectRatio: size.width / (size.height * 0.61),
-                children: List.generate(allProducts.length, (index) {
-                  return ChangeNotifierProvider.value(
-                    value: allProducts[index],
-                    child: const FeedWidget(),
-                  );
-                }),
-              ),
+              _searchTextController.text.isNotEmpty &&
+                      searchedProductsList.isEmpty
+                  ? EmptyScreenWidget(
+                      emptyScreenAsset: JsonAssets.noResults,
+                      emptyScreenTitle: AppStrings.noProductsFound,
+                      emptyScreenSubTitle: "",
+                      buttonText: "",
+                      buttonFunction: () {},
+                      isThereButton: false)
+                  : GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      childAspectRatio: size.width / (size.height * 0.61),
+                      children: List.generate(
+                          _searchTextController.text.isNotEmpty
+                              ? searchedProductsList.length
+                              : allProducts.length, (index) {
+                        return ChangeNotifierProvider.value(
+                          value: _searchTextController.text.isNotEmpty
+                              ? searchedProductsList[index]
+                              : allProducts[index],
+                          child: const FeedWidget(),
+                        );
+                      }),
+                    ),
             ],
           ),
         ));

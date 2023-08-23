@@ -71,7 +71,7 @@ class EditProductScreenState extends State<EditProductScreen> {
   final productTitleTextController = TextEditingController();
   final productDescriptionTextController = TextEditingController();
   final productPriceTextController = TextEditingController();
-  final productSalePriceTextController = TextEditingController();
+  final productSalePriceTextController = TextEditingController(text: "0");
   bool isOnSale = false;
   String? imageUrl;
 

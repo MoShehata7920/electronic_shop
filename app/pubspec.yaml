@@ -103,6 +103,7 @@ flutter:
     - assets\json\google.json
     - assets\json\error.json
     - assets\json\email_verification.json
+    - assets\json\no_results.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

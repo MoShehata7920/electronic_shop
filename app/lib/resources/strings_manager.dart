@@ -55,6 +55,8 @@ class AppStrings {
   static String unfortunately = "Unfortunately";
   static String emptyOnSaleList = "No Products On Sale Yet!,\n Stay Tuned";
   static String searchText = "What's in Your mind";
+  static String noProductsFound =
+      "No Products Found, please try another keyword";
 
   // Cart Screen
   static String orderNow = "Order Now";
@@ -127,9 +129,12 @@ class AppStrings {
   static String pleaseSignIn = "Please Log In First To Do This";
   static String resetEmailSent = "Resetting Password Email Sent Successfully";
   static String emailVerification = "Email Verification";
-  static String emailVerificationSent = "A verification link has been sent to your email. Please verify your email before continuing.";
+  static String emailVerificationSent =
+      "A verification link has been sent to your email. Please verify your email before continuing.";
   static String verificationRequired = "Email Verification Required";
-  static String pleaseVerifyAcc = "Please verify your email before logging in. Check your inbox for a verification link.";
-  static String resentVerificationEmail = "A new verification email has been sent to your inbox. Please check your email.";
+  static String pleaseVerifyAcc =
+      "Please verify your email before logging in. Check your inbox for a verification link.";
+  static String resentVerificationEmail =
+      "A new verification email has been sent to your inbox. Please check your email.";
   static String resendVerificationEmail = "Resend Verification Email";
 }

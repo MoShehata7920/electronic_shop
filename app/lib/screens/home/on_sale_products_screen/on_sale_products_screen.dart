@@ -19,6 +19,16 @@ class OnSaleProductsScreen extends StatefulWidget {
 
 class _OnSaleProductsScreenState extends State<OnSaleProductsScreen> {
   @override
+  void initState() {
+    Future.delayed(const Duration(milliseconds: 5), () async {
+      final productsProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productsProvider.fetchProducts();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Color textColor = Utils(context).textColor;
     Size size = Utils(context).screenSize;
