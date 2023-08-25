@@ -23,7 +23,11 @@ class GridProductsWidget extends StatelessWidget {
             return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: isMain ? 4 : snapshot.data!.docs.length,
+                itemCount: snapshot.data!.docs.length > 4
+                    ? isMain
+                        ? 4
+                        : snapshot.data!.docs.length
+                    : snapshot.data!.docs.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: Responsive.isDesktop(context) ? 4 : 2,
                   childAspectRatio: calculateAspectRatio(context),

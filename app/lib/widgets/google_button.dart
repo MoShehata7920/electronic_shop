@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
@@ -54,9 +55,25 @@ class GoogleButton extends StatelessWidget {
 
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         try {
-          await authInstance.signInWithCredential(GoogleAuthProvider.credential(
-              idToken: googleAuth.idToken,
-              accessToken: googleAuth.accessToken));
+          final authResult = await authInstance.signInWithCredential(
+              GoogleAuthProvider.credential(
+                  idToken: googleAuth.idToken,
+                  accessToken: googleAuth.accessToken));
+
+          if (authResult.additionalUserInfo!.isNewUser) {
+            await FirebaseFirestore.instance
+              .collection("users")
+              .doc(authResult.user!.uid)
+              .set({
+            'id': authResult.user!.uid,
+            'name': authResult.user!.displayName,
+            'email': authResult.user!.email,
+            'address': "",
+            'userWishList': [],
+            'userCart': [],
+            'createdAt': Timestamp.now(),
+          });
+          }
 
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushNamed(context, Routes.mainScreenRoute);
@@ -71,12 +88,16 @@ class GoogleButton extends StatelessWidget {
               context: context,
             );
           });
+          final logger = Logger();
+          logger.e(error);
         } catch (error) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             GlobalMethods.errorDialog(
               title: "$error",
               context: context,
             );
+            final logger = Logger();
+            logger.e(error);
           });
         } finally {}
       }

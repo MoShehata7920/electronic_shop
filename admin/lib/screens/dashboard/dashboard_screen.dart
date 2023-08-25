@@ -1,5 +1,4 @@
 import 'package:admin_panel/resources/icons_manager.dart';
-import 'package:admin_panel/widgets/orders_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/menu_controller.dart';
@@ -74,10 +73,7 @@ class DashboardScreen extends StatelessWidget {
                   color: Colors.purple),
             ),
             const SizedBox(height: AppConstants.defaultPadding),
-            GridOrdersWidget(
-              gridScreen: () {
-                return const OrderCardWidget();
-              },
+            const GridOrdersWidget(
               isMain: true,
             ),
           ],

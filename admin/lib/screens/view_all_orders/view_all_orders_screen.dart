@@ -1,5 +1,4 @@
 import 'package:admin_panel/widgets/grid_orders_widget.dart';
-import 'package:admin_panel/widgets/orders_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/menu_controller.dart';
@@ -37,10 +36,7 @@ class ViewAllOrdersScreen extends StatelessWidget {
                       },
                       screenTitle: AppStrings.viewAllOrders,
                     ),
-                    GridOrdersWidget(
-                      gridScreen: () {
-                        return const OrderCardWidget();
-                      },
+                    const GridOrdersWidget(
                       isMain: false,
                     ),
                   ],

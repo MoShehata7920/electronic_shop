@@ -1,10 +1,56 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:admin_panel/resources/strings_manager.dart';
+import 'package:admin_panel/services/global_method.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_network/image_network.dart';
 import '../resources/values_manager.dart';
 import '../services/utils.dart';
 
-class OrderCardWidget extends StatelessWidget {
-  const OrderCardWidget({super.key});
+class OrderCardWidget extends StatefulWidget {
+  const OrderCardWidget({super.key, required this.orderId});
+  final String orderId;
+
+  @override
+  State<OrderCardWidget> createState() => _OrderCardWidgetState();
+}
+
+class _OrderCardWidgetState extends State<OrderCardWidget> {
+  String? imageUrl;
+  String productTitle = '';
+  String orderedQuantity = '';
+  String productTotalPrice = '';
+  String userName = '';
+  Timestamp? orderDate;
+  bool isDelivered = false;
+
+  @override
+  void initState() {
+    getOrdersData(context);
+    super.initState();
+  }
+
+  Future<void> getOrdersData(BuildContext context) async {
+    try {
+      final DocumentSnapshot productsDoc = await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(widget.orderId)
+          .get();
+      setState(() {
+        imageUrl = productsDoc.get('productImage');
+        productTitle = productsDoc.get('productName');
+        orderedQuantity = productsDoc.get('orderedQuantity').toString();
+        productTotalPrice = productsDoc.get('productTotalPrice').toString();
+        userName = productsDoc.get('userName');
+        isDelivered = productsDoc.get('isOrderDelivered');
+        orderDate = productsDoc.get('oderDate');
+      });
+    } catch (error) {
+      GlobalMethods.errorDialog(title: '$error', context: context);
+    } finally {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +79,23 @@ class OrderCardWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          flex: 1,
-          child: Image.network(
-            'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
-            fit: BoxFit.fill,
-            // width: screenWidth * 0.12,
-            height: size.width * 0.12,
-          ),
-        ),
+            flex: 2,
+            child: ImageNetwork(
+              image: imageUrl!,
+              height: size.width * 0.12,
+              fitWeb: BoxFitWeb.fill,
+              width: size.width * 0.12,
+            )),
         const SizedBox(
           width: AppSize.s15,
         ),
         Flexible(
-          flex: 1,
+          flex: 5,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Samsung Smart TV",
+                productTitle,
                 style: TextStyle(
                   color: textColor,
                   fontSize: AppSize.s27,
@@ -58,44 +104,35 @@ class OrderCardWidget extends StatelessWidget {
                 ),
                 maxLines: 2,
               ),
-              const SizedBox(
-                height: AppSize.s15,
-              ),
               RichText(
                   text: TextSpan(
-                      text: "1${AppStrings.pieceFor}",
+                      text: "$orderedQuantity${AppStrings.pieceFor}",
                       style: TextStyle(color: textColor, fontSize: AppSize.s18),
-                      children:  [
+                      children: [
                     TextSpan(
-                      text: "11000.0${AppStrings.egyptianPound}",
+                      text: " $productTotalPrice${AppStrings.egyptianPound}",
                       style: const TextStyle(
                         color: Colors.green,
                         fontSize: AppSize.s18,
                       ),
                     ),
                   ])),
-              const SizedBox(
-                height: AppSize.s15,
-              ),
               RichText(
                   text: TextSpan(
-                      text:AppStrings.by ,
+                      text: AppStrings.by,
                       style: const TextStyle(
                           color: Colors.cyan, fontSize: AppSize.s18),
                       children: [
                     TextSpan(
-                      text: "Mohamed Shehata",
+                      text: userName,
                       style: TextStyle(
                         color: textColor,
                         fontSize: AppSize.s18,
                       ),
                     ),
                   ])),
-              const SizedBox(
-                height: AppSize.s15,
-              ),
               Text(
-                "06/08/2023",
+                '${orderDate!.toDate().day}/${orderDate!.toDate().month}/${orderDate!.toDate().year}',
                 style: TextStyle(
                     color: textColor,
                     fontSize: AppSize.s18,
@@ -103,8 +140,59 @@ class OrderCardWidget extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        const Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Is Delivered?",
+              style: TextStyle(
+                color: textColor,
+                fontSize: AppSize.s25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: AppSize.s5,
+            ),
+            Checkbox(
+              value: isDelivered,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  if (newValue != null) {
+                    setState(() {
+                      isDelivered = newValue;
+                    });
+                    updateDeliveryStatus(newValue);
+                  }
+                });
+              },
+              focusColor: Colors.green,
+              activeColor: Colors.green,
+            ),
+          ],
+        ),
       ],
     );
+  }
+
+  Future<void> updateDeliveryStatus(bool isOrderDelivered) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(widget.orderId)
+          .update({'isOrderDelivered': isOrderDelivered});
+
+      Fluttertoast.showToast(
+        msg: "Delivery status updated successfully",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+      );
+    } catch (error) {
+      GlobalMethods.errorDialog(title: '$error', context: context);
+    }
   }
 }
