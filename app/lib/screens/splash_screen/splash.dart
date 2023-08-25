@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:electronic_shop/provider/cart_provider.dart';
+import 'package:electronic_shop/provider/order_provider.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/assets_manager.dart';
@@ -30,6 +31,7 @@ class SplashScreenState extends State<SplashScreen> {
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       final wishListProvider =
           Provider.of<WishListProvider>(context, listen: false);
+      final orderProvider = Provider.of<OrderProvider>(context, listen: false);
 
       final User? user = authInstance.currentUser;
       if (user == null) {
@@ -38,6 +40,7 @@ class SplashScreenState extends State<SplashScreen> {
         await productsProvider.fetchProducts();
         await cartProvider.fetchCartItems();
         await wishListProvider.fetchWishList();
+        await orderProvider.fetchOrders();
       }
 
       Navigator.pushReplacementNamed(context, Routes.mainScreenRoute);

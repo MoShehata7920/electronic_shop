@@ -74,7 +74,7 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
                 buttonFunction: () {
                   Navigator.pushNamed(
                     context,
-                    Routes.homeRoute,
+                    Routes.mainScreenRoute,
                   );
                 },
                 isThereButton: true,

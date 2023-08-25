@@ -1,5 +1,8 @@
+import 'package:electronic_shop/provider/order_provider.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/widgets/empty_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/cart_provider.dart';
@@ -37,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
             buttonFunction: () {
               Navigator.pushNamed(
                 context,
-                Routes.homeRoute,
+                Routes.mainScreenRoute,
               );
             },
             isThereButton: true)
@@ -97,6 +100,8 @@ class _CartScreenState extends State<CartScreen> {
   Widget _checkOut() {
     Size size = Utils(context).screenSize;
 
+    final orderProvider = Provider.of<OrderProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
     final cartItemsList = cartProvider.getCartItems.values.toList();
 
@@ -128,7 +133,31 @@ class _CartScreenState extends State<CartScreen> {
               borderRadius: BorderRadius.circular(AppSize.s12),
               child: InkWell(
                 borderRadius: BorderRadius.circular(AppSize.s12),
-                onTap: () {},
+                onTap: () async {
+                  final User? user = authInstance.currentUser;
+
+                  for (var value in cartProvider.getCartItems.values) {
+                    final getCurrentProduct =
+                        productProvider.findProductById(value.productId);
+
+                    await orderProvider.order(
+                      context: context,
+                      productId: value.productId,
+                      productName: getCurrentProduct.productName,
+                      productTotalPrice: (getCurrentProduct.isProductOnSale
+                              ? getCurrentProduct.productSalePrice
+                              : getCurrentProduct.productPrice) *
+                          value.quantity,
+                      productImage: getCurrentProduct.productImage,
+                      orderedQuantity: value.quantity,
+                      userId: user!.uid,
+                      userName: user.displayName,
+                    );
+                  }
+
+                  await cartProvider.clearWholeCart();
+                  await orderProvider.fetchOrders();
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p10),
                   child: Text(

@@ -284,6 +284,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // to save the data
         final User? user = authInstance.currentUser;
         final uid = user!.uid;
+        user.updateDisplayName(_nameTextController.text);
+        user.reload();
         await FirebaseFirestore.instance.collection("users").doc(uid).set({
           'id': uid,
           'name': _nameTextController.text,
@@ -293,7 +295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'userCart': [],
           'createdAt': Timestamp.now(),
         });
-        
+
         await userCredential.user!.sendEmailVerification();
 
         GlobalMethods.verifyAlertDialog(

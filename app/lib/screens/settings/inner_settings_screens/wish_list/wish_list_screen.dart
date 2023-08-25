@@ -68,7 +68,7 @@ class WishListScreenState extends State<WishListScreen> {
               emptyScreenSubTitle: AppStrings.emptyWishList,
               buttonText: AppStrings.shopNow,
               buttonFunction: () {
-                Navigator.pushNamed(context, Routes.homeRoute);
+                Navigator.pushNamed(context, Routes.mainScreenRoute);
               },
               isThereButton: true,
             )

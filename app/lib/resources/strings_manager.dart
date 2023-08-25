@@ -66,11 +66,12 @@ class AppStrings {
       "Your Cart is empty \n Add Something And Make Me Happy :)";
   static String shopNow = "Shop Now";
   static String emptyYourCart = "You Are Going To Empty Your Cart";
-  static String itemAddedToCArt = "Item Has been added to Your Cart";
+  static String orderedSuccessfully = "Your order has been placed Successfully";
 
   // Product Screen
   static String piece = "Piece";
   static String freeShipping = "Free Shipping";
+  static String showMore = "show more";
 
   // Wish List
   static String emptyYourWishList = "You Are Going To Empty Your Wish List";

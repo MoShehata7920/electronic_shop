@@ -1,5 +1,6 @@
 import 'package:electronic_shop/firebase_options.dart';
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
+import 'package:electronic_shop/provider/order_provider.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
@@ -95,6 +96,11 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(
                 create: (_) {
                   return CartProvider();
+                },
+              ),
+              ChangeNotifierProvider(
+                create: (_) {
+                  return OrderProvider();
                 },
               ),
               ChangeNotifierProvider(

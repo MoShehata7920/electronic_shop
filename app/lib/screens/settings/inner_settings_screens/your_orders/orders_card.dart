@@ -1,7 +1,10 @@
+import 'package:electronic_shop/models/orders_model.dart';
+import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../services/utils.dart';
 
 class OrdersCard extends StatefulWidget {
@@ -22,81 +25,94 @@ class _OrdersCardState extends State<OrdersCard> {
 
   @override
   Widget build(BuildContext context) {
+    late String orderDateToShow;
+
     Size size = Utils(context).screenSize;
     double cardHeight = size.height * 0.13;
 
+    final orderListModel = Provider.of<OrderModel>(context);
+    var orderDate = orderListModel.orderDate.toDate();
+    orderDateToShow = '${orderDate.day}/${orderDate.month}/${orderDate.year}';
+
     return GestureDetector(
-      onTap: () {},
-      child: Padding(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.productScreenRoute,
+          arguments: orderListModel.productId,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(AppSize.s12),
+        ),
         padding: const EdgeInsets.all(AppPadding.p8),
-        child: Flexible(
-          child: SizedBox(
-            height: cardHeight,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(AppSize.s12)),
-              child: Row(
+        child: Row(
+          children: [
+            SizedBox(
+              width: size.width * 0.25,
+              height: cardHeight,
+              child: FancyShimmerImage(
+                imageUrl: orderListModel.productImage,
+                boxFit: BoxFit.fill,
+              ),
+            ),
+            const SizedBox(width: AppSize.s10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: cardHeight,
-                    child: FancyShimmerImage(
-                      imageUrl:
-                          'https://th.bing.com/th/id/R.d88fba714d703a2dd63d86f2d155acb0?rik=%2f6lrY7GuFxHQLQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2ftv-hd-png-km0255uhd-0-png-km0255uhd-1-png-1200.png&ehk=KaPoTFpWXYJo7OmaUEsSkxB4eDIQDcPIYJArJ4AegBg%3d&risl=&pid=ImgRaw&r=0',
-                      width: size.width * 0.25,
-                      height: cardHeight,
-                      boxFit: BoxFit.fill,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: AppSize.s10,
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: SizedBox(
-                      width: size.width * 0.45,
-                      height: cardHeight,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Flexible(
-                            child: Text(
-                              "Samsung smart TV",
-                              style: TextStyle(
-                                  fontSize: AppSize.s16,
-                                  fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: Text(
+                          orderListModel.productName,
+                          style: const TextStyle(
+                            fontSize: AppSize.s16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(
-                            height: AppSize.s15,
-                          ),
-                          Flexible(
-                            child: Text(
-                              "${AppStrings.paid}\$11000.0",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: AppSize.s14),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          )
-                        ],
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: AppSize.s4,
+                      ),
+                      Flexible(
+                        flex: 2,
+                        child: Text(
+                          "(${orderListModel.orderedQuantity} PCS)",
+                          style: const TextStyle(
+                            fontSize: AppSize.s12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
                   ),
-                  const Spacer(),
-                  const Flexible(
-                      flex: 2,
-                      child: Text(
-                        "02/08/2023",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ))
+                  const SizedBox(height: AppSize.s15),
+                  Text(
+                    "${AppStrings.paid} ${orderListModel.productTotalPrice}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: AppSize.s14,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ],
               ),
             ),
-          ),
+            const SizedBox(width: AppSize.s10),
+            Text(
+              orderDateToShow,
+              style: const TextStyle(fontWeight: FontWeight.w400),
+            ),
+          ],
         ),
       ),
     );

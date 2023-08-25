@@ -24,7 +24,8 @@ class Routes {
   static const String feedsScreenRoute = "/feedsScreenRoute";
   static const String productScreenRoute = "/productScreenRoute";
   static const String wishListScreenRoute = "/wishListScreenRoute";
-  static const String recentlyViewedProductsScreenRoute = "/recentlyViewedProductsScreenRoute";
+  static const String recentlyViewedProductsScreenRoute =
+      "/recentlyViewedProductsScreenRoute";
   static const String ordersScreenRoute = "/ordersProductsScreenRoute";
   static const String loginScreenRoute = "/loginScreenRoute";
   static const String signUpScreenRoute = "/signUpScreenRoute";
@@ -56,7 +57,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const WishListScreen());
 
       case Routes.recentlyViewedProductsScreenRoute:
-        return MaterialPageRoute(builder: (context) => const RecentlyViewedScreen());
+        return MaterialPageRoute(
+            builder: (context) => const RecentlyViewedScreen());
 
       case Routes.ordersScreenRoute:
         return MaterialPageRoute(builder: (context) => const OrdersScreen());

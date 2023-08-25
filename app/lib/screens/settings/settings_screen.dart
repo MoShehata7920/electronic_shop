@@ -11,6 +11,7 @@ import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/services/global_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../../resources/assets_manager.dart';
@@ -33,8 +34,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    super.initState();
     getUserData();
+    super.initState();
   }
 
   Future<void> getUserData() async {
@@ -58,105 +59,128 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        toolbarHeight: AppSize.s85,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        flexibleSpace: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      AppStrings.hi,
-                      style: const TextStyle(
-                          color: Colors.cyan,
-                          fontSize: AppSize.s27,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      _userName ?? '',
-                      style: const TextStyle(
-                        fontSize: AppSize.s25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: AppSize.s3,
-                ),
-                Text(
-                  _userEmail ?? '',
-                  style: const TextStyle(
-                      fontSize: AppSize.s18, fontWeight: FontWeight.w400),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppPadding.p15),
-          child: Column(
-            children: [
-              _buttonWidget(
-                  buttonTitle: AppStrings.address,
-                  buttonSubTitle: _addressTextController.text,
-                  buttonIcon: AppIcons.address,
-                  buttonFunction: () async {
-                    _showAddressDialog();
-                  }),
-              _buttonWidget(
-                  buttonTitle: AppStrings.orders,
-                  buttonIcon: AppIcons.orders,
-                  buttonFunction: () {
-                    Navigator.pushNamed(context, Routes.ordersScreenRoute);
-                  }),
-              _buttonWidget(
-                  buttonTitle: AppStrings.wishList,
-                  buttonIcon: AppIcons.wishes,
-                  buttonFunction: () {
-                    Navigator.pushNamed(context, Routes.wishListScreenRoute);
-                  }),
-              _buttonWidget(
-                  buttonTitle: AppStrings.viewed,
-                  buttonIcon: AppIcons.viewed,
-                  buttonFunction: () {
-                    Navigator.pushNamed(
-                        context, Routes.recentlyViewedProductsScreenRoute);
-                  }),
-              _buttonWidget(
-                  buttonTitle: AppStrings.resetPassword,
-                  buttonIcon: AppIcons.unLock,
-                  buttonFunction: () {}),
-              _buttonWidget(
-                  buttonTitle: AppStrings.language,
-                  buttonIcon: AppIcons.language,
-                  buttonFunction: () {}),
-              SwitchListTile(
-                title: Text(AppStrings.darkMode),
-                secondary: Icon(themeState.getDarkTheme
-                    ? AppIcons.darkMode
-                    : AppIcons.lightMode),
-                value: themeState.getDarkTheme,
-                onChanged: (bool value) {
-                  setState(() {
-                    themeState.setDarkTheme = value;
-                  });
-                },
+    return FutureBuilder<void>(
+        future: getUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.cyan,
               ),
-              _signOutButtonWidget(),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          } else if (snapshot.hasError) {
+            final logger = Logger();
+            logger.e(snapshot.error);
+            return Center(
+                child: Text(
+              AppStrings.errorOccurred,
+              style: const TextStyle(color: Colors.red),
+            ));
+          } else {
+            return Scaffold(
+              appBar: AppBar(
+                elevation: 1,
+                toolbarHeight: AppSize.s85,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                flexibleSpace: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              AppStrings.hi,
+                              style: const TextStyle(
+                                  color: Colors.cyan,
+                                  fontSize: AppSize.s27,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              _userName ?? '',
+                              style: const TextStyle(
+                                fontSize: AppSize.s25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: AppSize.s3,
+                        ),
+                        Text(
+                          _userEmail ?? '',
+                          style: const TextStyle(
+                              fontSize: AppSize.s18,
+                              fontWeight: FontWeight.w400),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppPadding.p15),
+                  child: Column(
+                    children: [
+                      _buttonWidget(
+                          buttonTitle: AppStrings.address,
+                          buttonSubTitle: _addressTextController.text,
+                          buttonIcon: AppIcons.address,
+                          buttonFunction: () async {
+                            _showAddressDialog();
+                          }),
+                      _buttonWidget(
+                          buttonTitle: AppStrings.orders,
+                          buttonIcon: AppIcons.orders,
+                          buttonFunction: () {
+                            Navigator.pushNamed(
+                                context, Routes.ordersScreenRoute);
+                          }),
+                      _buttonWidget(
+                          buttonTitle: AppStrings.wishList,
+                          buttonIcon: AppIcons.wishes,
+                          buttonFunction: () {
+                            Navigator.pushNamed(
+                                context, Routes.wishListScreenRoute);
+                          }),
+                      _buttonWidget(
+                          buttonTitle: AppStrings.viewed,
+                          buttonIcon: AppIcons.viewed,
+                          buttonFunction: () {
+                            Navigator.pushNamed(context,
+                                Routes.recentlyViewedProductsScreenRoute);
+                          }),
+                      _buttonWidget(
+                          buttonTitle: AppStrings.resetPassword,
+                          buttonIcon: AppIcons.unLock,
+                          buttonFunction: () {}),
+                      _buttonWidget(
+                          buttonTitle: AppStrings.language,
+                          buttonIcon: AppIcons.language,
+                          buttonFunction: () {}),
+                      SwitchListTile(
+                        title: Text(AppStrings.darkMode),
+                        secondary: Icon(themeState.getDarkTheme
+                            ? AppIcons.darkMode
+                            : AppIcons.lightMode),
+                        value: themeState.getDarkTheme,
+                        onChanged: (bool value) {
+                          setState(() {
+                            themeState.setDarkTheme = value;
+                          });
+                        },
+                      ),
+                      _signOutButtonWidget(),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+        });
   }
 
   Widget _buttonWidget(

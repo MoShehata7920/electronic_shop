@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.2.2
   cloud_firestore: ^4.8.5
   uuid: ^3.0.7
+  expandable_text: ^2.3.0
 
 dev_dependencies:
   flutter_test:

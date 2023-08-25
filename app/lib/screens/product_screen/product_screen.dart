@@ -7,6 +7,7 @@ import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/services/global_methods.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -158,15 +159,18 @@ class ProductScreenState extends State<ProductScreen> {
                 const SizedBox(
                   height: AppSize.s20,
                 ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: AppPadding.p20, vertical: AppPadding.p5),
-                    child: Text(
-                      getCurrentProduct.productDescription,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 7,
-                      style: const TextStyle(fontSize: AppSize.s18),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppPadding.p20, vertical: AppPadding.p5),
+                  child: ExpandableText(
+                    getCurrentProduct.productDescription,
+                    expandText: AppStrings.showMore,
+                    maxLines: 5,
+                    linkColor: Colors.cyan,
+                    animation: true,
+                    collapseOnTextTap: true,
+                    hashtagStyle: const TextStyle(
+                      color: Colors.cyan,
                     ),
                   ),
                 ),

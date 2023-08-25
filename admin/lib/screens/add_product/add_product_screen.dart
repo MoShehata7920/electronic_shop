@@ -208,7 +208,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       controller: productSalePriceTextController,
                       onChanged: (value) {
                         setState(() {
-                          isOnSale = value.isNotEmpty;
+                          isOnSale = value.isNotEmpty && value != "0";
                         });
                       },
                       validator: (value) {
