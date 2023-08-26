@@ -5,6 +5,7 @@ import 'package:electronic_shop/screens/home/home_screen.dart';
 import 'package:electronic_shop/screens/home/on_sale_products_screen/on_sale_products_screen.dart';
 import 'package:electronic_shop/screens/main_screen.dart';
 import 'package:electronic_shop/screens/product_screen/product_screen.dart';
+import 'package:electronic_shop/screens/settings/inner_settings_screens/change_password/change_password_screen.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/recently_viewed/recently_viewed_screen.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/wish_list/wish_list_screen.dart';
 import 'package:electronic_shop/screens/settings/inner_settings_screens/your_orders/orders_screen.dart';
@@ -27,6 +28,7 @@ class Routes {
   static const String recentlyViewedProductsScreenRoute =
       "/recentlyViewedProductsScreenRoute";
   static const String ordersScreenRoute = "/ordersProductsScreenRoute";
+  static const String changePasswordScreenRoute = "/changePasswordScreenRoute";
   static const String loginScreenRoute = "/loginScreenRoute";
   static const String signUpScreenRoute = "/signUpScreenRoute";
   static const String forgotPasswordScreenRoute = "/forgotPasswordScreenRoute";
@@ -59,6 +61,10 @@ class RouteGenerator {
       case Routes.recentlyViewedProductsScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const RecentlyViewedScreen());
+
+      case Routes.changePasswordScreenRoute:
+        return MaterialPageRoute(
+            builder: (context) => const ChangePasswordScreen());
 
       case Routes.ordersScreenRoute:
         return MaterialPageRoute(builder: (context) => const OrdersScreen());

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:electronic_shop/models/products_model.dart';
 import 'package:electronic_shop/provider/recently_viewed_provider.dart';
 import 'package:electronic_shop/resources/assets_manager.dart';
@@ -104,8 +106,11 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                             productId: productModel.productId,
                                             quantity: 1,
                                             context: context);
-                                        await cartProvider.fetchCartItems();
-                                        await wishListProvider.fetchWishList();
+                                        if (user != null) {
+                                          await cartProvider.fetchCartItems();
+                                          await wishListProvider
+                                              .fetchWishList();
+                                        }
                                       },
                                 child: Icon(
                                   isInCart ? AppIcons.boldBag : AppIcons.bag,

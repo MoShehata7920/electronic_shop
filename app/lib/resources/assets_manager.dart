@@ -38,4 +38,5 @@ class JsonAssets {
   static const String error = "$jsonPath/error.json";
   static const String emailVerification = "$jsonPath/email_verification.json";
   static const String noResults = "$jsonPath/no_results.json";
+  static const String changePassword = "$jsonPath/change_password.json";
 }

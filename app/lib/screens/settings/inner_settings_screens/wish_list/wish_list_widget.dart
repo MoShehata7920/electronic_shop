@@ -2,12 +2,14 @@ import 'package:electronic_shop/models/wishlist_model.dart';
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/widgets/heart_widget.dart';
 import 'package:electronic_shop/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +40,8 @@ class _WishedProductCardState extends State<WishedProductCard> {
 
     bool? isInCart =
         cartProvider.getCartItems.containsKey(getCurrentProduct.productId);
+
+    final User? user = authInstance.currentUser;
 
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p8),
@@ -75,8 +79,10 @@ class _WishedProductCardState extends State<WishedProductCard> {
                                     productId: getCurrentProduct.productId,
                                     quantity: 1,
                                     context: context);
-                                await cartProvider.fetchCartItems();
-                                await wishListProvider.fetchWishList();
+                                if (user != null) {
+                                  await cartProvider.fetchCartItems();
+                                  await wishListProvider.fetchWishList();
+                                }
                               },
                         child: Icon(
                           isInCart ? AppIcons.boldBag : AppIcons.bag,

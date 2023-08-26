@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state, unnecessary_null_comparison
 
 import 'package:electronic_shop/resources/assets_manager.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
@@ -409,8 +409,10 @@ class ProductScreenState extends State<ProductScreen> {
                         quantity:
                             int.parse(_productScreenQuantityController.text),
                         context: context);
-                    await cartProvider.fetchCartItems();
-                    await wishListProvider.fetchWishList();
+                    if (user != null) {
+                      await cartProvider.fetchCartItems();
+                      await wishListProvider.fetchWishList();
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(AppPadding.p8),

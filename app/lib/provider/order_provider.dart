@@ -2,9 +2,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:electronic_shop/models/orders_model.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:electronic_shop/services/global_methods.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
@@ -18,9 +20,11 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> fetchOrders() async {
     _ordersList.clear();
+    User? user = authInstance.currentUser;
 
     await FirebaseFirestore.instance
         .collection('orders')
+        .where('userId', isEqualTo: user!.uid)
         .get()
         .then((QuerySnapshot ordersSnapShot) {
       for (var element in ordersSnapShot.docs) {
@@ -80,5 +84,10 @@ class OrderProvider with ChangeNotifier {
     } catch (error) {
       GlobalMethods.errorDialog(title: error.toString(), context: context);
     } finally {}
+  }
+
+  void clearOrdersList() {
+    _ordersList.clear();
+    notifyListeners();
   }
 }

@@ -20,7 +20,7 @@ class AppStrings {
   static String wishList = "WishList";
   static String viewed = "Viewed";
   static String language = "Language";
-  static String resetPassword = "Forgot Password";
+  static String changePassword = "Change Password";
   static String logout = "Log Out";
   static String darkMode = "Dark Mode";
   static String updateAddress = "Update Address";
@@ -95,6 +95,12 @@ class AppStrings {
   static String emptyViewedList =
       "You Need To View Our Products\n Sure You Will like Them :)";
 
+  // Change Password Screen
+  static String oldPassword = "Old Password";
+  static String newPassword = "New Password";
+  static String confirmNewPassword = "Confirm New Password";
+  static String changedPasswordSuccessfully = "Changed Password Successfully";
+
   // SignIn
   static String signInGoogle = "Sign In/Up With Google";
   static String welcomeBack = "Welcome Back";
@@ -102,6 +108,7 @@ class AppStrings {
   static String notValidEmail = "Please Enter A Valid Email Address";
   static String email = "Email";
   static String notValidPassword = "Please Enter A Valid Password";
+  static String notMatchedPassword = "Passwords do not match";
   static String password = "Password";
   static String forgotPassword = "Forget Password?";
   static String login = "Login";

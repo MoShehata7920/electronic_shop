@@ -279,7 +279,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         final userCredential =
             await authInstance.createUserWithEmailAndPassword(
                 email: _emailTextController.text.toLowerCase().trim(),
-                password: _passwordTextController.text.toLowerCase().trim());
+                password: _passwordTextController.text.trim());
 
         // to save the data
         final User? user = authInstance.currentUser;

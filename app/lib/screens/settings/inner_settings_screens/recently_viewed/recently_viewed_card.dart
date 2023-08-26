@@ -2,11 +2,13 @@ import 'package:electronic_shop/models/recently_viewed_model.dart';
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/products_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
+import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
 import 'package:electronic_shop/resources/routes_manager.dart';
 import 'package:electronic_shop/resources/strings_manager.dart';
 import 'package:electronic_shop/resources/values_manager.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../services/utils.dart';
@@ -48,6 +50,8 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
 
     bool? isInCart =
         cartProvider.getCartItems.containsKey(getCurrentProduct.productId);
+
+    final User? user = authInstance.currentUser;
 
     return GestureDetector(
       onTap: () {
@@ -129,8 +133,11 @@ class _RecentlyViewedCardState extends State<RecentlyViewedCard> {
                                         productId: getCurrentProduct.productId,
                                         quantity: 1,
                                         context: context);
-                                    await cartProvider.fetchCartItems();
-                                    await wishListProvider.fetchWishList();
+
+                                    if (user != null) {
+                                      await cartProvider.fetchCartItems();
+                                      await wishListProvider.fetchWishList();
+                                    }
                                   },
                                   child: const Icon(
                                     AppIcons.add,

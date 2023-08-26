@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:electronic_shop/provider/cart_provider.dart';
 import 'package:electronic_shop/provider/dark_theme_provider.dart';
+import 'package:electronic_shop/provider/order_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
@@ -154,13 +155,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 Routes.recentlyViewedProductsScreenRoute);
                           }),
                       _buttonWidget(
-                          buttonTitle: AppStrings.resetPassword,
+                          buttonTitle: AppStrings.changePassword,
                           buttonIcon: AppIcons.unLock,
-                          buttonFunction: () {}),
-                      _buttonWidget(
-                          buttonTitle: AppStrings.language,
-                          buttonIcon: AppIcons.language,
-                          buttonFunction: () {}),
+                          buttonFunction: () {
+                            Navigator.pushNamed(
+                                context, Routes.changePasswordScreenRoute);
+                          }),
                       SwitchListTile(
                         title: Text(AppStrings.darkMode),
                         secondary: Icon(themeState.getDarkTheme
@@ -298,8 +298,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Provider.of<CartProvider>(context, listen: false);
                   final wishListProvider =
                       Provider.of<WishListProvider>(context, listen: false);
+                  final ordersListProvider =
+                      Provider.of<OrderProvider>(context, listen: false);
                   cartProvider.clearCart();
                   wishListProvider.clearWishList();
+                  wishListProvider.clearWishList();
+                  ordersListProvider.clearOrdersList();
                 },
                 warningIcon: JsonAssets.logout,
                 context: context,

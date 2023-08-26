@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:electronic_shop/provider/cart_provider.dart';
+import 'package:electronic_shop/provider/order_provider.dart';
 import 'package:electronic_shop/provider/wishlist_provider.dart';
 import 'package:electronic_shop/resources/firebase_constants.dart';
 import 'package:electronic_shop/resources/icons_manager.dart';
@@ -239,8 +240,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           Provider.of<CartProvider>(context, listen: false);
                       final wishListProvider =
                           Provider.of<WishListProvider>(context, listen: false);
+                      final ordersListProvider =
+                          Provider.of<OrderProvider>(context, listen: false);
                       cartProvider.clearCart();
                       wishListProvider.clearWishList();
+                      ordersListProvider.clearOrdersList();
                     },
                     buttonText: AppStrings.continueAsGuest,
                     buttonColor: Colors.black,
@@ -296,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _formKey.currentState!.save();
         final userCredential = await authInstance.signInWithEmailAndPassword(
             email: _emailTextController.text.toLowerCase().trim(),
-            password: _passwordTextController.text.toLowerCase().trim());
+            password: _passwordTextController.text.trim());
 
         // Check if the user's email is verified
         if (userCredential.user != null && userCredential.user!.emailVerified) {
